@@ -43,7 +43,7 @@ def flip(name)
   DEVICES.each do |device|
     device.sub_devices.each do |subdevice|
       if subdevice.short_name =~ /#{name}/
-	dev.actuate(subdevice.data)
+	device.actuate(subdevice.data)
       end
     end
   end
