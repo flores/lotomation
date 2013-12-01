@@ -19,7 +19,7 @@ def checkpoint_set_location(location)
 end
 
 def checkpoint_get_location
-  File.read("#{STATUSDIR}/location", location)
+  File.read("#{STATUSDIR}/location")
 end
 
 def checkpoint_interpret_rawlocation(rawlocation)
