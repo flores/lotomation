@@ -56,7 +56,7 @@ begin
     begin
       stdin.each do |line|
 	if line =~ /RSSI: (.+?)\n/
-	  rawloc == $1.to_i
+	  rawloc = $1.to_i
 	  location = checkpoint_interpret_rawlocation(rawloc)
 	  if location != checkpoint_get_location
 	    checkpoint_set_location(location)
