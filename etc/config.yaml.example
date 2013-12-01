@@ -1,0 +1,13 @@
+auth:
+  ninjablocks: '' # api token
+location:
+  doorcouch:
+    min: -84
+    max: -80
+    devices: 'farside-standinglamps-off|coloredlight-on|paludarium-on'
+  middle:
+    min: -80
+    max: -70
+    devices: 'farside-standinglamps-on|coloredlight-off|paludarium-off'
+beacon: # mac addresses of bluetooth le devices
+  fitbit: '' 
