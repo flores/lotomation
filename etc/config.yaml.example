@@ -1,13 +1,13 @@
 auth:
   ninjablocks: '' # api token
 location:
-  doorcouch:
-    min: -84
-    max: -80
-    devices: 'farside-standinglamps-off|coloredlight-on|paludarium-on'
+  doorcouch: # some zone name
+    min: -84 # lower threshold for zone, in rssi
+    max: -80 # upper threshold for zone, in rssi
+    devices: [ 'device1', 'device2' ] # array of ninjablock devices
   middle:
-    min: -80
-    max: -70
-    devices: 'farside-standinglamps-on|coloredlight-off|paludarium-off'
+    min: -77
+    max: -60
+    devices: [ 'stuff' ]
 beacon: # mac addresses of bluetooth le devices
   fitbit: '' 
