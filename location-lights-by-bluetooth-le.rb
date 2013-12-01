@@ -15,11 +15,11 @@ unless File.directory?(STATUSDIR)
 end
 
 def checkpoint_set_location(location)
-  File.write("#{STATUSDIR}/#{checkpoint}.location", location)
+  File.write("#{STATUSDIR}/location", location)
 end
 
 def checkpoint_get_location
-  File.read("#{STATUSDIR}/#{checkpoint}.location", location)
+  File.read("#{STATUSDIR}/location", location)
 end
 
 def checkpoint_interpret_rawlocation(rawlocation)
