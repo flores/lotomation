@@ -10,12 +10,12 @@ NinjaBlocks::token = Config['auth']['ninjablocks']
 
 require 'lotomation/power'
 #require 'lotomation/steps'
-#require 'lotomation/location'
+require 'lotomation/location-by-bluetooth'
 
 module Lotomation
   include Power
 #  include Steps
-#  include Location
+  include Location_by_bluetooth
 
   def log(message)
     puts message if @verbose
