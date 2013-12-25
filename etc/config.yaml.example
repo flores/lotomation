@@ -1,13 +1,19 @@
 auth:
-  ninjablocks: '' # api token
+  ninjablocks: '' # api token for ninja
+  fitbit:	  # get from api.fitbit.com
+    consumer_key:
+    consumer_secret:
+    token:
+    secret:
+    user_id:
 location:
-  doorcouch: # some zone name
-    min: -84 # lower threshold for zone, in rssi
-    max: -80 # upper threshold for zone, in rssi
-    devices: [ 'device1', 'device2' ] # array of ninjablock devices
+  doorcouch:	  # some zone name you define
+    min: 	  # lower threshold for zone, in rssi
+    max: 	  # upper threshold for zone, in rssi
+    devices:	  # array of ninjablock devices
   middle:
-    min: -77
-    max: -60
-    devices: [ 'stuff' ]
-beacon: # mac addresses of bluetooth le devices
-  fitbit: '' 
+    min:
+    max:
+    devices:
+beacon:
+  fitbit: ''	  # mac addresses of bluetooth le devices
