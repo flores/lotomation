@@ -19,3 +19,4 @@ beacon:
   fitbit: ''	  # mac addresses of bluetooth le devices
 status:
   dir:		  # just writes files for now, must be writeable
+  verbose:	  # set to true for noisy mode
