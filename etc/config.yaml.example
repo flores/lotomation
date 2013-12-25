@@ -17,3 +17,5 @@ location:
     devices:
 beacon:
   fitbit: ''	  # mac addresses of bluetooth le devices
+status:
+  dir:		  # just writes files for now, must be writeable
