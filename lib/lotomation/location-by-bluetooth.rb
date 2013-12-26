@@ -19,7 +19,7 @@ module Lotomation
       end
     end
 
-    def get_devices(location)
+    def checkpoint_get_devices(location)
       Config['location'][location]['devices']
     end
 
