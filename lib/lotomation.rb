@@ -6,8 +6,7 @@ require 'fitgem'
 
 Config=YAML.load_file('etc/config.yaml')
 NinjaBlocks::token = Config['auth']['ninjablocks']
-@devices = NinjaBlocks::Device.list(:device_type => 'rf433')
-@verbose = Config['status']['verbose']
+Devices = NinjaBlocks::Device.list(:device_type => 'rf433')             
 
 require 'lotomation/power'
 require 'lotomation/steps'
@@ -19,6 +18,6 @@ module Lotomation
   include Location_by_bluetooth
 
   def log(message)
-    puts message if @verbose
+    puts message if Config['status']['verbose']
   end
 end

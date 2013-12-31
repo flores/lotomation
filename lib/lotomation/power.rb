@@ -1,22 +1,38 @@
 module Lotomation
   module Power
 
-    def power-current-state(name)
-      File.read("#{Config['status']['dir']}/#{name}")
+    def power_current_state(name)
+      filename="#{Config['status']['dir']}/#{name}"
+      if File.exist?(filename)
+	File.read(filename)
+      else
+	File.write(filename, "unknown")
+      end
     end
 
-    def power-write-state(name, state)
+    def power_write_state(name, state)
       File.write("#{Config['status']['dir']}/#{name}", state)
     end
 
+    def power_flip_state(name)
+      power_current_state(name) == 'off' ? 'on' : 'off'
+    end
+    
     def flip(name)
-      @devices.each do |device|
-	device.sub_devices.each do |subdev|
-	  if subdev.short_name =~ /name/
-	    device.actuate(subdev.data)
-	    log("flipped #{name}")
-	  else
-	    log("#{subdev.short_name} did not match #{name}")
+      actuate(name, power_flip_state(name))
+    end
+
+    def actuate(name, state)
+      if state != power_current_state(name)
+	Devices.each do |device|
+	  device.sub_devices.each do |subdev|
+	    puts subdev.short_name
+	    if subdev.short_name =~ /#{name}-#{state}/
+	      device.actuate(subdev.data)
+	      power_write_state(name, state)
+	      log("flipped #{name}")
+	      break
+	    end
 	  end
 	end
       end

@@ -1,8 +1,9 @@
 module Lotomation
   module Steps
 
+    client = Fitgem::Client.new(Config['auth']['fitbit'])
+    
     def stepstoday()
-      client = Fitgem::Client.new(Config['auth']['fitbit'])
       data = client.activities_on_date 'today'
 
       data['summary']['steps']
