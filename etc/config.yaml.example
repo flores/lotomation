@@ -1,17 +1,14 @@
-auth:
-  ninjablocks: '' # api token for ninja
-  fitbit:	  # get from api.fitbit.com
-    consumer_key:
-    consumer_secret:
-    token:
-    secret:
-    user_id:
 goals:
   fitbit:	  # goals for punishment
     steps:
     very_active_miles:
-  punishment:
+punishments:
+  21:             # hour pain starts, can have many punishments
+    devices:      # array of devices
+    state:        # power state, can be on or off
+  23:
     devices:
+    state:
 location:
   doorcouch:	  # some zone name you define
     min: 	  # lower threshold for zone, in rssi
@@ -21,6 +18,19 @@ location:
     min:
     max:
     devices:
+
+webserver: # where the webservice lives
+  ip:
+  port:
+
+auth:
+  ninjablocks: '' # api token for ninja
+  fitbit:	  # get from api.fitbit.com
+    consumer_key:
+    consumer_secret:
+    token:
+    secret:
+    user_id:
 devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
   433MHz: ''	  # radio controlled devices
