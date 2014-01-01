@@ -27,7 +27,7 @@ module Lotomation
 	Devices.each do |device|
 	  device.sub_devices.each do |subdev|
 	    puts subdev.short_name
-	    if subdev.short_name =~ /#{name}-#{state}/
+	    if subdev.short_name =~ /#{name}.+#{state}/
 	      device.actuate(subdev.data)
 	      power_write_state(name, state)
 	      log("flipped #{name}")
@@ -38,5 +38,10 @@ module Lotomation
       end
     end
 
+    def actuate_all(state)
+      Devices.each do |d|
+	d.sub_devices.each { |s| d.actuate(s.data) if s.short_name =~ /#{state}$/ }
+      end
+    end
   end
 end
