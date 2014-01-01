@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
-require 'yaml'
 require './lib/lotomation'
 
 include Lotomation
@@ -16,3 +15,6 @@ post '/flip/:name' do |name|
   "yay flipped #{name}\n"
 end
 
+post '/steps/alert' do
+  stepsalert()
+end

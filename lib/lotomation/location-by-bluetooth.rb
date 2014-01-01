@@ -1,7 +1,7 @@
 module Lotomation
   module Location_by_bluetooth
 
-    statusdir = Config['status']['dir']
+    statusdir = Configs['status']['dir']
 
     def checkpoint_set_location(location)
       File.write("#{statusdir}/location", location)

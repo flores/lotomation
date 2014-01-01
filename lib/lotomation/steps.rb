@@ -1,20 +1,21 @@
 module Lotomation
   module Steps
 
-    client = Fitgem::Client.new(Config['auth']['fitbit'])
+    Fit = Fitgem::Client.new(Configs['auth']['fitbit'])
     
     def stepstoday()
-      data = client.activities_on_date 'today'
+      data = Fit.activities_on_date 'today'
 
       data['summary']['steps']
     end
 
-    def stepsalert(threshold)
+    def stepsalert()
+      threshold = Configs['goals']['fitbit']['steps']
       if stepstoday <= threshold
-	flip('alarm-on')
+	actuate_all('on')
 	log("FAIL: need #{threshold - stepstoday} more steps to pass!")
       else
-	flip('alarm-off')
+	actuate_all('off')
 	log("PASS: over by #{stepstoday - threshold} steps, good job!")
       end
     end
