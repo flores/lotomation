@@ -1,20 +1,28 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
+require 'thin'
 require './lib/lotomation'
 
 include Lotomation
 
+set :bind, '0.0.0.0'
+
+get '/' do
+  @stepstoday = steps_warning
+  erb :index
+end
+
 post '/switch/:device/:state' do |device, state|
   device == 'all' ? actuate_all(state) : actuate(device, state)
-  "yay flipped #{device} to #{state}\n"
+  redirect '/'
 end
 
 post '/flip/:name' do |name|
   flip(name)
-  "yay flipped #{name}\n"
+  redirect '/'
 end
 
 post '/steps/alert' do
-  stepsalert()
+  steps_alert
 end

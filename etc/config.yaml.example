@@ -6,17 +6,24 @@ auth:
     token:
     secret:
     user_id:
+goals:
+  fitbit:	  # goals for punishment
+    steps:
+    very_active_miles:
+  punishment:
+    devices:
 location:
   doorcouch:	  # some zone name you define
     min: 	  # lower threshold for zone, in rssi
     max: 	  # upper threshold for zone, in rssi
-    devices:	  # array of ninjablock devices
+    devices:	  # which devices to act on in zone
   middle:
     min:
     max:
     devices:
-beacon:
+devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
+  433MHz: ''	  # radio controlled devices
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode

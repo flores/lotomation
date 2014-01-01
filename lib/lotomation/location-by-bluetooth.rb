@@ -1,18 +1,16 @@
 module Lotomation
   module Location_by_bluetooth
 
-    statusdir = Configs['status']['dir']
-
     def checkpoint_set_location(location)
-      File.write("#{statusdir}/location", location)
+      File.write("#{Configs['status']['dir']}/location", location)
     end
 
     def checkpoint_get_location
-      File.read("#{statusdir}/location")
+      File.read("#{Configs['status']['dir']}/location")
     end
 
     def checkpoint_interpret_rawlocation(rawloc)
-      Config['location'].each do |niceloc, vals|
+      Configs['location'].each do |niceloc, vals|
 	if rawloc <= vals['max'] && rawloc >= vals['max']
 	  return niceloc
 	end
@@ -20,7 +18,7 @@ module Lotomation
     end
 
     def checkpoint_get_devices(location)
-      Config['location'][location]['devices']
+      Configs['location'][location]['devices']
     end
 
   end

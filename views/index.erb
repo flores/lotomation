@@ -1,0 +1,24 @@
+<div class="row">
+
+  <div class="col-lg-5">
+    <% Configs['devices']['433Mhz'].sort.each do |device| %>
+      <form action='/flip/<%= device %>' method='post'>
+	<input type="submit" style="width: 100%" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
+      </form>
+    <% end %>
+
+    <form action='/switch/all/on' method='post'>
+      <input type="submit" style="width: 100%" class="btn btn-lg btn-success" value="all on">
+    </form>
+
+    <form action='/switch/all/off' method='post'>
+      <input type="submit" style="width: 100%" class="btn btn-lg btn-danger" value="all off">
+    </form>
+
+  </div>
+
+  <div class="col-lg-3">
+    <h1><font color="<%= @stepstoday =~ /FAIL/ ? 'red' : 'green' %>"><%= @stepstoday %></font></h1>
+  </div>
+
+</div>

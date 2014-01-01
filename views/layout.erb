@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>lotomation</title>
+    <script src='/js/jquery-1.10.2.min.js' type='text/javascript'></script>
+    <link href='/css/bootstrap.css' rel='stylesheet' type='text/css' />
+    <script src='/js/bootstrap.js' type='text/javascript'></script>
+  </head>
+
+  <body>
+    <h1>lotomation</h1>
+    <div>
+      <%= yield %>
+    </div>
+  </body>
+
+
+  <script type="text/javascript">
+    function toggle(somediv) {
+      if ( document.getElementById(somediv).style.display == 'none' ) {
+        document.getElementById(somediv).style.display = 'block';
+      } else {
+        document.getElementById(somediv).style.display = 'none';
+      }
+    }
+  </script>
+</html>
