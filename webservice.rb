@@ -10,6 +10,7 @@ set :bind, '0.0.0.0'
 
 get '/' do
   @stepstoday = steps_warning
+  @punishments = steps_punishments
   erb :index
 end
 
