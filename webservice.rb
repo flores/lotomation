@@ -27,3 +27,9 @@ end
 post '/steps/alert' do
   steps_alert
 end
+
+post '/tracker/:checkpoint' do |checkpoint|
+  rssi = params[:rssi]
+  location = checkpoint_interpret_rawlocation(rssi)
+  checkpoint_write_location(checkpoint,location)
+end
