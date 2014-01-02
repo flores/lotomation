@@ -10,7 +10,7 @@ hostname = `hostname`
 config = YAML.load_file('etc/config.yaml')
 server = "#{config['webservice']['ip']}:#{config['webservice']['port']}"
 
-hcitoolpid = fork { exec "hcitool lescan" }
+hcitoolpid = fork { exec "hcitool lescan --duplicates" }
 Process.detach(hcitoolpid)
 
 PTY.spawn("hcidump |grep -A4 #{config['devices']['fitbit']}") do |stdin, stdout, pid|
