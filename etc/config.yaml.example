@@ -22,8 +22,8 @@ camera:
   snapurl:	  # curlable url for ipcam
   syncpath:	  # where to sync it to on the remote server ("live" feed)
   backup:	  # local directory, writes to snapshot.<unixtime>.jpg
-webserver: # where the webservice lives
-  host:
+webserver:
+  host:		  # where the webserver lives, accessed by scripts in bin/
   port:
 
 auth:
