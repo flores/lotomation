@@ -18,9 +18,12 @@ location:
     min:
     max:
     devices:
-
+camera:
+  snapurl:	  # curlable url for ipcam
+  syncpath:	  # where to sync it to on the remote server ("live" feed)
+  backup:	  # local directory, writes to snapshot.<unixtime>.jpg
 webserver: # where the webservice lives
-  ip:
+  host:
   port:
 
 auth:

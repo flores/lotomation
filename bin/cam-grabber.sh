@@ -2,14 +2,12 @@
 # this guy curls an ipcam and syncs the image to the webserver
 # and backs it up locally
 
-url=`awk '/snapshoturl/ {print $2}' etc/config.yaml`
-path=`awk '/syncpath/ {print $2}' etc/config.yaml`
-target=`awk '/ip/ {print $2}' etc/config.yaml`
-
+url=`awk '/snapurl/ {print $2}' etc/config.yaml`
+backuppath=`awk '/backup/ {print $2}' etc/config.yaml`
+targetpath=`awk '/syncpath/ {print $2}' etc/config.yaml`
+target=`awk '/host/ {print $2}' etc/config.yaml`
 time=`date +%s`
+file="$backuppath/snapshot.$time.jpg"
 
-file="snapshot.$time.jpg"
-
-curl $url > /snapshots/$file
-
-scp /snapshots/$file $target\:$path
+curl $url > $file
+scp $file $target\:$targetpath
