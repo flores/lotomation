@@ -6,7 +6,14 @@ require './lib/lotomation'
 
 include Lotomation
 
+Configs=YAML.load_file('etc/config.yaml')
+
 set :bind, '0.0.0.0'
+set :port, Configs['webserver']['port']
+
+use Rack::Auth::Basic, "please log in" do |user, pass|
+  user == Configs['webserver']['user'] and pass == Configs['webserver']['pass']
+end
 
 get '/' do
   @stepstoday = steps_warning

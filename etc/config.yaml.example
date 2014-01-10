@@ -25,7 +25,8 @@ camera:
 webserver:
   host:		  # where the webserver lives, accessed by scripts in bin/
   port:
-
+  user:           # auth
+  pass:           
 auth:
   ninjablocks: '' # api token for ninja
   fitbit:	  # get from api.fitbit.com

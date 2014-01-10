@@ -13,22 +13,22 @@ data = client.activities_on_date 'today'
 stepstoday = data['summary']['steps']
 stepsgoal = configs['goals']['fitbit']['steps']
 
-server = "#{configs['webserver']['ip']}:#{configs['webserver']['port']}"
+auth = "#{configs['webserver']['user']}:#{configs['webserver']['pass']}"
+server = "#{configs['webserver']['host']}:#{configs['webserver']['port']}"
 punishments = Hash.new
 punishments = configs['punishments']
 
 now = DateTime.now
 
-puts "i think the hour is #{now.hour}"
 punishments.each do |goalhour,punishment|
 
-  puts goalhour
   if now.hour >= goalhour
 
     if stepstoday < stepsgoal
-      punishment['devices'].each {|pain| `curl -d '' http://#{server}/switch/#{pain}/#{punishment['state']}`}
+      punishment['devices'].each {|pain| `curl -d '' http://#{auth}@#{server}/switch/#{pain}/#{punishment['state']}`}
+      puts "oh snap son, just switched #{pain} to #{punishment['state']}"
     else
-      puts "yay"
+      puts "yay, you got enough steps"
     end
   end
 end
