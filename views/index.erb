@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div class="col-lg-6" style="padding: 3em">
+  <div class="col-lg-6">
     <% Configs['devices']['433Mhz'].sort.each do |device| %>
       <form action='/flip/<%= device %>' method='post'>
 	<input type="submit" style="width: 100%" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
@@ -17,24 +17,28 @@
 
   </div>
 
-  <div class="col-lg-3" style="padding: 3em">
-    <h2><font color="<%= @stepstoday =~ /FAIL/ ? 'red' : 'green' %>"><%= @stepstoday %></font></h2>
+  <div class="col-lg-3">
+    <% if @stepstoday =~ /FAIL/ %>
+      <h2><font color="red"><%= @stepstoday %></font></h2>
     
-    <div class="progress progress-striped active">
-      <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+      <div class="progress progress-striped active">
+        <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+        </div>
       </div>
-    </div>
 
-    <h2><span class="label label-danger">pending punishment</span></h2>
-    <% Configs['punishments'].each do |time,punishment| %>
-      <p>
-      <strong><%= time %>:00 </strong>
-	<% punishment['devices'].each do |device| %>
-	  <span class="label label-default"><%= device %></span> 
-        <% end %>
-	<span class="label label-primary"><%= punishment['state'] %></span>
-      </p>
+      <h2><span class="label label-danger">pending punishment</span></h2>
+      <% Configs['punishments'].each do |time,punishment| %>
+        <p>
+          <%= time %>:00
+	  <% punishment['devices'].each do |device| %>
+	    <span class="label label-default"><%= device %></span> 
+          <% end %>
+	  <span class="label label-primary"><%= punishment['state'] %></span>
+        </p>
+      <% end %>
+    <% else %>
+      <h2><font color="green"><%= @stepstoday %></font></h2>
     <% end %>
-  </div>
+    </div>
 
 </div>

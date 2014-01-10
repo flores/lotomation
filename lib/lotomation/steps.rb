@@ -5,7 +5,11 @@ module Lotomation
 
     def steps_today()
       data = Fit.activities_on_date 'today'
-      data['summary']['steps']
+      if data['summary']
+        data['summary']['steps']
+      else
+        nil
+      end
     end
 
     def steps_goal()
@@ -23,11 +27,11 @@ module Lotomation
 
     def steps_alert()
       threshold = Configs['goals']['fitbit']['steps']
-      if steps_today <= threshold
-	actuate_all('on')
+      if steps_today.nil?
+        "Unknown steps -- FitBit API down"
+      elsif steps_today <= threshold
 	"FAIL: need #{threshold - steps_today} more steps to pass!"
       else
-	actuate_all('off')
 	"PASS: over by #{steps_today - threshold} steps, good job!"
       end
     end
