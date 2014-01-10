@@ -14,6 +14,10 @@ get '/' do
   erb :index
 end
 
+get '/snap' do
+  erb :snapshot
+end
+
 post '/switch/:device/:state' do |device, state|
   device == 'all' ? actuate_all(state) : actuate(device, state)
   redirect '/'

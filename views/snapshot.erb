@@ -1,0 +1,20 @@
+<div id='snapshot'>
+  <img src='snapshot.jpg'/>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var interval = setInterval("updatesnapshot()", 10000);
+
+    $("#snapshot").click(function() {
+      clearInterval(interval);
+      updatesnapshot();
+      interval = setInterval("updatesnapshot()", 10000);
+    });
+  });
+
+  function updatesnapshot() {
+    $('#snapshot').html('<img src="snapshot.jpg" />');
+  };
+</script>
