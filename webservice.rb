@@ -6,8 +6,6 @@ require './lib/lotomation'
 
 include Lotomation
 
-Configs=YAML.load_file('etc/config.yaml')
-
 set :bind, '0.0.0.0'
 set :port, Configs['webserver']['port']
 
