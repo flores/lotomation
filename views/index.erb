@@ -18,6 +18,9 @@
   </div>
 
   <div class="col-lg-3">
+    <h2>
+      lo is <span class="label label-primary"><%= lo_home ? "home" : "gone" %></span>
+    </h2>
     <% if @stepstoday =~ /FAIL/ %>
       <h2><font color="red"><%= @stepstoday %></font></h2>
     
