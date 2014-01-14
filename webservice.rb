@@ -42,3 +42,14 @@ post '/tracker/:checkpoint' do |checkpoint|
   location = checkpoint_interpret_rawlocation(rssi)
   checkpoint_write_location(checkpoint,location)
 end
+
+post '/location/enforce' do
+  if lo_home
+    actuate('nearside-light', 'on')
+  else
+    puts "got here"
+    Configs['devices']['433Mhz'].each do |device|
+      device =~ /aquarium/ ? next : actuate(device,'off')
+    end
+  end
+end

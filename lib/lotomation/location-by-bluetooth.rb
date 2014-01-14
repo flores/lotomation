@@ -13,12 +13,24 @@ module Lotomation
       Configs['location'].each do |locs,vals|
 	if rawloc.to_i <= vals['max'].to_i && rawloc.to_i >= vals['min'].to_i
 	    log("i guess #{locs}")
+            locs
 	end
       end
     end
 
     def checkpoint_get_devices(location)
       Configs['location'][location]['devices']
+    end
+    
+    def checkpoint_time_last(checkpoint)
+      File.mtime("#{Configs['status']['dir']}/#{checkpoint}").to_time.to_i
+    end
+   
+    def lo_home
+      time = Time.now.to_i
+      lastaccessed = checkpoint_time_last('hi-pi')
+      difftime = time - lastaccessed
+      difftime <= 60 ? true : false
     end
 
   end

@@ -1,5 +1,11 @@
-<div id='snapshot'>
-  <img src='snapshot.jpg'/>
+
+<div class="row" id='snapshot'>
+  <div class="col-lg-5">
+    <img src='snapshot.jpg' />
+  </div>
+  <div class="col-lg-5">
+    <img src='snapshot1.jpg' />
+  </div>
 </div>
 
 
@@ -15,6 +21,6 @@
   });
 
   function updatesnapshot() {
-    $('#snapshot').html('<img src="snapshot.jpg" />');
+    $('#snapshot').html('<div class="col-lg-5"><img src="snapshot.jpg" /></div><div class="col-lg-5"><img src="snapshot1.jpg" /></div>');
   };
 </script>
