@@ -24,12 +24,21 @@ module Lotomation
     def checkpoint_time_last(checkpoint)
       File.mtime("#{Configs['status']['dir']}/#{checkpoint}").to_time.to_i
     end
-   
-    def lo_home
+
+    # FIXME
+    def lo_home?
       time = Time.now.to_i
       lastaccessed = checkpoint_time_last('hi-pi')
       difftime = time - lastaccessed
       difftime <= 60 ? true : false
+    end
+
+    def locator_write_state(state)
+      File.write("#{Configs['status']['dir']}/locator", state)
+    end
+
+    def locator_get_state
+      File.read("#{Configs['status']['dir']}/locator")
     end
 
   end

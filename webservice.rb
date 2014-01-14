@@ -43,14 +43,20 @@ post '/tracker/:checkpoint' do |checkpoint|
   checkpoint_write_location(checkpoint,location)
 end
 
-# FIXME 
-post '/location/enforce/:checkpoint' do |checkpoint|
-  if lo_home
-    checkpoint_get_devices(checkpoint).each { |d| puts d; actuate(d, 'on') }
-  else
-    puts "got here"
-    Configs['devices']['433Mhz'].each do |device|
-      device =~ /aquarium/ ? next : actuate(device,'off')
+# FIXME
+post '/locator/enforce' do
+  if locator_get_state == 'on'
+    if lo_home?
+      checkpoint_get_devices('hi-pi').each { |d| actuate(d, 'on') }
+    else
+      Configs['devices']['433Mhz'].each do |device|
+        device =~ /aquarium/ ? next : actuate(device,'off')
+      end
     end
   end
+end
+
+post '/locator/:state' do |state|
+  locator_write_state(state)
+  redirect '/'
 end

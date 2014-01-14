@@ -14,14 +14,18 @@
     <form action='/switch/all/off' method='post'>
       <input type="submit" style="width: 100%" class="btn btn-lg btn-danger" value="all off">
     </form>
+    
+    <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
+      <input type="submit" style="width: 100%" class="btn btn-lg <%= locator_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator is <%= locator_get_state %>">
+    </form>
 
   </div>
 
   <div class="col-lg-3">
     <h2>
-      lo is <span class="label label-primary"><%= lo_home ? "in the crib" : "gone" %></span>
-
+      <span class="label label-primary">lo is <%= lo_home? ? "in the crib" : "gone" %></span>
     </h2>
+    
     <% if @stepstoday =~ /FAIL/ %>
       <h2><font color="red"><%= @stepstoday %></font></h2>
     
@@ -30,7 +34,7 @@
         </div>
       </div>
 
-      <h2><span class="label label-danger">pending punishment</span></h2>
+      <h2><span class="label label-warning">pending punishment</span></h2>
       <% Configs['punishments'].each do |time,punishment| %>
         <p>
           <%= time %>:00
