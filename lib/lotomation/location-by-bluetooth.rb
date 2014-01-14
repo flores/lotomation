@@ -12,8 +12,7 @@ module Lotomation
     def checkpoint_interpret_rawlocation(rawloc)
       Configs['location'].each do |locs,vals|
 	if rawloc.to_i <= vals['max'].to_i && rawloc.to_i >= vals['min'].to_i
-	    log("i guess #{locs}")
-            locs
+            locs[0]
 	end
       end
     end

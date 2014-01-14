@@ -43,9 +43,10 @@ post '/tracker/:checkpoint' do |checkpoint|
   checkpoint_write_location(checkpoint,location)
 end
 
-post '/location/enforce' do
+# FIXME 
+post '/location/enforce/:checkpoint' do |checkpoint|
   if lo_home
-    actuate('nearside-light', 'on')
+    checkpoint_get_devices(checkpoint).each { |d| puts d; actuate(d, 'on') }
   else
     puts "got here"
     Configs['devices']['433Mhz'].each do |device|
