@@ -8,7 +8,7 @@ require 'yaml'
 hostname = `hostname`
 
 config = YAML.load_file('etc/config.yaml')
-server = "#{config['webservice']['host']}:#{config['webservice']['port']}"
+server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 
 hcitoolpid = fork { exec "hcitool lescan --duplicates" }
 Process.detach(hcitoolpid)
