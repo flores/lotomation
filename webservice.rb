@@ -43,6 +43,10 @@ post '/tracker/:checkpoint' do |checkpoint|
   checkpoint_write_location(checkpoint,location)
 end
 
+get '/lo/home' do
+  lo_home? ? "yes" : "no"
+end
+
 # FIXME
 post '/locator/enforce' do
   if locator_get_state == 'on'
