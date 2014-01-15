@@ -6,6 +6,10 @@
 	<input type="submit" style="width: 100%" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
       </form>
     <% end %>
+    
+    <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
+      <input type="submit" style="width: 100%" class="alert <%= locator_get_state == 'on' ? 'alert-success' : 'alert-danger' %>" value="locator">
+    </form>
 
     <form action='/switch/all/on' method='post'>
       <input type="submit" style="width: 100%" class="btn btn-lg btn-success" value="all on">
@@ -15,13 +19,9 @@
       <input type="submit" style="width: 100%" class="btn btn-lg btn-danger" value="all off">
     </form>
     
-    <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
-      <input type="submit" style="width: 100%" class="btn btn-lg <%= locator_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator is <%= locator_get_state %>">
-    </form>
-
   </div>
 
-  <div class="col-lg-3">
+  <div class="col-lg-4">
     <h2>
       <span class="label label-primary">lo is <%= lo_home? ? "in the crib" : "gone" %></span>
     </h2>
