@@ -47,6 +47,14 @@ get '/lo/home' do
   lo_home? ? "yes" : "no"
 end
 
+get '/jam/played' do
+  jam_get_state
+end
+
+post '/jam/played' do
+  jam_write_state(true)
+end
+
 # FIXME
 post '/locator/enforce' do
   if locator_get_state == 'on'
@@ -56,6 +64,7 @@ post '/locator/enforce' do
       Configs['devices']['433Mhz'].each do |device|
         device =~ /aquarium/ ? next : actuate(device,'off')
       end
+      jam_write_state(false)
     end
   end
 end

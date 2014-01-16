@@ -11,11 +11,13 @@ Devices = NinjaBlocks::Device.list(:device_type => 'rf433')
 require 'lotomation/power'
 require 'lotomation/steps'
 require 'lotomation/location-by-bluetooth'
+require 'lotomation/jams'
 
 module Lotomation
   include Power
   include Steps
   include Location_by_bluetooth
+  include Jams
 
   def log(message)
     puts message if Configs['status']['verbose']
