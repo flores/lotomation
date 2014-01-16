@@ -3,12 +3,12 @@
   <div class="col-lg-6">
     <% Configs['devices']['433Mhz'].sort.each do |device| %>
       <form action='/flip/<%= device %>' method='post'>
-	<input type="submit" style="width: 100%" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
+        <input type="submit" style="width: 100%;" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
       </form>
     <% end %>
     
     <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
-      <input type="submit" style="width: 100%" class="alert <%= locator_get_state == 'on' ? 'alert-success' : 'alert-danger' %>" value="locator">
+      <input type="submit" style="width: 100%;" class="alert <%= locator_get_state == 'on' ? 'alert-success' : 'alert-danger' %>" value="locator">
     </form>
 
     <form action='/switch/all/on' method='post'>
@@ -22,31 +22,46 @@
   </div>
 
   <div class="col-lg-4">
-    <h2>
-      <span class="label label-primary">lo is <%= lo_home? ? "in the crib" : "gone" %></span>
-    </h2>
-    
+    <div class="panel panel-default">
+      <div class="panel-body">
+       <h4>lo is <%= lo_home? ? "in the crib" : "gone" %></h4>
+      </div>
+    </div>
     <% if @stepstoday =~ /FAIL/ %>
-      <h2><font color="red"><%= @stepstoday %></font></h2>
+      <div class="panel panel-default"> 
+        <div class="panel-heading">
+          <h3 class="panel-title"><font color="red">
+            <%= @stepstoday %> <span class="glyphicon glyphicon-thumbs-down"></span>
+          </font></h3>
+         </div>
     
-      <div class="progress progress-striped active">
-        <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+        <div class="progress progress-striped active">
+          <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
         </div>
       </div>
 
-      <h2><span class="label label-warning">pending punishment</span></h2>
-      <% Configs['punishments'].each do |time,punishment| %>
-        <p>
-          <%= time %>:00
-	  <% punishment['devices'].each do |device| %>
-	    <span class="label label-default"><%= device %></span> 
-          <% end %>
-	  <span class="label label-primary"><%= punishment['state'] %></span>
-        </p>
-      <% end %>
+      <h3><span class="label label-lg label-warning">pending punishment</span></h3>
+      <ul class="list-group">
+        <% Configs['punishments'].each do |time,punishment| %>
+          <li class="list-group-item">
+            <%= time %>:00
+	    <% punishment['devices'].each do |device| %>
+	      <span class="label label-default"><%= device %></span> 
+            <% end %>
+	    <span class="label label-primary"><%= punishment['state'] %></span>
+          </li>
+        <% end %>
+      </ul>
     <% else %>
-      <h2><font color="green"><%= @stepstoday %></font></h2>
+      <div class="panel panel-default"> 
+        <div class="panel-heading">
+          <h3 class="panel-title"><font color="green">
+            <%= @stepstoday %> <span class="glyphicon glyphicon-thumbs-up"></span>
+          </font></h3>
+        </div>
+      </div>
     <% end %>
+    </div>
     </div>
 
 </div>
