@@ -1,34 +1,42 @@
 <div class="row">
 
-  <div class="col-lg-6">
+  <div class="col-md-8">
     <% Configs['devices']['433Mhz'].sort.each do |device| %>
-      <form action='/flip/<%= device %>' method='post'>
-        <input type="submit" style="width: 100%;" class="alert <%= power_current_state(device) == 'on' ? 'alert-success' : 'alert-danger' %>" value="<%= device %>">
-      </form>
+      <div class="col-md-6 col-xs-6"->
+        <form action='/flip/<%= device %>' method='post'>
+          <input type="submit" style="width: 100%;" class="btn btn-lg <%= power_current_state(device) == 'on' ? 'btn-success' : 'btn-danger' %>" value="<%= device %>">
+        </form>
+      </div>
     <% end %>
-    
-    <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
-      <input type="submit" style="width: 100%;" class="alert <%= locator_get_state == 'on' ? 'alert-success' : 'alert-danger' %>" value="locator">
-    </form>
+    <div class="col-md-6 col-xs-6"->
+      <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= locator_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
+      </form>
+    </div>
 
-    <form action='/switch/all/on' method='post'>
-      <input type="submit" style="width: 100%" class="btn btn-lg btn-success" value="all on">
-    </form>
+      <div class="col-md-6 col-xs-6"->
 
-    <form action='/switch/all/off' method='post'>
-      <input type="submit" style="width: 100%" class="btn btn-lg btn-danger" value="all off">
-    </form>
+        <form action='/switch/all/on' method='post'>
+          <input type="submit" style="width: 100%" class="btn btn-success" value="all on">
+        </form>
+      </div>
+
+      <div class="col-md-6 col-xs-6"->
+      <form action='/switch/all/off' method='post'>
+        <input type="submit" style="width: 100%" class="btn btn-danger" value="all off">
+      </form>
+      </div>
     
   </div>
 
-  <div class="col-lg-4">
-    <div class="panel panel-default">
+  <div class="col-md-4">
+    <div class="panel panel-default col-xs-12">
       <div class="panel-body">
        <h4>lo is <%= lo_home? ? "in the crib" : "gone" %></h4>
       </div>
     </div>
     <% if @stepstoday =~ /FAIL/ %>
-      <div class="panel panel-default"> 
+      <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
           <h3 class="panel-title"><font color="red">
             <%= @stepstoday %> <span class="glyphicon glyphicon-thumbs-down"></span>
