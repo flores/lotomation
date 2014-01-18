@@ -54,6 +54,10 @@ post '/jam/played' do
   jam_write_state(true)
 end
 
+post '/jam/force' do
+  jam_write_state(false)
+end
+
 # FIXME
 post '/locator/enforce' do
   if locator_get_state == 'on'
