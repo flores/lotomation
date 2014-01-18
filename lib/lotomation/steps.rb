@@ -36,15 +36,6 @@ module Lotomation
       end
     end
 
-    def steps_warning()
-      threshold = Configs['goals']['fitbit']['steps']
-      if steps_today <= threshold
-	"FAIL: need #{threshold - steps_today} more steps to pass!"
-      else
-	"PASS: over by #{steps_today - threshold} steps, good job!"
-      end
-    end
-
     def steps_punishments()
       Configs['punishments']
     end

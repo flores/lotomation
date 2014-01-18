@@ -14,7 +14,6 @@ use Rack::Auth::Basic, "please log in" do |user, pass|
 end
 
 get '/' do
-  @stepstoday = steps_warning
   @punishments = steps_punishments
   erb :index
 end

@@ -35,11 +35,11 @@
        <h4>lo is <%= lo_home? ? "in the crib" : "gone" %></h4>
       </div>
     </div>
-    <% if @stepstoday =~ /FAIL/ %>
+    <% if steps_alert =~ /FAIL/ %>
       <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
           <h3 class="panel-title"><font color="red">
-            <%= @stepstoday %> <span class="glyphicon glyphicon-thumbs-down"></span>
+            <%= steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
           </font></h3>
          </div>
     
@@ -61,10 +61,10 @@
         <% end %>
       </ul>
     <% else %>
-      <div class="panel panel-default"> 
+      <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
           <h3 class="panel-title"><font color="green">
-            <%= @stepstoday %> <span class="glyphicon glyphicon-thumbs-up"></span>
+            <%= steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
           </font></h3>
         </div>
       </div>
