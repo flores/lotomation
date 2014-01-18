@@ -15,18 +15,22 @@ stepsgoal = configs['goals']['fitbit']['steps']
 
 auth = "#{configs['webserver']['user']}:#{configs['webserver']['pass']}"
 server = "#{configs['webserver']['host']}:#{configs['webserver']['port']}"
+
 punishments = Hash.new
 punishments = configs['punishments']
 
-now = DateTime.now
+now = DateTime.now.hour
 
 punishments.each do |goalhour,punishment|
 
-  if now.hour >= goalhour
+  if now >= goalhour
 
-    if stepstoday < stepsgoal
+    home = `curl http://#{auth}@#{server}/lo/home`
+    home == 'yes' ? true : false
+
+    if stepstoday < stepsgoal && home
       punishment['devices'].each {|pain| `curl -d '' http://#{auth}@#{server}/switch/#{pain}/#{punishment['state']}`}
-      puts "oh snap son, just switched #{pain} to #{punishment['state']}"
+      puts "oh snap son, turned the pain on"
     else
       puts "yay, you got enough steps"
     end
