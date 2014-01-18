@@ -41,3 +41,4 @@ devices:
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode
+  jamdir:         # where you keep your jams. leave off trailing /
