@@ -14,7 +14,10 @@ use Rack::Auth::Basic, "please log in" do |user, pass|
 end
 
 get '/' do
+  @steps_alert = steps_alert
   @punishments = steps_punishments
+  input = input_get_state().to_i
+  input == 1 ? @stereo = "turntable" : @stereo = "hi-pi"
   erb :index
 end
 
@@ -40,6 +43,7 @@ post '/tracker/:checkpoint' do |checkpoint|
   rssi = params[:rssi]
   location = checkpoint_interpret_rawlocation(rssi)
   checkpoint_write_location(checkpoint,location)
+  "thanks"
 end
 
 get '/lo/home' do
@@ -52,10 +56,22 @@ end
 
 post '/jam/played' do
   jam_write_state(true)
+  "cool"
 end
 
 post '/jam/force' do
+  input_write_state(2)
   jam_write_state(false)
+  redirect '/'
+end
+
+get '/stereo/input' do
+  input_get_state
+end
+
+get '/stereo/input/:number' do |input|
+  input_write_state(input)
+  redirect '/'
 end
 
 # FIXME
@@ -63,13 +79,14 @@ post '/locator/enforce' do
   if locator_get_state == 'on'
     if lo_home?
       checkpoint_get_devices('hi-pi').each { |d| actuate(d, 'on') }
+      jam_write_state(false)
     else
       Configs['devices']['433Mhz'].each do |device|
-        device =~ /aquarium/ ? next : actuate(device,'off')
+        device =~ /aquarium|stereo/ ? next : actuate(device,'off')
       end
-      jam_write_state(false)
     end
   end
+  "k"
 end
 
 post '/locator/:state' do |state|
