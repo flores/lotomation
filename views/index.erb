@@ -17,35 +17,47 @@
     <div class="col-md-6 col-xs-6"->
 
       <form action='/switch/all/on' method='post'>
-        <input type="submit" style="width: 100%" class="btn btn-success" value="all on">
+        <input type="submit" style="width: 100%" class="btn btn-info" value="all on">
       </form>
     </div>
 
     <div class="col-md-6 col-xs-6"->
       <form action='/switch/all/off' method='post'>
-        <input type="submit" style="width: 100%" class="btn btn-danger" value="all off">
+        <input type="submit" style="width: 100%" class="btn btn-info" value="all off">
       </form>
     </div>
 
-    <div class="col-md-12 col-xs-12"->
+    <div class="col-md-6 col-xs-6"->
       <form action='/jam/force' method='post'>
         <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a jam">
       </form>
     </div>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+        <button type="button" style="width: 100%" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
+          stereo input <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="/stereo/input/1">turntable</a></li>
+          <li><a href="/stereo/input/2">hi-pi</a></li>
+        </ul>
+    </div>
+    
     
   </div>
 
   <div class="col-md-4">
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
-       <h4>lo is <%= lo_home? ? "in the crib" : "gone" %></h4>
+        <h4>the stereo is tuned to <%= @stereo %>.</h4>
+        <h4>lo is <%= lo_home? ? "in the crib" : "gone" %>.</h4>
       </div>
     </div>
-    <% if steps_alert =~ /FAIL/ %>
+    <% if @steps_alert =~ /FAIL/ %>
       <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
           <h3 class="panel-title"><font color="red">
-            <%= steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
+            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
           </font></h3>
          </div>
     
@@ -70,7 +82,7 @@
       <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
           <h3 class="panel-title"><font color="green">
-            <%= steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
+            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
           </font></h3>
         </div>
       </div>
