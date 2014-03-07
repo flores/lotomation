@@ -13,6 +13,7 @@ jamplayed=`curl $user:$pass@$host:$port/jam/played`
 
 if [[ $lohome == 'yes' ]] && [[ $jamplayed == 'false' ]]; then
   jam=`ls $jamdir |grep mp3 |shuf |head -1`
-  mplayer -ao alsa:device=hw=1.0 $jamdir/$jam && curl -d '' $user:$pass@$host:$port/jam/played
+  echo "playing $jam"
+  mplayer -ao alsa:device=hw=1.0 "$jamdir/$jam" && curl -d '' $user:$pass@$host:$port/jam/played
 fi
 
