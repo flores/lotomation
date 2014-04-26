@@ -11,9 +11,18 @@ jamdir=`awk '/jamdir:/ {print $2}' etc/config.yaml`
 lohome=`curl $user:$pass@$host:$port/lo/home`
 jamplayed=`curl $user:$pass@$host:$port/jam/played`
 
-if [[ $lohome == 'yes' ]] && [[ $jamplayed == 'false' ]]; then
-  jam=`ls $jamdir |grep mp3 |shuf |head -1`
-  echo "playing $jam"
-  mplayer -ao alsa:device=hw=1.0 "$jamdir/$jam" && curl -d '' $user:$pass@$host:$port/jam/played
+echo "lohome: $lohome"
+echo "jamplayed: $jamplayed"
+
+if [[ $jamplayed == 'false' ]]; then
+    jam=`ls $jamdir |grep mp3 |shuf |shuf |head -1`
+    echo "playing $jam"
+    mplayer -cache 1500 -cache-min 30 -ao alsa:device=hw=1.0 "$jamdir/$jam"
+    lastexit = $?
+    if [[ $lastexit -ne 0 ]]; then
+      echo "there is something wrong with $jam"
+    else
+      curl -d '' $user:$pass@$host:$port/jam/played
+    fi
 fi
 
