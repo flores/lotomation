@@ -38,6 +38,8 @@ auth:
 devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
   433MHz: ''	  # radio controlled devices
+stereo:
+  names: [ 'turntable', 'some hostname' ] # friendly stereo input names
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode

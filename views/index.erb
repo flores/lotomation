@@ -44,8 +44,11 @@
           stereo input <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li><a href="/stereo/input/1">turntable</a></li>
-          <li><a href="/stereo/input/2">hi-pi</a></li>
+          <% input = 1 %>
+          <% Configs['stereo']['names'].size.times do %>
+            <li><a href="/stereo/input/<%= input %>"><%= Configs['stereo']['names'][input - 1] %></a></li>
+            <% input+=1 %>
+          <% end %>
         </ul>
     </div>
     
@@ -55,7 +58,7 @@
   <div class="col-md-4">
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
-        <h4>the stereo is tuned to <%= @stereo %>.</h4>
+        <h4>the stereo is tuned to <%= Configs['stereo']['names'][input_get_state - 1] %>.</h4>
         <h4>lo is <%= lo_home? ? "in the crib" : "gone" %>.</h4>
       </div>
     </div>

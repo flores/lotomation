@@ -16,8 +16,6 @@ end
 get '/' do
   @steps_alert = steps_alert
   @punishments = steps_punishments
-  input = input_get_state().to_i
-  input == 1 ? @stereo = "turntable" : @stereo = "hi-pi"
   erb :index
 end
 
