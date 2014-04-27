@@ -12,12 +12,16 @@ auth = "#{config['webserver']['user']}:#{config['webserver']['pass']}"
 server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 
 input = `curl #{auth}@#{server}/stereo/input`.to_i
+if $? != 0
+  puts "something went wrong with curl"
+  exit
+end
 currentinput = File.read("/root/lotomation/stereoinput").to_i
 
 puts input
 puts currentinput
 
-if input != currentinput
+if input != currentinput && gpiomap[input]
   puts "firing"
   require 'pi_piper'
   include PiPiper
