@@ -11,10 +11,16 @@ jamdir=`awk '/jamdir:/ {print $2}' etc/config.yaml`
 lohome=`curl $user:$pass@$host:$port/lo/home`
 jamplayed=`curl $user:$pass@$host:$port/jam/played`
 
+originalinput=`curl $user:$pass@$host:$port/stereo/input`
+
 echo "lohome: $lohome"
 echo "jamplayed: $jamplayed"
+echo "current input: $originalinput"
 
 if [[ $jamplayed == 'false' ]]; then
+    echo "switching to raspberry pi"
+    `curl -d '' $user:$pass@$host:$port/stereo/input/0`
+    
     jam=`ls $jamdir |grep mp3 |shuf |shuf |head -1`
     echo "playing $jam"
     mplayer -cache 1500 -cache-min 30 -ao alsa:device=hw=1.0 "$jamdir/$jam"
@@ -24,5 +30,8 @@ if [[ $jamplayed == 'false' ]]; then
     else
       curl -d '' $user:$pass@$host:$port/jam/played
     fi
+    
+    echo "switching back to input $originalinput"
+    `curl -d '' $user:$pass@$host:$port/stereo/input/$originalinput`
 fi
 
