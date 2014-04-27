@@ -19,7 +19,7 @@ echo "current input: $originalinput"
 
 if [[ $jamplayed == 'false' ]]; then
     echo "switching to raspberry pi"
-    `curl -d '' $user:$pass@$host:$port/stereo/input/0`
+    `curl -d '' $user:$pass@$host:$port/stereo/input/1`
     
     jam=`ls $jamdir |grep mp3 |shuf |shuf |head -1`
     echo "playing $jam"
