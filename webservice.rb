@@ -25,6 +25,15 @@ get '/snap' do
   erb :snapshot
 end
 
+get '/snap/enforce' do
+  camera_get_state
+end
+
+post '/snap/enforce/:state' do |camerastate|
+  camera_write_state(camerastate)
+  redirect '/'  
+end
+
 post '/switch/:device/:state' do |device, state|
   device == 'all' ? actuate_all(state) : actuate(device, state)
   redirect '/'

@@ -12,12 +12,14 @@ require 'lotomation/power'
 require 'lotomation/steps'
 require 'lotomation/location-by-bluetooth'
 require 'lotomation/jams'
+require 'lotomation/camera'
 
 module Lotomation
   include Power
   include Steps
   include Location_by_bluetooth
   include Jams
+  include Camera
 
   def log(message)
     puts message if Configs['status']['verbose']

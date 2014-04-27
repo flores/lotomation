@@ -1,12 +1,15 @@
-
-<div class="row" id='snapshot'>
-  <div class="col-lg-5">
-    <img src='snapshot.jpg' />
+<% if camera_get_state %>
+  <div class="row" id='snapshot'>
+    <div class="col-lg-5">
+      <img src='snapshot.jpg' />
+    </div>
+    <div class="col-lg-5">
+      <img src='snapshot1.jpg' />
+    </div>
   </div>
-  <div class="col-lg-5">
-    <img src='snapshot1.jpg' />
-  </div>
-</div>
+<% else %>
+  <div><h1><font color='red'>camera is disabled</font></h1></div>
+<% end %>
 
 
 <script type="text/javascript">

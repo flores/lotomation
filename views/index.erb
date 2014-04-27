@@ -13,6 +13,12 @@
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= locator_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
       </form>
     </div>
+    
+    <div class="col-md-6 col-xs-6"->
+      <form action='/snap/enforce/<%= camera_get_state ? 'false' : 'true' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= camera_get_state ? 'btn-success' : 'btn-danger' %>" value="camera sync">
+      </form>
+    </div>
 
     <div class="col-md-6 col-xs-6"->
 
