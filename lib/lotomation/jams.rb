@@ -10,8 +10,8 @@ module Lotomation
     end
     
     def input_get_state
-      if File.exist?(filename)
-        File.read("#{Configs['status']['dir']}/stereoinput")
+      if File.exist?("#{Configs['status']['dir']}/stereoinput")
+        File.read("#{Configs['status']['dir']}/stereoinput").to_i
       else
         File.write("#{Configs['status']['dir']}/jam", 2)
       end
@@ -20,6 +20,6 @@ module Lotomation
     def input_write_state(value)
       File.write("#{Configs['status']['dir']}/stereoinput", value.to_s)
     end
-  
+
   end
 end
