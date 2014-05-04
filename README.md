@@ -66,8 +66,7 @@ We'll go into detail about the various things going on there below...
 
 # Location aware lighting
 
-Here's a demo:
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=c0dtQ4VUico" frameborder="0" allowfullscreen></iframe>
+[Demo](https://www.youtube.com/watch?v=c0dtQ4VUico)
 
 I use a [FitBit](http://fitbit.com) as a locator.  It was not designed for
 this, but as a LE Bluetooth device I can ping it from various devices 
@@ -104,15 +103,12 @@ location:
 
 Additionally, I also check to see if my location device (aka FitBit) is pingable
 at all.  If it is, I get music automagically.  This works great to get tunes
-as soon as I walk into my home.  Here is a demo:
-
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=1hELb-8z134" frameborder="0" allowfullscreen></iframe>
+as soon as I walk into my home.  Here is a [demo](https://www.youtube.com/watch?v=1hELb-8z134)
 
 The way this works is another one of the microcomputers has a DAC and harddrive
 connected.  It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
-music whenever I want, such as when I push a red button...
-
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=mkUJn2-rYj0" frameborder="0" allowfullscreen></iframe>
+music whenever I want, such as pushing [an emergency jam button]
+(https://www.youtube.com/watch?v=mkUJn2-rYj0)
 
 # Wrappers to other people's home automation products
 
@@ -134,9 +130,11 @@ also change to some Angular-ish clientside app.
 I happen to like old vintage hi-fi equipment, and that stuff doesn't have
 remote controls.  Now, I could have simply bought a modern preamp or receiver
 or something, but instead I use a Raspberry-Pi to manipulate the input selection
-of a A/V switcher.  Here is a demo:
+of a A/V switcher.  It looks like this and is super ugly:
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=zUiWG0au5TE" frameborder="0" allowfullscreen></iframe>
+![Raspeberry-Pi A/V Switcher](https://pbs.twimg.com/media/BeY0lWTCQAARSLk.jpg)
+
+And here is that [demo](https://www.youtube.com/watch?v=zUiWG0au5TE)
 
 That Raspberry-Pi runs `bin/switch-stereo-input.rb`, which calls up to the 
 webservice to figure out what input it should use.  This allows me to switch 
