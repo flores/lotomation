@@ -73,7 +73,7 @@ post '/jam/force' do
 end
 
 get '/stereo/input' do
-  input_get_state
+  input_get_state.to_s
 end
 
 get '/stereo/input/:number' do |input|
@@ -98,5 +98,14 @@ end
 
 post '/locator/:state' do |state|
   locator_write_state(state)
+  redirect '/'
+end
+
+get '/punishments/enforce' do
+  punishments_get_status
+end
+
+post '/punishments/enforce/:state' do |state|
+  punishments_write_status(state)
   redirect '/'
 end

@@ -39,5 +39,20 @@ module Lotomation
     def steps_punishments()
       Configs['punishments']
     end
+
+    def punishments_get_status()
+      if File.exist?("#{Configs['status']['dir']}/punishments")
+        state = File.read("#{Configs['status']['dir']}/punishments")
+        state == 'off' ? false : true
+      else
+        File.write("#{Configs['status']['dir']}/punishments", "off")
+        false
+      end
+    end
+
+    def punishments_write_status(status)
+      File.write("#{Configs['status']['dir']}/punishments", status)
+    end
+
   end
 end

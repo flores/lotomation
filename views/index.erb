@@ -21,6 +21,12 @@
     </div>
 
     <div class="col-md-6 col-xs-6"->
+      <form action='/punishments/enforce/<%= punishments_get_status ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= punishments_get_status ? 'btn-success' : 'btn-danger' %>" value="punishments">
+      </form>
+    </div>
+
+    <div class="col-md-6 col-xs-6"->
 
       <form action='/switch/all/on' method='post'>
         <input type="submit" style="width: 100%" class="btn btn-info" value="all on">
