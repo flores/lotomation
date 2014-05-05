@@ -194,4 +194,14 @@ I tried to circumvent any punishments, it would just go back into effect at the
 next minute unless I rewired my stuff.  Instead it's simpler to just take a
 walk :)
 
+# More Demos!
 
+All these are pretty old but fun...
+
+[Here's a little tour of some of the hardware from when I first started]
+(https://www.youtube.com/watch?v=tD7lywemQIg) that includes automagic music
+when I sit in my favorite chair...
+
+[Here's a demo of the lights changing via one button](https://www.youtube.com/watch?v=wIRvYIbpj0U) (early demo from when I first started)
+
+[Here's a demo of the first time I got my app working](https://www.youtube.com/watch?v=7_Og7tFsIp8)
