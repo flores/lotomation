@@ -18,7 +18,7 @@ under `etc/config.yaml.example`.  In other words, it's JANKY AS FUUUUUUU.
 
 ```
 goals:
-  fitbit:   # goals for punishment
+  fitbit:         # goals for punishment
     steps:
     very_active_miles:
 punishments:
@@ -29,39 +29,39 @@ punishments:
     devices:
     state:
 location:
-  doorcouch:    # some zone name you define
-    min:    # lower threshold for zone, in rssi
-    max:    # upper threshold for zone, in rssi
-    devices:    # which devices to act on in zone
+  doorcouch:      # some zone name you define
+    min:          # lower threshold for zone, in rssi
+    max:          # upper threshold for zone, in rssi
+    devices:      # which devices to act on in zone
   middle:
     min:
     max:
     devices:
 camera:
-  snapurl:    # curlable url for ipcam
-  syncpath:   # where to sync it to on the remote server ("live" feed)
-  backup:   # local directory, writes to snapshot.<unixtime>.jpg
+  snapurl:        # curlable url for ipcam
+  syncpath:       # where to sync it to on the remote server ("live" feed)
+  backup:         # local directory, writes to snapshot.<unixtime>.jpg
 webserver:
-  host:	    # where the webserver lives, accessed by scripts in bin/
+  host:	          # where the webserver lives, accessed by scripts in bin/
   port:
   user:           # auth
   pass:           
 auth:
   ninjablocks: '' # api token for ninja
-  fitbit:   # get from api.fitbit.com
+  fitbit:         # get from api.fitbit.com
     consumer_key:
     consumer_secret:
     token:
     secret:
     user_id:
 devices:
-  fitbit: ''    # mac addresses of bluetooth le devices
-  433MHz: ''    # radio controlled devices
+  fitbit: ''      # mac addresses of bluetooth le devices
+  433MHz: ''      # radio controlled devices
 stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
-status:
-  dir:	    # just writes files for now, must be writeable
-  verbose:    # set to true for noisy mode
+status:           # I am lazy and this should be in a DB
+  dir:	          # just writes files for now, must be writeable
+  verbose:        # set to true for noisy mode
   jamdir:         # where you keep your jams. leave off trailing /
 ```
 
