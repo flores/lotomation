@@ -109,9 +109,14 @@ at all.  If it is, I get music automagically.  This works great to get tunes
 as soon as I walk into my home.  Here is a [**demo**](https://www.youtube.com/watch?v=1hELb-8z134)
 
 The way this works is another one of the microcomputers has a DAC and harddrive
-connected.  It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
+connected.  
+
+It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
 music whenever I want, such as pushing [an emergency jam button]
-(https://www.youtube.com/watch?v=mkUJn2-rYj0)
+(https://www.youtube.com/watch?v=mkUJn2-rYj0) or by pushing the "play a jam"
+button on the remote:
+
+![play a jam button](http://lo.ladevops.org/lotomation-jam-button.png)
 
 # Wrappers to other people's home automation products
 
@@ -176,6 +181,9 @@ what happens IF I do not have enough FitBit steps for the day:
 * At 9pm my stereo turns off
 * At 10pm all my lights go on.  The stereo remains off.
 * At 11pm all my lights except the ambinet light goes off.  The stereo remains off.
+
+I get reminded via the web-ui like this:
+![exercise punishments](http://lo.ladevops.org/lotomation-punishments.png)
 
 The really rough bit is that `bin/punisher.rb` runs on a minute cron, so even if
 I tried to circumvent any punishments, it would just go back into effect at the
