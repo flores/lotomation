@@ -106,7 +106,7 @@ location:
 
 Additionally, I also check to see if my location device (aka FitBit) is pingable
 at all.  If it is, I get music automagically.  This works great to get tunes
-as soon as I walk into my home.  **Here is a [demo**](https://www.youtube.com/watch?v=1hELb-8z134)
+as soon as I walk into my home.  Here is a [**demo**](https://www.youtube.com/watch?v=1hELb-8z134)
 
 The way this works is another one of the microcomputers has a DAC and harddrive
 connected.  It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
@@ -137,7 +137,7 @@ of a A/V switcher.  It looks like this and is super ugly:
 
 ![Raspeberry-Pi A/V Switcher](https://pbs.twimg.com/media/BeY0lWTCQAARSLk.jpg)
 
-And here is that [demo](https://www.youtube.com/watch?v=zUiWG0au5TE)
+And here is that [**demo**](https://www.youtube.com/watch?v=zUiWG0au5TE)
 
 That Raspberry-Pi runs `bin/switch-stereo-input.rb`, which calls up to the 
 webservice to figure out what input it should use.  This allows me to switch 
@@ -153,7 +153,7 @@ makes it really easy to call it.  So, I simply trigger an event every minute
 if I have not reached enough steps.
 
 For example, I can make a crazy strobe light when I do not have enough exercise,
-like this [demo](https://www.youtube.com/watch?v=OdBaccgz1V4)
+like this [**demo**](https://www.youtube.com/watch?v=OdBaccgz1V4)
 
 The config file keeps punishments under it's own section.  This is mine at the
 time of this commit:
