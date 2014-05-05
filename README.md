@@ -69,7 +69,7 @@ We'll go into detail about the various things going on there below...
 
 # Location aware lighting
 
-[Demo](https://www.youtube.com/watch?v=c0dtQ4VUico)
+[**Demo**](https://www.youtube.com/watch?v=c0dtQ4VUico)
 
 I use a [FitBit](http://fitbit.com) as a locator.  It was not designed for
 this, but as a LE Bluetooth device I can ping it from various devices 
