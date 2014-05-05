@@ -106,7 +106,7 @@ location:
 
 Additionally, I also check to see if my location device (aka FitBit) is pingable
 at all.  If it is, I get music automagically.  This works great to get tunes
-as soon as I walk into my home.  Here is a [demo](https://www.youtube.com/watch?v=1hELb-8z134)
+as soon as I walk into my home.  **Here is a [demo]**(https://www.youtube.com/watch?v=1hELb-8z134)
 
 The way this works is another one of the microcomputers has a DAC and harddrive
 connected.  It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
