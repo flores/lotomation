@@ -7,7 +7,10 @@ lo automates the crib
 
 # WAT
 
-Just sharing the wins and fails while I play with automation.
+Just sharing the wins and fails while I play with automation.  There's a couple
+components in this project: a webserver meant to run in the cloud and various
+Linux devices (Raspberry Pi, Beagle Bone, old laptops and desktops, etc) running
+programs from `bin` depending on the results from the webservice.
 
 Much of this probably won't be useful to you unless (until?) I clean it up,
 but to give you an idea of all the stuff it's doing, here's the config file 
@@ -141,4 +144,42 @@ webservice to figure out what input it should use.  This allows me to switch
 the input via simple `curl` or web-ui:
 
 ![stereo input selection](http://lo.ladevops.org/lotomation-stereo-input.png)
+
+# Punishment when I do not get enough exercise
+
+Sometimes I get lazy and don't exercise enough, but FitBit has a (unreliable)
+API, and @whazzmaster's sweet [FitGem](https://github.com/whazzmaster/fitgem) 
+makes it really easy to call it.  So, I simply trigger an event every minute
+if I have not reached enough steps.
+
+For example, I can make a crazy strobe light when I do not have enough exercise,
+like this [demo](https://www.youtube.com/watch?v=OdBaccgz1V4)
+
+The config file keeps punishments under it's own section.  This is mine at the
+time of this commit:
+
+```
+punishments:
+  21:
+    devices: [ 'stereo' ]
+    state: 'off'
+  22:
+    devices: [ 'ambient-light', 'farside-light', 'nearside-light' ]
+    state: 'on'
+  23:
+    devices: [ 'farside-light', 'nearside-light' ]
+    state: 'off'
+```
+
+Those punishments inherit from the previous time.  So in other words, this is
+what happens IF I do not have enough FitBit steps for the day:
+* At 9pm my stereo turns off
+* At 10pm all my lights go on.  The stereo remains off.
+* At 11pm all my lights except the ambinet light goes off.  The stereo remains off.
+
+The really rough bit is that `bin/punisher.rb` runs on a minute cron, so even if
+I tried to circumvent any punishments, it would just go back into effect at the
+next minute unless I rewired my stuff.  Instead it's simpler to just take a
+walk :)
+
 
