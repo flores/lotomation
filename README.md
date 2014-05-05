@@ -1,16 +1,20 @@
 lotomation
 ==========
 
-lo automates the crib
+lo automates the crib and shares some wins and fails in the process
 
 ![lotomation desktop ui](http://lo.ladevops.org/lotomation.png)
 
 # WAT
 
-Just sharing the wins and fails while I play with automation.  There's a couple
-components in this project: a webserver meant to run in the cloud and various
-Linux devices (Raspberry Pi, Beagle Bone, old laptops and desktops, etc) running
-programs from `bin` depending on the results from the webservice.
+Look, I got fat and needed to lose some weight, so I tried to get my house
+to help me out.
+
+There's a couple components in this project: a webserver meant to run in the 
+cloud and various Linux devices (Raspberry Pi, Beagle Bone, old laptops and 
+desktops, etc) running programs from `bin` depending on the results from the webservice.
+
+## Uh, wat?
 
 Much of this probably won't be useful to you unless (until?) I clean it up,
 but to give you an idea of all the stuff it's doing, here's the config file 
