@@ -17,9 +17,9 @@ echo "lohome: $lohome"
 echo "jamplayed: $jamplayed"
 echo "current input: $originalinput"
 
-if [[ $jamplayed == 'false' ]]; then
+if [[ $lohome == 'yes' ]] && [[ $jamplayed == 'false' ]]; then
     echo "switching to raspberry pi"
-    `curl -d '' $user:$pass@$host:$port/stereo/input/1`
+    curl $user:$pass@$host:$port/stereo/input/1
     
     jam=`ls $jamdir |grep mp3 |shuf |shuf |head -1`
     echo "playing $jam"
@@ -32,6 +32,6 @@ if [[ $jamplayed == 'false' ]]; then
     fi
     
     echo "switching back to input $originalinput"
-    `curl -d '' $user:$pass@$host:$port/stereo/input/$originalinput`
+    curl $user:$pass@$host:$port/stereo/input/$originalinput
 fi
 
