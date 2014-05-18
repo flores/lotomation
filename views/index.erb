@@ -72,7 +72,7 @@
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
         <% Configs['weather']['cities'].each do |city| %>
-          <h4><%= city %>: <%= weather(city) %></h4>
+          <%= city %>: <%= weather(city) %><br />
         <% end %>
       </div>
     </div>
