@@ -86,11 +86,11 @@ post '/locator/enforce' do
   if locator_get_state == 'on'
     if lo_home?
       checkpoint_get_devices('hi-pi').each { |d| actuate(d, 'on') }
-      jam_write_state(false)
     else
       Configs['devices']['433Mhz'].each do |device|
         device =~ /aquarium|stereo/ ? next : actuate(device,'off')
       end
+      jam_write_state(false)
     end
   end
   "k"

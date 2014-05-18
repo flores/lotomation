@@ -35,11 +35,14 @@ auth:
     token:
     secret:
     user_id:
+  wunderground:   # for weather stuff
 devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
   433MHz: ''	  # radio controlled devices
 stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
+weather:
+  cities: [ 'Los Angeles, CA' , 'New York, NY' ]
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode

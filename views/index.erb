@@ -25,7 +25,7 @@
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= punishments_get_status ? 'btn-success' : 'btn-danger' %>" value="punishments">
       </form>
     </div>
-
+        
     <div class="col-md-6 col-xs-6"->
 
       <form action='/switch/all/on' method='post'>
@@ -68,6 +68,15 @@
         <h4>lo is <%= lo_home? ? "in the crib" : "gone" %>.</h4>
       </div>
     </div>
+  
+    <div class="panel panel-default col-xs-12">
+      <div class="panel-body">
+        <% Configs['weather']['cities'].each do |city| %>
+          <h4><%= city %>: <%= weather(city) %></h4>
+        <% end %>
+      </div>
+    </div>
+  
     <% if @steps_alert =~ /FAIL/ %>
       <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
@@ -102,7 +111,8 @@
         </div>
       </div>
     <% end %>
+
     </div>
-    </div>
+  </div>
 
 </div>
