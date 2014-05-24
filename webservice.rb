@@ -23,6 +23,10 @@ get '/snap' do
   erb :snapshot
 end
 
+get '/ghetto-nest' do
+  erb :ghetto_nest
+end
+
 get '/snap/enforce' do
   camera_get_state
 end
@@ -115,7 +119,7 @@ end
 
 get '/thermostat/:state' do |state|
   thermostat_write_state(state)
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/temperature/:tracker' do |tracker|
@@ -132,3 +136,4 @@ post '/nightlight/:state' do |state|
   nightlight_write_state(state)
   redirect '/'
 end
+
