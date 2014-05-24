@@ -67,7 +67,6 @@ post '/jam/played' do
 end
 
 post '/jam/force' do
-  input_write_state(2)
   jam_write_state(false)
   redirect '/'
 end
@@ -107,5 +106,29 @@ end
 
 post '/punishments/enforce/:state' do |state|
   punishments_write_status(state)
+  redirect '/'
+end
+
+get '/thermostat' do
+  thermostat_get_state
+end
+
+get '/thermostat/:state' do |state|
+  thermostat_write_state(state)
+  redirect '/'
+end
+
+get '/temperature/:tracker' do |tracker|
+  checkpoint_current_temperature(tracker)
+end
+
+post '/temperature/:tracker' do |tracker|
+  rawtemp = params[:rawtemp]
+  checkpoint_write_temperature(tracker, degrees_covert_to_f(rawtemp))
+  "cool"
+end
+
+post '/nightlight/:state' do |state|
+  nightlight_write_state(state)
   redirect '/'
 end
