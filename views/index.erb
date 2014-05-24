@@ -8,6 +8,24 @@
         </form>
       </div>
     <% end %>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+      <form action='/nightlight/<%= nightlight_get_state == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= nightlight_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="nightlight">
+      </form>
+    </div>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+        <button type="button" style="width: 100%" class="btn btn-lg <%= thermostat_get_state == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
+          <%= thermostat_get_state == 'off' ? 'heater and a/c' : thermostat_get_state %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="/thermostat/air-conditioner">air-conditioner</a></li>
+          <li><a href="/thermostat/heater">heater</a></li>
+          <li><a href="/thermostat/off">off</a></li>
+        </ul>
+    </div>
+    
     <div class="col-md-6 col-xs-6"->
       <form action='/locator/<%= locator_get_state == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= locator_get_state == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
@@ -47,7 +65,7 @@
     
     <div class="col-md-6 col-xs-6 btn-group"->
         <button type="button" style="width: 100%" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
-          stereo input <span class="caret"></span>
+          stereo input: <%= Configs['stereo']['names'][input_get_state] %> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <% input = 0 %>
@@ -64,8 +82,8 @@
   <div class="col-md-4">
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
-        <h4>the stereo is tuned to <%= Configs['stereo']['names'][input_get_state] %>.</h4>
         <h4>lo is <%= lo_home? ? "in the crib" : "gone" %>.</h4>
+        crib: <%= checkpoint_current_temperature("bedpi") %>F</h4>
       </div>
     </div>
   
@@ -74,15 +92,10 @@
         <% Configs['weather']['cities'].each do |city| %>
           <%= city %>: <%= weather(city) %><br />
         <% end %>
+        <p>traffic: <%= traffic %></p>
       </div>
     </div>
   
-    <div class="panel panel-default col-xs-12">
-      <div class="panel-body">
-        traffic: <%= traffic %><br />
-      </div>
-    </div>
-    
     <% if @steps_alert =~ /FAIL/ %>
       <div class="panel panel-default col-xs-12"> 
         <div class="panel-heading">
