@@ -34,7 +34,8 @@ module Lotomation
         result = JSON.parse(response.body)
         
         weather = result['current_observation']['feelslike_f'] + 'F, ' +
-          result['current_observation']['weather']
+          result['current_observation']['weather'] + ', ' +
+          result['current_observation']['wind_string'] + ' wind'
         File.write("#{Configs['status']['dir']}/weather-#{city}-#{state}", weather)
         weather
       else
