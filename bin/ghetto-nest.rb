@@ -1,14 +1,19 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
+require 'curb'
 require 'pi_piper'
 include PiPiper
 
 config = YAML.load_file('etc/config.yaml')
+protocol = config['webserver']['protocol']
 auth = "#{config['webserver']['user']}:#{config['webserver']['pass']}"
 server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 
-state = `curl #{auth}@#{server}/thermostat -m 5`
+laststatefile = "#{config['status']['dir']}/thermostat"
+
+hvac = Curl.get("#{protocol}://#{auth}@#{server}/thermostat").body_str
+laststate = File.exist?(laststatefile)? File.read(laststatefile) : "off"
 
 # for my heater/ac unit:
 # pin | purpose (terminal - thermostat wire color)
@@ -17,15 +22,21 @@ state = `curl #{auth}@#{server}/thermostat -m 5`
 #
 # my unit has a delay between turning these on and off and in a certain order, ymmv
 
-if state == "air-conditioner"
-  gpio_on = [27, 17]
-elsif state == "heater"
-  gpio_on = 27
-  gpio_off = 17
-elsif state == "off"
-  gpio_off = [17, 27]
+if laststate != hvac
+  if hvac == "air-conditioner"
+    gpio_on = [27, 17]
+  elsif hvac == "heater"
+    gpio_on = 27
+    gpio_off = 17
+  elsif hvac == "off"
+    gpio_off = [17, 27]
+  else
+    puts "i do not know this device"
+    exit
+  end
+  puts "changing hvac to #{hvac}"
 else
-  puts "i do not know this device"
+  puts "nothing changed"
   exit
 end
 
@@ -53,3 +64,5 @@ elsif gpio_on
   pin = PiPiper::Pin.new(:pin => gpio_on, :direction => :out)
   pin.off
 end
+
+File.write(laststatefile, hvac)
