@@ -118,7 +118,8 @@ get '/thermostat' do
 end
 
 get '/thermostat/:state' do |state|
-  thermostat_write_state(state)
+  write_state('thermostat', state)
+  write_state('maintain', 'off')
   redirect request.referrer
 end
 
@@ -130,6 +131,33 @@ post '/temperature/:tracker' do |tracker|
   rawtemp = params[:rawtemp]
   checkpoint_write_temperature(tracker, degrees_covert_to_f(rawtemp))
   "cool"
+end
+
+post '/maintain/temp' do
+  write_value('maintain-temp', params[:temp])
+end
+
+get '/maintain/enforce' do
+  check_state('maintain')
+end
+
+get '/maintain/enforce/:state' do |state|
+  write_state('maintain', state)
+  redirect request.referrer
+end
+
+post '/maintain/enforce' do
+  if check_state('maintain') == 'on'
+    maint_temp = check_value('maintain-temp').to_i
+    current_temp = checkpoint_get_temperature('bedpi').to_i
+    if maint_temp > current_temp
+      write_state('thermostat', 'air-conditioner')
+    elsif maint_temp < current_temp
+      write_state('thermostat', 'heater')
+    else
+      write_state('thermostat', 'off')
+    end
+  end
 end
 
 post '/nightlight/:state' do |state|
