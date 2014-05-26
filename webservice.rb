@@ -33,7 +33,10 @@ end
 
 post '/snap/enforce/:state' do |camerastate|
   camera_write_state(camerastate)
-  redirect '/'  
+end
+
+get '/buttoncontrol' do
+  erb :buttoncontrol, :layout => false
 end
 
 post '/switch/:device/:state' do |device, state|
@@ -135,6 +138,7 @@ end
 
 post '/maintain/temp' do
   write_value('maintain-temp', params[:temp])
+  redirect request.referrer
 end
 
 get '/maintain/enforce' do
@@ -143,16 +147,31 @@ end
 
 get '/maintain/enforce/:state' do |state|
   write_state('maintain', state)
+  if state == 'on'
+    maint_temp = check_value('maintain-temp').to_f
+    current_temp = check_value('bedpi-temperature').to_f
+    if maint_temp < current_temp
+      unless check_state('thermostat') == 'air-conditioner' && maint_temp > current_temp - 0.5 #air conditioner is already engaged, so leave it on
+        write_state('thermostat', 'air-conditioner')
+      end
+    elsif maint_temp > current_temp + 0.5
+      unless check_state('thermostat') == 'heater' && maint_temp < current_temp + 0.5 # heater is already engaged, so leave it on
+        write_state('thermostat', 'heater')
+      end
+    else
+      write_state('thermostat', 'off')
+    end
+  end
   redirect request.referrer
 end
 
 post '/maintain/enforce' do
   if check_state('maintain') == 'on'
     maint_temp = check_value('maintain-temp').to_i
-    current_temp = checkpoint_get_temperature('bedpi').to_i
-    if maint_temp > current_temp
+    current_temp = check_value('bedpi-temperature').to_f.round
+    if maint_temp < current_temp
       write_state('thermostat', 'air-conditioner')
-    elsif maint_temp < current_temp
+    elsif maint_temp > current_temp
       write_state('thermostat', 'heater')
     else
       write_state('thermostat', 'off')

@@ -9,7 +9,7 @@
 </div>
 
 <div class="row" id='control' style="margin-top: 30px">
-    <div class="col-lg-12 col-md-12 col-xs-12 btn-group">
+    <div class="col-lg-12 col-md-12 col-xs-12 btn-group" id="buttoncontrol">
       <center>
         <button type="button" style="width: 50%" class="btn btn-lg <%= check_state('thermostat') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
           <%= check_state('thermostat') == 'off' ? 'heater and a/c' : check_state('thermostat') %> <span class="caret"></span>
@@ -27,8 +27,8 @@
   <div class="row" id='control' style="margin-top: 20px">
     <div class="col-lg-12 col-md-12 col-xs-12 btn-group">
       <center>
-      <%= "<p>maintaining temp:</p>" if check_state('maintain') == 'on' %>
       <input type="text" class="dial" value="<%= check_value('maintain-temp') == "unknown" ? 76 : check_value('maintain-temp') %>" data-rotation="anticlockwise" data-min="60" data-max="85" data-displayPrevious=true>
+      <%= "<h3>maintaining temperature</h3>" if check_state('maintain') == 'on' %>
       </center>
     </div>
 </div>
@@ -46,11 +46,15 @@ $(function() {
 <script type="text/javascript">
   $(document).ready(function() {
     var interval = setInterval("updatetemp()", 500);
+    var interval = setInterval("updatebuttons();", 5000);
   });
 
   function updatetemp() {
     $(".temp").load('/temperature/bedpi');
-    $("newtemp").load('/temperature/bedpi');
+    console.log('updated');
+  };
+  function updatebuttons() {
+    $("#buttoncontrol").load('/buttoncontrol');
     console.log('updated');
   };
 </script>
