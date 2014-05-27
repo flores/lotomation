@@ -64,6 +64,14 @@ get '/lo/home' do
   lo_home? ? "yes" : "no"
 end
 
+get '/lo/location' do
+  lo_location
+end
+
+post '/lo/work' do
+  write_state('lowork', 'yes')
+end
+
 get '/jam/played' do
   jam_get_state
 end
@@ -117,7 +125,7 @@ post '/punishments/enforce/:state' do |state|
 end
 
 get '/thermostat' do
-  thermostat_get_state
+  check_state('thermostat')
 end
 
 get '/thermostat/:state' do |state|
@@ -132,7 +140,7 @@ end
 
 post '/temperature/:tracker' do |tracker|
   rawtemp = params[:rawtemp]
-  checkpoint_write_temperature(tracker, degrees_covert_to_f(rawtemp))
+  write_value(tracker + '-temperature', degrees_covert_to_f(rawtemp))
   "cool"
 end
 
@@ -153,7 +161,8 @@ end
 post '/maintain/enforce' do
   if check_state('maintain') == 'on'
     maint_temp = check_value('maintain-temp').to_f
-    current_temp = check_value('bedpi-temperature').to_f.round
+    current_temp = check_value('bedpi-temperature').to_f
+
     if maint_temp < current_temp
       write_state('thermostat', 'air-conditioner')
     elsif maint_temp > current_temp
@@ -161,11 +170,12 @@ post '/maintain/enforce' do
     else
       write_state('thermostat', 'off')
     end
+
   end
 end
 
 post '/nightlight/:state' do |state|
-  nightlight_write_state(state)
+  write_state('nightlight', state)
   redirect '/'
 end
 
