@@ -20,7 +20,6 @@ require 'lotomation/camera'
 require 'lotomation/weather'
 require 'lotomation/traffic'
 require 'lotomation/thermostat'
-require 'lotomation/nightlight'
 
 module Lotomation
   include Power
@@ -31,7 +30,6 @@ module Lotomation
   include Weather
   include Traffic
   include Thermostat
-  include Nightlight
 
   def log(message)
     puts message if Configs['status']['verbose']
@@ -61,6 +59,10 @@ module Lotomation
 
   def write_value(something, value)
     File.write(Configs['status']['dir'] + '/' + something, value)
-  end 
+  end
+
+  def lastupdate_unixtime(file)
+    File.mtime(Configs['status']['dir'] + '/' + file).to_time.to_i
+  end
 
 end
