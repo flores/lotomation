@@ -73,25 +73,25 @@ post '/lo/work' do
 end
 
 get '/jam/played' do
-  jam_get_state
+  check_state('jam')
 end
 
 post '/jam/played' do
-  jam_write_state(true)
+  write_state('jam', 'true')
   "cool"
 end
 
 post '/jam/force' do
-  jam_write_state(false)
+  write_state('jam', 'false')
   redirect '/'
 end
 
 get '/stereo/input' do
-  input_get_state.to_s
+  check_value('stereo-input') 
 end
 
 get '/stereo/input/:number' do |input|
-  input_write_state(input)
+  write_value('stereo-input', input)
   redirect '/'
 end
 
@@ -104,7 +104,7 @@ post '/locator/enforce' do
       Configs['devices']['433Mhz'].each do |device|
         device =~ /aquarium|stereo/ ? next : actuate(device,'off')
       end
-      jam_write_state(false)
+      write_state('jam', 'false')
     end
   end
   "k"
@@ -135,7 +135,7 @@ get '/thermostat/:state' do |state|
 end
 
 get '/temperature/:tracker' do |tracker|
-  checkpoint_current_temperature(tracker)
+  check_value(tracker + '-temperature')
 end
 
 post '/temperature/:tracker' do |tracker|
