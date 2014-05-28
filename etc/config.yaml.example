@@ -23,6 +23,7 @@ camera:
   syncpath:	  # where to sync it to on the remote server ("live" feed)
   backup:	  # local directory, writes to snapshot.<unixtime>.jpg
 webserver:
+  protocol:       # http/https...
   host:		  # where the webserver lives, accessed by scripts in bin/
   port:
   user:           # auth
@@ -43,6 +44,8 @@ stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
 weather:
   cities: [ 'Los Angeles, CA' , 'New York, NY' ]
+traffic:
+  link:           # right now this only scrapes googmaps, sorry
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode
