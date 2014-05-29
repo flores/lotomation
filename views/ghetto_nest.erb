@@ -15,7 +15,7 @@
           <%= check_state('thermostat') == 'off' ? 'heater and a/c' : check_state('thermostat') %> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li><a href="/thermostat/air-conditioner">air-conditioner</a></li>
+          <li><a href="/thermostat/air-conditioner">a/c</a></li>
           <li><a href="/thermostat/heater">heater</a></li>
           <li><a href="/maintain/enforce/on">maintain:</a></li>
           <li><a href="/thermostat/off">off</a></li>
@@ -31,8 +31,12 @@
       <%= "<h3>maintaining temperature</h3>" if check_state('maintain') == 'on' %>
       </center>
     </div>
-</div>
+  </div>
 
+  <div class="row" id='control' style="margin-top: 20px">
+    <div class="col-lg-12 col-md-12 col-xs-12 btn-group" id="history">
+    <div>
+  </div>
 <script>
 $(function() {
   $(".dial").knob({
@@ -45,16 +49,18 @@ $(function() {
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $("#history").load('/thermostat/historical');
     var interval = setInterval("updatetemp()", 500);
-    var interval = setInterval("updatebuttons();", 5000);
+    var interval1 = setInterval("updatebuttons();", 5000);
   });
 
   function updatetemp() {
     $(".temp").load('/temperature/bedpi');
-    console.log('updated');
+    console.log('updated temp');
   };
   function updatebuttons() {
     $("#buttoncontrol").load('/buttoncontrol');
-    console.log('updated');
+    $("#history").load('/thermostat/historical');
+    console.log('updated buttons');
   };
 </script>

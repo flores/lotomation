@@ -28,11 +28,12 @@ get '/ghetto-nest' do
 end
 
 get '/snap/enforce' do
-  camera_get_state
+  check_state('camera')
 end
 
-post '/snap/enforce/:state' do |camerastate|
-  camera_write_state(camerastate)
+post '/snap/enforce/:state' do |state|
+  write_state('camera', state)
+  redirect '/'
 end
 
 get '/buttoncontrol' do
@@ -128,9 +129,15 @@ get '/thermostat' do
   check_state('thermostat')
 end
 
+get '/thermostat/historical' do
+  read_historical_www('hvac', 10)
+end
+
 get '/thermostat/:state' do |state|
-  write_state('thermostat', state)
+  log_historical('hvac', "no longer maintaining #{check_value('maintain-temp')}")
   write_state('maintain', 'off')
+  log_historical('hvac', "switching to #{state}")
+  write_state('thermostat', state)
   redirect request.referrer
 end
 
@@ -139,13 +146,19 @@ get '/temperature/:tracker' do |tracker|
 end
 
 post '/temperature/:tracker' do |tracker|
-  rawtemp = params[:rawtemp]
-  write_value(tracker + '-temperature', degrees_covert_to_f(rawtemp))
+  degrees_f = degrees_convert_to_f(params[:rawtemp])
+  write_value(tracker + '-temperature', degrees_f)
+  log_historical("trackertemp", "#{tracker} measured #{degrees_f}F")
   "cool"
+end
+
+get '/temperature/bed-pi/historical' do
+  read_historical_www('hvac', 10)
 end
 
 post '/maintain/temp' do
   write_value('maintain-temp', params[:temp])
+  log_historical('hvac', "maintain temperature changed to #{params[:temp]}")
   redirect request.referrer
 end
 
@@ -159,19 +172,7 @@ get '/maintain/enforce/:state' do |state|
 end
 
 post '/maintain/enforce' do
-  if check_state('maintain') == 'on'
-    maint_temp = check_value('maintain-temp').to_f
-    current_temp = check_value('bedpi-temperature').to_f
-
-    if maint_temp < current_temp
-      write_state('thermostat', 'air-conditioner')
-    elsif maint_temp > current_temp
-      write_state('thermostat', 'heater')
-    else
-      write_state('thermostat', 'off')
-    end
-
-  end
+  check_state('maintain') == 'on' ? maintain_temp : 'not maintaining temp'
 end
 
 post '/nightlight/:state' do |state|

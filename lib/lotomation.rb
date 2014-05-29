@@ -59,7 +59,17 @@ module Lotomation
     File.write(Configs['status']['dir'] + '/' + something, value)
   end
 
-  def lastupdate_unixtime(file)
+  def log_historical(something, data)
+    File.open(Configs['status']['dir'] + '/' + something + '-historical', 'a') do |file|
+      file.puts "#{Time.now.ctime}: #{data}\n"
+    end
+  end
+
+  def read_historical_www(something, lines)
+    `tac #{Configs['status']['dir'] + '/' + something + '-historical'} |head -#{lines.to_i}`.gsub(/\n/, '<br \>')
+  end
+
+  def check_update_unixtime(file)
     File.mtime(Configs['status']['dir'] + '/' + file).to_time.to_i
   end
 

@@ -2,7 +2,7 @@ module Lotomation
   module Location_by_bluetooth
 
     def checkpoint_write_location(checkpoint,location)
-      File.write("#{Configs['status']['dir']}/#{checkpoint}", location)
+      File.write("#{Configs['status']['dir']}/#{checkpoint}", location.to_s)
     end
 
     def checkpoint_current_location(checkpoint)
@@ -21,16 +21,23 @@ module Lotomation
       Configs['location'][location]['devices']
     end
     
-    def checkpoint_time_last(checkpoint)
-      File.mtime("#{Configs['status']['dir']}/#{checkpoint}").to_time.to_i
-    end
-
     # FIXME
     def lo_home?
       time = Time.now.to_i
-      lastaccessed = checkpoint_time_last('hi-pi')
+      lastaccessed = check_update_unixtime('hi-pi')
       difftime = time - lastaccessed
-      difftime <= 60 ? true : false
+      difftime <= 180 ? true : false
+    end
+
+    def lo_location
+      time = Time.now.to_i
+      if (time - check_update_unixtime('hi-pi') < 180)
+        "at the crib"
+      elsif (time - check_update_unixtime('lowork') < 180)
+        "working"
+      else
+        "gone"
+      end
     end
 
     def locator_write_state(state)

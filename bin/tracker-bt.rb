@@ -16,6 +16,10 @@ Process.detach(hcitoolpid)
 
 PTY.spawn("hcidump |grep -A4 #{config['devices']['fitbit']}") do |stdin, stdout, pid|
   stdin.each do |line|
-    `curl -d 'rssi=#{$1}' #{auth}@#{server}/tracker/#{hostname}` if line =~ /RSSI: (.+)/
+    if line =~ /RSSI: (.+)/
+      `curl -d 'rssi=#{$1}' #{auth}@#{server}/tracker/#{hostname}`
+      `curl -d '' #{auth}@#{server}/locator/enforce`
+      puts "detected you at rssi #{$1}"
+    end
   end
 end

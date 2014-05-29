@@ -33,8 +33,8 @@
     </div>
     
     <div class="col-md-6 col-xs-6"->
-      <form action='/snap/enforce/<%= camera_get_state ? 'false' : 'true' %>' method='post'>
-        <input type="submit" style="width: 100%;" class="btn btn-lg <%= camera_get_state ? 'btn-success' : 'btn-danger' %>" value="camera sync">
+      <form action='/snap/enforce/<%= check_state('camera') == 'off' ? 'on' : 'off' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('camera') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
       </form>
     </div>
 
@@ -83,7 +83,14 @@
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
         <h4>lo is <%= lo_location %>.</h4>
-        <%= check_value("bedpi-temperature") %>F</h4>
+        <h4>crib temp: <%= check_value("bedpi-temperature") %>F</h4>
+        <% if lo_location == 'working' %>
+          <p><strong>traffic to home: <%= traffic('to_home') %></strong><br />
+          traffic to work: <%= traffic('to_work') %></p>
+        <% else %>
+          <p><strong>traffic to work: <%= traffic('to_work') %></strong><br />
+          traffic to home: <%= traffic('to_home') %></p>
+        <% end %>
       </div>
     </div>
   
@@ -92,7 +99,6 @@
         <% Configs['weather']['cities'].each do |city| %>
           <%= city %>: <%= weather(city) %><br />
         <% end %>
-        <p>traffic: <%= traffic %></p>
       </div>
     </div>
   
