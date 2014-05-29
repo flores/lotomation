@@ -177,6 +177,10 @@ post '/maintain/enforce' do
   check_state('maintain') == 'on' ? maintain_temp : 'not maintaining temp'
 end
 
+get '/nightlight' do
+  check_state('nightlight')
+end
+
 post '/nightlight/:state' do |state|
   write_state('nightlight', state)
   redirect '/'
