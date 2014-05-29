@@ -43,7 +43,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12 btn-group">
       <center>
       <input type="text" class="dial" value="<%= check_value('maintain-temp') == "unknown" ? 76 : check_value('maintain-temp') %>" data-rotation="anticlockwise" data-min="60" data-max="85" data-displayPrevious=true>
-      <%= "<h3>maintaining temperature</h3>" if check_state('maintain') == 'on' %>
+      <%= "<h3>maintaining temperature in #{check_value('maintain-tracker').gsub('pistat','living room').gsub('bedpi','bedroom')}</h3>" if check_state('maintain') == 'on' %>
       </center>
     </div>
   </div>

@@ -8,7 +8,8 @@ module Lotomation
 
     def maintain_temp
       maint_temp = check_value('maintain-temp').to_f
-      current_temp = check_value('bedpi-temperature').to_f
+      tracker = check_value('maintain-tracker').to_s
+      current_temp = check_value("#{tracker}-temperature").to_f
       hvac = check_value('thermostat')
 
       last_state = check_value('thermostat-last')
