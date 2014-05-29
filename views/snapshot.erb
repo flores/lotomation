@@ -1,4 +1,4 @@
-<% if camera_get_state %>
+<% if check_state('camera') == 'on' %>
   <div class="row" id='snapshot'>
     <div class="col-lg-5">
       <img src='snapshot.jpg' />
