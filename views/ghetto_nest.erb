@@ -3,21 +3,21 @@
 <div class="row">
   <div class="col-lg-4 col-md-4 col-xs-4">
     <center>
-    <p>living room</p>
-    <h1><bold><span class="temp-pistat"><%= check_value('pistat-temperature') %></span></bold>F</h1>
+    living room<br />
+    <h2><span class="temp-pistat"><%= check_value('pistat-temperature') %></span>F</h2>
     </center>
   </div>
   <div class="col-lg-4 col-md-4 col-xs-4">
     <center>
-    <p>bedroom</p>
-    <h1><bold><span class="temp-bedpi"><%= check_value('bedpi-temperature') %></span></bold>F</h1>
+    bedroom<br />
+    <h2><span class="temp-bedpi"><%= check_value('bedpi-temperature') %></span>F</h2>
     </center>
   </div>
   <div class="col-lg-4 col-md-4 col-xs-4">
     <center>
-    <p>outside</p>
+    outside<br />
     <% weather_outside = weather(90014).split(',') %>
-    <h1><bold><span><%= weather_outside[0] %></span></bold></h1>
+    <h2><span><%= weather_outside[0] %></span></h2>
     </center>
   </div>
 </div>
@@ -49,9 +49,10 @@
   </div>
 
   <div class="row" id='control' style="margin-top: 20px">
-    <div class="panel panel-default col-lg-5 col-md-5 col-xs-12" id="history">
+    <div class="panel panel-default col-lg-12 col-md-12 col-xs-12" id="history">
     <div>
   </div>
+
 <script>
 $(function() {
   $(".dial").knob({
