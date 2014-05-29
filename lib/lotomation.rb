@@ -15,7 +15,6 @@ Devices = NinjaBlocks::Device.list(:device_type => 'rf433')
 require 'lotomation/power'
 require 'lotomation/steps'
 require 'lotomation/location-by-bluetooth'
-require 'lotomation/camera'
 require 'lotomation/weather'
 require 'lotomation/traffic'
 require 'lotomation/thermostat'
@@ -24,7 +23,6 @@ module Lotomation
   include Power
   include Steps
   include Location_by_bluetooth
-  include Camera
   include Weather
   include Traffic
   include Thermostat

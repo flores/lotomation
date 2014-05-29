@@ -167,6 +167,7 @@ get '/maintain/enforce' do
 end
 
 get '/maintain/enforce/:state' do |state|
+  log_historical('hvac', "setting maintaining #{check_value('maintain-temp')} to #{state}")
   write_state('maintain', state)
   redirect request.referrer
 end

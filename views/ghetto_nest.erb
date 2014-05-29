@@ -1,9 +1,17 @@
 <script src="js/jquery.knob.js"></script>
 
 <div class="row">
-  <div>
+  <div class="col-lg-6 col-md-6 col-xs-6">
     <center>
-    <font size="100em"><bold><span class="temp"><%= check_value('bedpi-temperature') %></span></bold> F</font>
+    <p>inside</p>
+    <font size="100em"><bold><span class="temp"><%= check_value('bedpi-temperature') %></span></bold>F</font>
+    </center>
+  </div>
+  <div class="col-lg-6 col-md-6 col-xs-6">
+    <center>
+    <p>outside</p>
+    <% weather_outside = weather(90014).split(',') %>
+    <font size="100em"><bold><span><%= weather_outside[0] %></span></bold></font>
     </center>
   </div>
 </div>
@@ -34,7 +42,7 @@
   </div>
 
   <div class="row" id='control' style="margin-top: 20px">
-    <div class="col-lg-12 col-md-12 col-xs-12 btn-group" id="history">
+    <div class="panel panel-default col-lg-5 col-md-5 col-xs-12" id="history">
     <div>
   </div>
 <script>
@@ -51,7 +59,8 @@ $(function() {
   $(document).ready(function() {
     $("#history").load('/thermostat/historical');
     var interval = setInterval("updatetemp()", 500);
-    var interval1 = setInterval("updatebuttons();", 5000);
+    var interval1 = setInterval("updatebuttons();", 20000);
+    var interval2 = setInterval("updatelog();", 200);
   });
 
   function updatetemp() {
@@ -60,7 +69,10 @@ $(function() {
   };
   function updatebuttons() {
     $("#buttoncontrol").load('/buttoncontrol');
-    $("#history").load('/thermostat/historical');
     console.log('updated buttons');
+  };
+  function updatelog() {
+    $("#history").load('/thermostat/historical');
+    console.log('updated temp');
   };
 </script>

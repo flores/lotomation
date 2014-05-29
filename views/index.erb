@@ -96,7 +96,7 @@
   
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
-        <% Configs['weather']['cities'].each do |city| %>
+        <% Configs['weather']['zips'].each do |city| %>
           <%= city %>: <%= weather(city) %><br />
         <% end %>
       </div>
