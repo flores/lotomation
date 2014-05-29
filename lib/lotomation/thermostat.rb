@@ -3,7 +3,7 @@ module Lotomation
 
     def degrees_convert_to_f(rawtemperature)
       temp_f = rawtemperature.to_f / 1000 * 9 / 5 + 32
-      temp_f.round(2)
+      temp_f.round(1)
     end
 
     def maintain_temp
@@ -14,9 +14,7 @@ module Lotomation
       last_state = check_value('thermostat-last')
 
       if maint_temp < current_temp
-        if maint_temp.to_i == current_temp.to_i
-          write_state('thermostat', 'off')
-        elsif current_temp.between?(maint_temp, maint_temp + 0.5) && hvac == 'heater'
+        if current_temp.between?(maint_temp, maint_temp + 0.5) && hvac == 'heater'
           # do nothing and let temp build up
         elsif ( current_temp >= maint_temp + 0.5 ) && hvac == 'heater'
           log_historical('hvac', "turning hvac off")

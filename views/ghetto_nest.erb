@@ -1,17 +1,23 @@
 <script src="js/jquery.knob.js"></script>
 
 <div class="row">
-  <div class="col-lg-6 col-md-6 col-xs-6">
+  <div class="col-lg-4 col-md-4 col-xs-4">
     <center>
-    <p>inside</p>
-    <font size="100em"><bold><span class="temp"><%= check_value('bedpi-temperature') %></span></bold>F</font>
+    <p>living room</p>
+    <h1><bold><span class="temp-pistat"><%= check_value('pistat-temperature') %></span></bold>F</h1>
     </center>
   </div>
-  <div class="col-lg-6 col-md-6 col-xs-6">
+  <div class="col-lg-4 col-md-4 col-xs-4">
+    <center>
+    <p>bedroom</p>
+    <h1><bold><span class="temp-bedpi"><%= check_value('bedpi-temperature') %></span></bold>F</h1>
+    </center>
+  </div>
+  <div class="col-lg-4 col-md-4 col-xs-4">
     <center>
     <p>outside</p>
     <% weather_outside = weather(90014).split(',') %>
-    <font size="100em"><bold><span><%= weather_outside[0] %></span></bold></font>
+    <h1><bold><span><%= weather_outside[0] %></span></bold></h1>
     </center>
   </div>
 </div>
@@ -22,12 +28,13 @@
         <button type="button" style="width: 50%" class="btn btn-lg <%= check_state('thermostat') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
           <%= check_state('thermostat') == 'off' ? 'heater and a/c' : check_state('thermostat') %> <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="/thermostat/air-conditioner">a/c</a></li>
-          <li><a href="/thermostat/heater">heater</a></li>
-          <li><a href="/maintain/enforce/on">maintain:</a></li>
-          <li><a href="/thermostat/off">off</a></li>
-        </ul>
+        <ul class="dropdown-menu" role="menu">                                  
+          <li><a href="/thermostat/air-conditioner">a/c</a></li>                
+          <li><a href="/thermostat/heater">heater</a></li>                      
+          <li><a href="/maintain/enforce/on/bedpi">maintain temp in bedroom</a></li>
+          <li><a href="/maintain/enforce/on/pistat">maintain temp in livingroom</a></li>
+          <li><a href="/thermostat/off">off</a></li>                            
+        </ul> 
       </center>
     </div>
 </div>
@@ -58,14 +65,19 @@ $(function() {
 <script type="text/javascript">
   $(document).ready(function() {
     $("#history").load('/thermostat/historical');
-    var interval = setInterval("updatetemp()", 500);
-    var interval1 = setInterval("updatebuttons();", 20000);
+    var interval = setInterval("updatetemp1()", 500);
+    var interval = setInterval("updatetemp2()", 500);
+    var interval1 = setInterval("updatebuttons();", 5000);
     var interval2 = setInterval("updatelog();", 200);
   });
 
-  function updatetemp() {
-    $(".temp").load('/temperature/bedpi');
-    console.log('updated temp');
+  function updatetemp2() {
+    $(".temp-bedpi").load('/temperature/bedpi');
+    console.log('updated temp2');
+  };
+  function updatetemp1() {
+    $(".temp-pistat").load('/temperature/pistat');
+    console.log('updated temp1');
   };
   function updatebuttons() {
     $("#buttoncontrol").load('/buttoncontrol');
