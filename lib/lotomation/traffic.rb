@@ -16,13 +16,17 @@ module Lotomation
     end
    
     def traffic_update(direction)
-      traffictime = ''
+      traffictime = 0
       direction == 'to_work' ? link = Configs['traffic']['home_to_work'] : link = Configs['traffic']['work_to_home']
       results = `curl -sL #{link} |perl -pi -e 's/span/\n/g' |grep traffic |grep 'In current traffic'`
 
       results.split('\n').each do |line|
-        if line =~ /current traffic: (.+)?\s\</
-          traffictime == '' ? traffictime = $1 : traffictime = "#{traffictime} - $1"
+        if line =~ /current traffic: (.+)\shour.+(\d+)\smin/
+          hours = $1.to_i
+          mins = $2.to_i
+          traffictime = (hours * 60) + mins
+       elsif line =~ /current traffic: (.+)\smin/
+          traffictime = $1
         end
       end
 
