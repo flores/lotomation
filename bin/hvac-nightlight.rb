@@ -11,7 +11,7 @@ server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 nightlight = `curl  #{auth}@#{server}/nightlight`
 
 if nightlight == 'on'
-  state = `curl #{auth}@#{server}/thermostat`
+  state = `curl #{auth}@#{server}/hvac`
   if state == "air-conditioner"
     gpio_on = 27
     gpio_off = 17

@@ -10,13 +10,13 @@ protocol = config['webserver']['protocol']
 auth = "#{config['webserver']['user']}:#{config['webserver']['pass']}"
 server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 
-laststatefile = "#{config['status']['dir']}/thermostat"
+laststatefile = "#{config['status']['dir']}/hvac"
 
-hvac = Curl.get("#{protocol}://#{auth}@#{server}/thermostat").body_str
+hvac = Curl.get("#{protocol}://#{auth}@#{server}/hvac").body_str
 laststate = File.exist?(laststatefile)? File.read(laststatefile) : "off"
 
 # for my heater/ac unit:
-# pin | purpose (terminal - thermostat wire color)
+# pin | purpose (terminal - hvac wire color)
 #  27 | heating call (W - White) + fan (G - Green), connects to 24V AC (R - Red)
 #  17 | reversing valve (O - Orange), connects to 24V AC specific to airconditioning (Rc - Red)
 #

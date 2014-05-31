@@ -125,19 +125,19 @@ post '/punishments/enforce/:state' do |state|
   redirect '/'
 end
 
-get '/thermostat' do
-  check_state('thermostat')
+get '/hvac' do
+  check_state('hvac')
 end
 
-get '/thermostat/historical' do
+get '/hvac/historical' do
   read_historical_www('hvac', 10)
 end
 
-get '/thermostat/:state' do |state|
+get '/hvac/:state' do |state|
   log_historical('hvac', "no longer maintaining #{check_value('maintain-temp')}")
   write_state('maintain', 'off')
   log_historical('hvac', "switching to #{state}")
-  write_state('thermostat', state)
+  write_state('hvac', state)
   redirect request.referrer
 end
 

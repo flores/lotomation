@@ -17,7 +17,7 @@ require 'lotomation/steps'
 require 'lotomation/location-by-bluetooth'
 require 'lotomation/weather'
 require 'lotomation/traffic'
-require 'lotomation/thermostat'
+require 'lotomation/hvac'
 
 module Lotomation
   include Power
@@ -31,7 +31,12 @@ module Lotomation
     puts message if Configs['status']['verbose']
   end
 
+  def sanitize(something)
+    something.gsub(/[^0-9A-z.\-\ ]/, '')
+  end
+
   def check_state(something)
+    something = sanitize(something)
     if File.exist?(Configs['status']['dir'] + '/' + something)
       File.read(Configs['status']['dir'] + '/' + something)
     else
@@ -41,10 +46,12 @@ module Lotomation
   end
 
   def write_state(something, state)
+    something = sanitize(something)
     File.write(Configs['status']['dir'] + '/' + something, state)
   end
 
   def check_value(something)
+    something = sanitize(something)
     if File.exist?(Configs['status']['dir'] + '/' + something)
       File.read(Configs['status']['dir'] + '/' + something)
     else
@@ -54,20 +61,24 @@ module Lotomation
   end
 
   def write_value(something, value)
+    something = sanitize(something)
     File.write(Configs['status']['dir'] + '/' + something, value)
   end
 
   def log_historical(something, data)
+    something = sanitize(something)
     File.open(Configs['status']['dir'] + '/' + something + '-historical', 'a') do |file|
       file.puts "#{Time.now.ctime}: #{data}\n"
     end
   end
 
   def read_historical_www(something, lines)
+    something = sanitize(something)
     `tac #{Configs['status']['dir'] + '/' + something + '-historical'} |head -#{lines.to_i}`.gsub(/\n/, '<br \>')
   end
 
   def check_update_unixtime(file)
+    something = sanitize(file)
     File.mtime(Configs['status']['dir'] + '/' + file).to_time.to_i
   end
 
