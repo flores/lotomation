@@ -117,11 +117,11 @@ post '/locator/:state' do |state|
 end
 
 get '/punishments/enforce' do
-  check_status('punishments')
+  check_state('punishments')
 end
 
 post '/punishments/enforce/:state' do |state|
-  write_status('punishments',state)
+  write_state('punishments',state)
   redirect '/'
 end
 

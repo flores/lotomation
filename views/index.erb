@@ -39,8 +39,8 @@
     </div>
 
     <div class="col-md-6 col-xs-6"->
-      <form action='/punishments/enforce/<%= check_state('punishments') ? 'off' : 'on' %>' method='post'>
-        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') ? 'btn-success' : 'btn-danger' %>" value="punishments">
+      <form action='/punishments/enforce/<%= check_state('punishments') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') == 'on' ? 'btn-success' : 'btn-danger' %>" value="punishments">
       </form>
     </div>
         
