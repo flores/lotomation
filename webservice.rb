@@ -98,7 +98,7 @@ end
 
 # FIXME
 post '/locator/enforce' do
-  if locator_get_state == 'on'
+  if check_state('locator') == 'on'
     if lo_home?
       checkpoint_get_devices('hi-pi').each { |d| actuate(d, 'on') }
     else
@@ -112,7 +112,7 @@ post '/locator/enforce' do
 end
 
 post '/locator/:state' do |state|
-  locator_write_state(state)
+  write_state('locator', state)
   redirect '/'
 end
 
@@ -156,6 +156,10 @@ get '/temperature/bed-pi/historical' do
   read_historical_www('hvac', 10)
 end
 
+get '/maintain/temp' do
+  check_value('maintain-temp')
+end
+
 post '/maintain/temp' do
   write_value('maintain-temp', params[:temp])
   log_historical('hvac', "maintain temperature changed to #{params[:temp]}")
@@ -167,10 +171,14 @@ get '/maintain/enforce' do
 end
 
 get '/maintain/enforce/:state/:tracker' do |state,tracker|
-  log_historical('hvac', "setting maintaining #{check_value('maintain-temp')}")
+  log_historical('hvac', "setting maintaining #{check_value('maintain-temp')} to #{state}")
   write_state('maintain', state)
   write_state('maintain-tracker', tracker)
-  redirect request.referrer
+  if request.referrer
+    redirect request.referrer
+  else
+    "OK"
+  end
 end
 
 post '/maintain/enforce' do
@@ -186,3 +194,6 @@ post '/nightlight/:state' do |state|
   redirect '/'
 end
 
+get '/traffic/:direction' do |direction|
+  traffic(direction)
+end
