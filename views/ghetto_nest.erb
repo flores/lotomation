@@ -24,18 +24,6 @@
 
 <div class="row" id='control' style="margin-top: 30px">
     <div class="col-lg-12 col-md-12 col-xs-12 btn-group" id="buttoncontrol">
-      <center>
-        <button type="button" style="width: 50%" class="btn btn-lg <%= check_state('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
-          <%= check_state('hvac') == 'off' ? 'heater and a/c' : check_state('hvac') %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">                                  
-          <li><a href="/hvac/air-conditioner">a/c</a></li>                
-          <li><a href="/hvac/heater">heater</a></li>                      
-          <li><a href="/maintain/enforce/on/bedpi">maintain temp in bedroom</a></li>
-          <li><a href="/maintain/enforce/on/pistat">maintain temp in livingroom</a></li>
-          <li><a href="/hvac/off">off</a></li>                            
-        </ul> 
-      </center>
     </div>
 </div>
 
@@ -66,6 +54,7 @@ $(function() {
 <script type="text/javascript">
   $(document).ready(function() {
     $("#history").load('/hvac/historical');
+    $("#buttoncontrol").load('/buttoncontrol/hvac');
     var interval = setInterval("updatetemp1()", 500);
     var interval = setInterval("updatetemp2()", 500);
     var interval1 = setInterval("updatebuttons();", 5000);
@@ -81,7 +70,7 @@ $(function() {
     console.log('updated temp1');
   };
   function updatebuttons() {
-    $("#buttoncontrol").load('/buttoncontrol');
+    $("#buttoncontrol").load('/buttoncontrol/hvac');
     console.log('updated buttons');
   };
   function updatelog() {
