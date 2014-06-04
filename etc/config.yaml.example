@@ -37,6 +37,11 @@ auth:
     secret:
     user_id:
   wunderground:   # for weather stuff
+  twilio:         # sms stuff
+    sid:
+    token:
+    sms_to:       # cell phone/target number
+    sms_from:     # twilio number
 devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
   433MHz: ''	  # radio controlled devices

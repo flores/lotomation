@@ -8,9 +8,12 @@ include Lotomation
 
 set :bind, '0.0.0.0'
 set :port, Configs['webserver']['port']
+set :protection, :except => [:http_origin]
+
+use Rack::Protection::HttpOrigin, :origin_whitelist => Configs['webserver']['originwhitelist']
 
 use Rack::Auth::Basic, "please log in" do |user, pass|
-  user == Configs['webserver']['user'] and pass == Configs['webserver']['pass']
+  (user == Configs['webserver']['user'] and pass == Configs['webserver']['pass']) || (user == Configs['webserver']['demouser'] and pass == Configs['webserver']['demopass'])
 end
 
 get '/' do
@@ -36,8 +39,8 @@ post '/snap/enforce/:state' do |state|
   redirect '/'
 end
 
-get '/buttoncontrol' do
-  erb :buttoncontrol, :layout => false
+get '/buttoncontrol/hvac' do
+  erb :buttoncontrol_hvac, :layout => false
 end
 
 post '/switch/:device/:state' do |device, state|
@@ -196,4 +199,37 @@ end
 
 get '/traffic/:direction' do |direction|
   traffic(direction)
+end
+
+post '/twilio/sms' do
+  body=params[:Body]
+
+  @reply = "i do not know what this means.  i got #{body}"
+  if body =~ /turn\s(.+)\s(on|off)/i
+    device = $1
+    state = $2
+    if device =~ /air-condi|aircondit|(^ac$)/i
+      device = 'air-conditioner'
+      log_historical('hvac', "sms request to switch air-conditioner to #{state}")
+      state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+    elsif device =~ /heat/i
+      device = 'heater'
+      log_historical('hvac', "sms request to switch heater to #{state}")
+      state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+    else
+      device='farside-light' if device =~ /far/
+      device='nearside-light' if device =~ /near/
+      device='aquariums' if device =~ /aquarium/
+      device='stereo' if device =~ /stereo/
+      actuate(device, state)
+    end
+    @reply = "okay, turned #{device} to #{state}"
+  elsif body =~ /maintain\s(.+)/i
+    temp = $1
+    log_historical('hvac', "sms request to maintain temp #{temp} via sms")
+    write_state('maintain-temp', temp)
+    write_state('maintain', 'on')
+  end
+
+  erb :twilio_response, :layout => false
 end
