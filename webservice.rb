@@ -17,8 +17,6 @@ use Rack::Auth::Basic, "please log in" do |user, pass|
 end
 
 get '/' do
-  @steps_alert = steps_alert
-  @punishments = steps_punishments
   erb :index
 end
 
@@ -36,21 +34,31 @@ end
 
 post '/snap/enforce/:state' do |state|
   write_state('camera', state)
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/buttoncontrol/hvac' do
   erb :buttoncontrol_hvac, :layout => false
 end
 
+get '/buttoncontrol/index' do
+  erb :buttoncontrol_index, :layout => false
+end
+
+get '/panel/index' do
+  @steps_alert = steps_alert
+  @punishments = steps_punishments
+  erb :panel_index, :layout => false
+end
+
 post '/switch/:device/:state' do |device, state|
   device == 'all' ? actuate_all(state) : actuate(device, state)
-  redirect '/'
+  redirect request.referrer
 end
 
 post '/flip/:name' do |name|
   flip(name)
-  redirect '/'
+  redirect request.referrer
 end
 
 post '/steps/alert' do
@@ -87,7 +95,7 @@ end
 
 post '/jam/force' do
   write_state('jam', 'false')
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/stereo/input' do
@@ -96,7 +104,7 @@ end
 
 get '/stereo/input/:number' do |input|
   write_value('stereo-input', input)
-  redirect '/'
+  redirect request.referrer
 end
 
 # FIXME
@@ -116,7 +124,7 @@ end
 
 post '/locator/:state' do |state|
   write_state('locator', state)
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/punishments/enforce' do
@@ -125,7 +133,7 @@ end
 
 post '/punishments/enforce/:state' do |state|
   write_state('punishments',state)
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/hvac' do
@@ -202,34 +210,40 @@ get '/traffic/:direction' do |direction|
 end
 
 post '/twilio/sms' do
-  body=params[:Body]
+  bodyfull=params[:Body]
 
-  @reply = "i do not know what this means.  i got #{body}"
-  if body =~ /turn\s(.+)\s(on|off)/i
-    device = $1
-    state = $2
-    if device =~ /air-condi|aircondit|(^ac$)/i
-      device = 'air-conditioner'
-      log_historical('hvac', "sms request to switch air-conditioner to #{state}")
-      state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
-    elsif device =~ /heat/i
-      device = 'heater'
-      log_historical('hvac', "sms request to switch heater to #{state}")
-      state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
-    else
-      device='farside-light' if device =~ /far/
-      device='nearside-light' if device =~ /near/
-      device='aquariums' if device =~ /aquarium/
-      device='stereo' if device =~ /stereo/
-      actuate(device, state)
+  @reply = ""
+
+  bodyfull.split(/\s(?:and|then)\s/).each do |body|
+    if body =~ /(.+)\s(on|off)/i
+      device = $1
+      state = $2
+      if device =~ /air|(?:^ac$)/i
+        device = 'air-conditioner'
+        log_historical('hvac', "sms request to switch air-conditioner to #{state}")
+        state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+      elsif device =~ /heat/i
+        device = 'heater'
+        log_historical('hvac', "sms request to switch heater to #{state}")
+        state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+      else
+        device='farside-light' if device =~ /far/i
+        device='nearside-light' if device =~ /near/i
+        device='aquariums' if device =~ /aquarium/i
+        device='stereo' if device =~ /stereo/i
+        actuate(device, state)
+      end
+      @reply = "turned #{device} to #{state}. #{@reply}"
     end
-    @reply = "okay, turned #{device} to #{state}"
-  elsif body =~ /maintain\s(.+)/i
-    temp = $1
-    log_historical('hvac', "sms request to maintain temp #{temp} via sms")
-    write_state('maintain-temp', temp)
-    write_state('maintain', 'on')
+    if body =~ /(?:maintain|temp).+(\d+)\sdegrees/i
+      temp = $1
+      log_historical('hvac', "sms request to maintain temp #{temp} via sms")
+      write_state('maintain-temp', temp)
+      write_state('maintain', 'on')
+      @reply = "maintaining temperature #{temp}. #{@reply}"
+    end
   end
 
+  @reply = "i do not know what this is, got #{bodyfull}" if @reply == ""
   erb :twilio_response, :layout => false
 end

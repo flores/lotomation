@@ -4,8 +4,8 @@
 proto=$(awk '/protocol:/ {print $2}' etc/config.yaml)
 host=$(awk '/host:/ {print $2}' etc/config.yaml)
 port=$(awk '/port:/ {print $2}' etc/config.yaml)
-user=$(awk '/user:/ {print $2}' etc/config.yaml)
-pass=$(awk '/pass:/ {print $2}' etc/config.yaml)
+user=$(awk '/user:/ {print $2}' etc/config.yaml |head -1)
+pass=$(awk '/pass:/ {print $2}' etc/config.yaml |head -1)
 jamdir=$(awk '/jamdir:/ {print $2}' etc/config.yaml)
 
 # twilio credentials
@@ -41,30 +41,32 @@ while true; do
 
       timetohome=$(( $timetotal * 60 )) # this should adjust via metrics collection
       timetohome=$(( $timetohome - 600 ))
-      timetohome=60
 
       echo sleeping for $timetohome
       sleep $timetohome
 
-      temp=$(curl $proto://$user:$pass@$host:$port/temperature/bedpi -s -m 5)
-      maintaintemp=$(curl $proto://$user:$pass@$host:$port/maintain/temp -s -m 5)
+      afteralertlocation=$(curl $proto://$user:$pass@$host:$port/lo/location -s -m 5)
 
-      temp_to_i=$(echo $temp |perl -pi -e 's/\.+//g')
+      if [[ $afteralertlocation == "gone" ]]; then
+        temp=$(curl $proto://$user:$pass@$host:$port/temperature/bedpi -s -m 5)
+        maintaintemp=$(curl $proto://$user:$pass@$host:$port/maintain/temp -s -m 5)
 
-      if [[ ${temp_to_i} -eq ${maintaintemp} ]]; then
-        sms "Yay I think you're home in 10 mins!  Crib is at $temp F just like you like it"
-      else
-        if [[ ${temp_to_i} -gt ${maintaintemp} ]]; then
-          hvac="airconditioner"
+        temp_to_i=$(echo $temp |perl -pi -e 's/\.+//g')
+
+        if [[ ${temp_to_i} -eq ${maintaintemp} ]]; then
+          sms "Yay I think you're home in 10 mins!  Crib is at $temp F just like you like it"
         else
-          hvac="heater"
+          if [[ ${temp_to_i} -gt ${maintaintemp} ]]; then
+            hvac="airconditioner"
+          else
+            hvac="heater"
+          fi
+
+          sms "Yay I think you're home in 10 mins! Crib is at $temp F but you like it at $maintaintemp, so turning on $hvac. Click $proto://$host:$port/hvac/off to cancel"
+
+          curl $proto://$user:$pass@$host:$port/maintain/enforce/on/bedpi
         fi
-
-        sms "Yay I think you're home in 10 mins! Crib is at $temp F but you like it at $maintaintemp, so turning on $hvac. Click $proto://$host:$port/hvac/off to cancel"
-
-        curl $proto://$user:$pass@$host:$port/maintain/enforce/on/bedpi
       fi
-
       location=$newlocation
     fi
 

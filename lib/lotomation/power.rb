@@ -33,8 +33,10 @@ module Lotomation
 	    log(subdev.short_name)
 	    if subdev.short_name =~ /#{name}.+#{state}/
 	      device.actuate(subdev.data)
+	      device.actuate(subdev.data)
+	      device.actuate(subdev.data)
 	      power_write_state(name, state)
-	      log("flipped #{name}")
+	      puts "flipped #{name}"
 	      break
 	    end
 	  end

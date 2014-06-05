@@ -1,0 +1,75 @@
+    <% Configs['devices']['433Mhz'].sort.each do |device| %>
+      <div class="col-md-6 col-xs-6"->
+        <form action='/flip/<%= device %>' method='post'>
+          <input type="submit" style="width: 100%;" class="btn btn-lg <%= power_current_state(device) == 'on' ? 'btn-success' : 'btn-danger' %>" value="<%= device %>">
+        </form>
+      </div>
+    <% end %>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+      <form action='/nightlight/<%= check_state('nightlight') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('nightlight') == 'on' ? 'btn-success' : 'btn-danger' %>" value="nightlight">
+      </form>
+    </div>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+        <button type="button" style="width: 100%;" class="btn btn-lg <%= check_state('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
+          <%= check_state('hvac') == 'off' ? 'hvac' : check_state('hvac') %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="/hvac/air-conditioner">a/c</a></li>
+          <li><a href="/hvac/heater">heater</a></li>
+          <li><a href="/hvac/off">off</a></li>
+        </ul>
+    </div>
+    
+    <div class="col-md-6 col-xs-6"->
+      <form action='/locator/<%= check_state('locator') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('locator') == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
+      </form>
+    </div>
+    
+    <div class="col-md-6 col-xs-6"->
+      <form action='/snap/enforce/<%= check_state('camera') == 'off' ? 'on' : 'off' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('camera') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
+      </form>
+    </div>
+
+    <div class="col-md-6 col-xs-6"->
+      <form action='/punishments/enforce/<%= check_state('punishments') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') == 'on' ? 'btn-success' : 'btn-danger' %>" value="punishments">
+      </form>
+    </div>
+        
+    <div class="col-md-6 col-xs-6"->
+
+      <form action='/switch/all/on' method='post'>
+        <input type="submit" style="width: 100%" class="btn btn-info" value="all on">
+      </form>
+    </div>
+
+    <div class="col-md-6 col-xs-6"->
+      <form action='/switch/all/off' method='post'>
+        <input type="submit" style="width: 100%" class="btn btn-info" value="all off">
+      </form>
+    </div>
+
+    <div class="col-md-6 col-xs-6"->
+      <form action='/jam/force' method='post'>
+        <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a jam">
+      </form>
+    </div>
+    
+    <div class="col-md-6 col-xs-6 btn-group"->
+        <button type="button" style="width: 100%;" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
+          <%= Configs['stereo']['names'][check_value('stereo-input').to_i] %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <% input = 0 %>
+          <% Configs['stereo']['names'].size.times do %>
+            <li><a href="/stereo/input/<%= input %>"><%= Configs['stereo']['names'][input] %></a></li>
+            <% input+=1 %>
+          <% end %>
+        </ul>
+    </div>
+

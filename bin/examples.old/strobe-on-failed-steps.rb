@@ -20,7 +20,7 @@ end
 
 optparse.parse!
 
-client = Fitgem::Client.new(Config['auth']['fitbit'])
+client = Fitgem::Client.new(Configs['auth']['fitbit'])
 data = client.activities_on_date 'today'
 todayssteps = data['summary']['steps']
 

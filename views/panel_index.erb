@@ -1,0 +1,60 @@
+    <div class="panel panel-default col-xs-12">
+      <div class="panel-body">
+        <h4>lo is <%= lo_location %>.</h4>
+        <p>big room: <%= check_value("pistat-temperature") %>F</br>
+          bed room: <%= check_value("bedpi-temperature") %>F</br></p>
+        <% if lo_location == 'working' %>
+          <p><strong>traffic to home: <%= traffic('to_home') %> mins</strong><br />
+          traffic to work: <%= traffic('to_work') %> mins</p>
+        <% else %>
+          <p><strong>traffic to work: <%= traffic('to_work') %> mins</strong><br />
+          traffic to home: <%= traffic('to_home') %> mins</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-default col-xs-12">
+      <div class="panel-body">
+        <% Configs['weather']['zips'].each do |city| %>
+          <%= city %>: <%= weather(city) %><br />
+        <% end %>
+      </div>
+    </div>
+
+    <% if @steps_alert =~ /FAIL/ %>
+      <div class="panel panel-default col-xs-12">
+        <div class="panel-heading">
+          <h3 class="panel-title"><font color="red">
+            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
+          </font></h3>
+         </div>
+
+        <div class="progress progress-striped active">
+          <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+        </div>
+      </div>
+
+      <h3><span class="label label-lg label-warning">pending punishment</span></h3>
+      <ul class="list-group">
+        <% Configs['punishments'].each do |time,punishment| %>
+          <li class="list-group-item">
+            <%= time %>:00
+      <% punishment['devices'].each do |device| %>
+        <span class="label label-default"><%= device %></span>
+            <% end %>
+      <span class="label label-primary"><%= punishment['state'] %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="panel panel-default col-xs-12">
+        <div class="panel-heading">
+          <h3 class="panel-title"><font color="green">
+            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
+          </font></h3>
+        </div>
+      </div>
+    <% end %>
+
+    </div>
+
