@@ -45,6 +45,10 @@ get '/buttoncontrol/index' do
   erb :buttoncontrol_index, :layout => false
 end
 
+get '/buttoncontrol/tempknob' do
+  erb :temp_knob, :layout => false
+end
+
 get '/panel/index' do
   @steps_alert = steps_alert
   @punishments = steps_punishments
@@ -235,7 +239,7 @@ post '/twilio/sms' do
       end
       @reply = "turned #{device} to #{state}. #{@reply}"
     end
-    if body =~ /(?:maintain|temp).+(\d+)\sdegrees/i
+    if body =~ /(?:maintain|temp).+?(\d+)/i
       temp = $1
       log_historical('hvac', "sms request to maintain temp #{temp} via sms")
       write_state('maintain-temp', temp)
