@@ -4,11 +4,16 @@ module Lotomation
     Fit = Fitgem::Client.new(Configs['auth']['fitbit'])
 
     def steps_today()
-      data = Fit.activities_on_date 'today'
-      if data['summary']
-        data['summary']['steps']
+      file = "#{Configs['status']['dir']}/steps"
+      if (Time.now - File.mtime(file)) > 600
+        print "#{file} is #{Time.now - File.mtime(file)} seconds old"
+        data = Fit.activities_on_date 'today'
+        data['summary'] ? steps = data['summary']['steps'] : steps = 0
+
+        write_value('steps', steps)
+        steps
       else
-        nil
+        check_value('steps')
       end
     end
 
@@ -17,7 +22,7 @@ module Lotomation
     end
 
     def steps_today_percent
-      steps_today*100/steps_goal
+      steps_today.to_i*100/steps_goal
     end
 
     def distances_today()
@@ -27,12 +32,13 @@ module Lotomation
 
     def steps_alert()
       threshold = Configs['goals']['fitbit']['steps']
-      if steps_today.nil?
+      steps = steps_today.to_i
+      if steps == 0
         "Unknown steps -- FitBit API down"
-      elsif steps_today <= threshold
-	"FAIL: need #{threshold - steps_today} more steps to pass!"
+      elsif steps <= threshold
+        "FAIL: need #{threshold - steps} more steps to pass!"
       else
-	"PASS: over by #{steps_today - threshold} steps, good job!"
+        "PASS: over by #{steps_today - threshold} steps, good job!"
       end
     end
 
