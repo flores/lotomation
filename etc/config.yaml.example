@@ -26,8 +26,11 @@ webserver:
   protocol:       # http/https...
   host:		  # where the webserver lives, accessed by scripts in bin/
   port:
+  originwhitelist: # array of allowed cross orgin domains
   user:           # auth
   pass:           
+  demouser:
+  demopass:
 auth:
   ninjablocks: '' # api token for ninja
   fitbit:	  # get from api.fitbit.com
