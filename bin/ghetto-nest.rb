@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
-require 'curb'
 require 'pi_piper'
 include PiPiper
 
@@ -12,7 +11,7 @@ server = "#{config['webserver']['host']}:#{config['webserver']['port']}"
 
 laststatefile = "#{config['status']['dir']}/hvac"
 
-hvac = Curl.get("#{protocol}://#{auth}@#{server}/hvac").body_str
+hvac = `curl -m 5 "#{protocol}://#{auth}@#{server}/hvac"`
 laststate = File.exist?(laststatefile)? File.read(laststatefile) : "off"
 
 # for my heater/ac unit:
@@ -22,7 +21,11 @@ laststate = File.exist?(laststatefile)? File.read(laststatefile) : "off"
 #
 # my unit has a delay between turning these on and off and in a certain order, ymmv
 
-if laststate != hvac
+# if the hvac has been on for more than 1 hour, something is wrong or it's just wasteful, so force it off
+if laststate != 'off' && (Time.now - File.mtime(laststatefile) > 3600)
+  emergencyflag = 1
+  gpio_off = [17, 27]
+elsif laststate != hvac
   if hvac == "air-conditioner"
     gpio_on = [27, 17]
   elsif hvac == "heater"
@@ -65,4 +68,20 @@ elsif gpio_on
   pin.off
 end
 
-File.write(laststatefile, hvac)
+if emergencyflag && emergencyflag == 1
+  message = "WHOA hvac has been set to #{laststate} for over 1 hour.  Something is wrong so i killed it."
+  
+  require 'twilio-ruby'
+  twilio = Twilio::REST::Client.new config['auth']['twilio']['sid'], config['auth']['twilio']['token']
+  twilio.account.messages.create(
+    :from => "+1#{config['auth']['twilio']['sms_from']}",
+    :to => "+1#{config['auth']['twilio']['sms_to']}",
+    :body => message  
+  )
+  
+  hvac = `curl -m 5 "#{protocol}://#{auth}@#{server}/hvac/off"`
+  File.write(laststatefile, 'off')
+
+else
+  File.write(laststatefile, hvac)
+end
