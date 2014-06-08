@@ -9,7 +9,7 @@ hostname=$(hostname)
 lasttemp=0
 
 while true; do
-  rawtemp=$(cat /sys/bus/w1/devices/28-000005a1527b/w1_slave |tail -1 |awk -F= '{print $NF}')
+  rawtemp=$(tail -1 /sys/bus/w1/devices/*/w1_slave |awk -F= '{print $NF}')
   echo $rawtemp
 
   if [[ $rawtemp -ne $lasttemp ]]; then
