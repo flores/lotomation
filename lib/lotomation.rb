@@ -3,6 +3,7 @@ require 'yaml'
 ["lib", "vendor"].each { |d| $:.unshift d unless $:.include?(d) }
 require 'ninja_blocks'
 require 'fitgem'
+require 'twilio-ruby'
 require 'net/http'
 require 'uri'
 require 'json'
@@ -18,6 +19,7 @@ require 'lotomation/location-by-bluetooth'
 require 'lotomation/weather'
 require 'lotomation/traffic'
 require 'lotomation/hvac'
+require 'lotomation/sms'
 
 module Lotomation
   include Power
@@ -26,6 +28,7 @@ module Lotomation
   include Weather
   include Traffic
   include Thermostat
+  include Sms
 
   def log(message)
     puts message if Configs['status']['verbose']
