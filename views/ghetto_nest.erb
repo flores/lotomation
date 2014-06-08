@@ -1,21 +1,27 @@
 <script src="js/jquery.knob.js"></script>
 
 <div class="row">
-  <div class="col-lg-4 col-md-4 col-xs-4">
+  <div class="col-lg-3 col-md-3 col-xs-6">
     <center>
-    living room<br />
+    living room
     <h2><span class="temp-pistat"><%= check_value('pistat-temperature') %></span>F</h2>
     </center>
   </div>
-  <div class="col-lg-4 col-md-4 col-xs-4">
+  <div class="col-lg-3 col-md-3 col-xs-6">
     <center>
-    bedroom<br />
+    bedroom
     <h2><span class="temp-bedpi"><%= check_value('bedpi-temperature') %></span>F</h2>
     </center>
   </div>
-  <div class="col-lg-4 col-md-4 col-xs-4">
+  <div class="col-lg-3 col-md-3 col-xs-6">
     <center>
-    outside<br />
+    under vent
+    <h2><span class="temp-vent"><%= check_value('bedside-temperature') %></span>F</h2>
+    </center>
+  </div>
+  <div class="col-lg-3 col-md-3 col-xs-6">
+    <center>
+    outside
     <% weather_outside = weather(90014).split(',') %>
     <h2><span><%= weather_outside[0] %></span></h2>
     </center>
@@ -40,30 +46,27 @@
     $("#knobcontrol").load('/buttoncontrol/tempknob');
     $("#history").load('/hvac/historical');
     $("#buttoncontrol").load('/buttoncontrol/hvac');
-    var interval = setInterval("updatetemp1()", 500);
-    var interval = setInterval("updatetemp2()", 500);
+    var interval = setInterval("updatetemp()", 500);
     var interval1 = setInterval("updatebuttons();", 5000);
     var interval2 = setInterval("updatelog();", 200);
     var knobupdate = setInterval("knobupdate();", 2000);
   });
 
-  function updatetemp2() {
+  function updatetemp() {
     $(".temp-bedpi").load('/temperature/bedpi');
-    console.log('updated temp2');
-  };
-  function updatetemp1() {
     $(".temp-pistat").load('/temperature/pistat');
-    console.log('updated temp1');
+    $(".temp-vent").load('/temperature/bedside');
+    console.log('updated temp in crib');
   };
   function updatebuttons() {
     $("#buttoncontrol").load('/buttoncontrol/hvac');
     console.log('updated buttons');
   };
-  function knobupdate() {
+  function updatelog() {
     $("#history").load('/hvac/historical');
     console.log('updated temp');
   };
-  function updatelog() {
+  function knobupdate() {
     $("#knobcontrol").load('/buttoncontrol/tempknob');
     console.log('updated temp knob');
   };
