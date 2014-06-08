@@ -1,7 +1,5 @@
 require 'yaml'
 
-["lib", "vendor"].each { |d| $:.unshift d unless $:.include?(d) }
-require 'ninja_blocks'
 require 'fitgem'
 require 'twilio-ruby'
 require 'net/http'
@@ -10,16 +8,14 @@ require 'json'
 require 'pp'
 
 Configs=YAML.load_file('etc/config.yaml')
+
+["lib/lotomation", "vendor"].each do |dir|
+  $:.unshift dir
+  Dir[dir + "/*.rb"].each { |lib| puts lib; require "./" + lib.gsub(".rb",'') }
+end
+
 NinjaBlocks::token = Configs['auth']['ninjablocks']
 Devices = NinjaBlocks::Device.list(:device_type => 'rf433')
-
-require 'lotomation/power'
-require 'lotomation/steps'
-require 'lotomation/location-by-bluetooth'
-require 'lotomation/weather'
-require 'lotomation/traffic'
-require 'lotomation/hvac'
-require 'lotomation/sms'
 
 module Lotomation
   include Power
