@@ -18,7 +18,7 @@ module Lotomation
       if maint_temp < current_temp
         if current_temp.between?(maint_temp, maint_temp + 0.5) && hvac == 'heater'
           # do nothing and let temp build up
-        elsif ( current_temp >= maint_temp + 1 ) && hvac == 'heater'
+        elsif ( current_temp <= maint_temp + 1 ) && hvac =~ /heater/
           log_historical('hvac', "turning hvac off")
           write_state('hvac', 'off')
         elsif current_temp.between?(maint_temp, maint_temp + 1) && hvac == 'off'
@@ -31,7 +31,7 @@ module Lotomation
         end
       elsif maint_temp > current_temp
         if current_temp.between?(maint_temp - 0.5, maint_temp) && hvac == 'air-conditioner'
-        elsif ( current_temp <= maint_temp - 1 ) && hvac == 'air-conditioner'
+        elsif ( current_temp >= maint_temp - 1 ) && hvac =~ /air-conditioner/
           log_historical('hvac', "turning hvac off")
           write_state('hvac', 'off')
         elsif current_temp.between?(maint_temp - 1, maint_temp) && hvac == 'off'
