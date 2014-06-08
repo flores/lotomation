@@ -29,6 +29,7 @@
       </form>
     </div>
     
+    
     <div class="col-md-6 col-xs-6"->
       <form action='/snap/enforce/<%= check_state('camera') == 'off' ? 'on' : 'off' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('camera') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
@@ -72,4 +73,3 @@
           <% end %>
         </ul>
     </div>
-

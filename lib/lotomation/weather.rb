@@ -12,7 +12,7 @@ module Lotomation
         #file = "#{Configs['status']['dir']}/weather-#{city}-#{state}"
         file = "#{Configs['status']['dir']}/weather-#{city}"
         if File.exist?(file)
-          if (Time.now - File.mtime(file)) > 200
+          if (Time.now - File.mtime(file)) > 1800
             print "file is #{Time.now - File.mtime(file)} seconds old"
             status = weather_update(city)
           else
