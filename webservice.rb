@@ -149,12 +149,14 @@ get '/hvac' do
 end
 
 get '/hvac/historical' do
-  read_historical_www('hvac', 10)
+  read_historical_www('hvac', 12)
 end
 
 get '/hvac/:state' do |state|
-  log_historical('hvac', "no longer maintaining #{check_value('maintain-temp')}")
-  write_state('maintain', 'off')
+  if check_state('maintain') == 'on'
+    log_historical('hvac', "no longer maintaining #{check_value('maintain-temp')}")
+    write_state('maintain', 'off')
+  end
   log_historical('hvac', "switching to #{state}")
   write_state('hvac', state)
   redirect request.referrer

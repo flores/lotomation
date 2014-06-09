@@ -12,9 +12,6 @@
         <% end %>
       </div>
     </div>
-    <div class="row" style="padding:20px">                                                               
-      <div class="col-md-12" id='knobcontrol'></div>
-    </div>
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
         <% Configs['weather']['zips'].each do |city| %>
@@ -32,7 +29,7 @@
          </div>
 
         <div class="progress progress-striped active">
-          <div class="progress-bar"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+          <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
         </div>
       </div>
 
