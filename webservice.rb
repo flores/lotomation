@@ -36,11 +36,6 @@ get '/snap/enforce' do
   check_state('camera')
 end
 
-post '/snap/enforce/:state' do |state|
-  write_state('camera', state)
-  redirect request.referrer
-end
-
 get '/buttoncontrol/hvac' do
   erb :buttoncontrol_hvac, :layout => false
 end
@@ -139,11 +134,6 @@ get '/punishments/enforce' do
   check_state('punishments')
 end
 
-post '/punishments/enforce/:state' do |state|
-  write_state('punishments',state)
-  redirect request.referrer
-end
-
 get '/hvac' do
   check_state('hvac')
 end
@@ -202,17 +192,13 @@ get '/maintain/enforce/:state/:tracker' do |state,tracker|
   end
 end
 
-post '/maintain/enforce' do
-  check_state('maintain') == 'on' ? maintain_temp : 'not maintaining temp'
-end
-
 get '/nightlight' do
   check_state('nightlight')
 end
 
 post '/nightlight/:state' do |state|
   write_state('nightlight', state)
-  redirect '/'
+  redirect request.referrer
 end
 
 get '/traffic/:direction' do |direction|
@@ -229,3 +215,9 @@ post '/twilio/sms' do
   @reply = sms_in(bodyfull)
   erb :twilio_response, :layout => false
 end
+
+post '/:configuration/enforce/:state' do |configuration,state|
+  write_state(configuration, state)
+  redirect request.referrer
+end
+

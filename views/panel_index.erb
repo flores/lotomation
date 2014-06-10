@@ -29,22 +29,25 @@
          </div>
 
         <div class="progress progress-striped active">
-          <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+          <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
         </div>
       </div>
+      <% if check_state('punishments') == 'on' %> 
+        <h3><span class="label label-lg label-warning">pending punishment</span></h3>
+        <ul class="list-group">
+          <% Configs['punishments'].each do |time,punishment| %>
+            <li class="list-group-item">
+              <%= time %>:00
 
-      <h3><span class="label label-lg label-warning">pending punishment</span></h3>
-      <ul class="list-group">
-        <% Configs['punishments'].each do |time,punishment| %>
-          <li class="list-group-item">
-            <%= time %>:00
-      <% punishment['devices'].each do |device| %>
-        <span class="label label-default"><%= device %></span>
-            <% end %>
-      <span class="label label-primary"><%= punishment['state'] %></span>
-          </li>
-        <% end %>
-      </ul>
+              <% punishment['devices'].each do |device| %>
+                <span class="label label-default"><%= device %></span>
+              <% end %>
+
+              <span class="label label-primary"><%= punishment['state'] %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     <% else %>
       <div class="panel panel-default col-xs-12">
         <div class="panel-heading">

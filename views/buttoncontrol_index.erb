@@ -43,6 +43,18 @@
     </div>
         
     <div class="col-md-6 col-xs-6"->
+      <form action='/gestures/enforce/<%= check_state('gestures') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') == 'on' ? 'btn-success' : 'btn-danger' %>" value="gestures">
+      </form>
+    </div>
+        
+    <div class="col-md-6 col-xs-6"->
+      <form action='/sms-in/enforce/<%= check_state('sms-in') == 'on' ? 'off' : 'on' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') == 'on' ? 'btn-success' : 'btn-danger' %>" value="sms in">
+      </form>
+    </div>
+        
+    <div class="col-md-6 col-xs-6"->
 
       <form action='/switch/all/on' method='post'>
         <input type="submit" style="width: 100%" class="btn btn-info" value="all on">
