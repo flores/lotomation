@@ -3,7 +3,7 @@
 # lotomation credentials
 proto=$(awk '/protocol:/ {print $2}' etc/config.yaml)
 host=$(awk '/host:/ {print $2}' etc/config.yaml)
-port=$(awk '/port:/ {print $2}' etc/config.yaml)
+port=$(awk '/port:/ {print $2}' etc/config.yaml |head -1)
 user=$(awk '/user:/ {print $2}' etc/config.yaml |head -1)
 pass=$(awk '/pass:/ {print $2}' etc/config.yaml |head -1)
 jamdir=$(awk '/jamdir:/ {print $2}' etc/config.yaml)
@@ -24,17 +24,23 @@ sms() {
   -m 5
 }
 
+web() {
+  url=$1
+  curl $proto://$user:$pass@$host:$port/$url -m 5 -s -k
+}
+
 while true; do
-  location=$(curl $proto://$user:$pass@$host:$port/lo/location -m 5 -s)
+  location=$(web lo/location)
   echo lo is $location
 
   while [[ $location == "working" ]]; do
 
-    newlocation=$(curl $proto://$user:$pass@$host:$port/lo/location -s -m 5)
+    newlocation=$(web lo/location)
 
+    if [[ -z $newlocation ]]; then break; fi
     if [[ ${newlocation} != ${location} ]]; then
       timenow=$(date +%s)
-      timetraffic=$(curl $proto://$user:$pass@$host:$port/traffic/work_to_home -s -m 5)
+      timetraffic=$(web lo/traffic/work_to_home)
       timetotal=$(($timetraffic + 40))
 
       sms "I think you just left work and it will take $timetotal min to get home (/w $timetraffic min traffic)"
@@ -45,11 +51,11 @@ while true; do
       echo sleeping for $timetohome
       sleep $timetohome
 
-      afteralertlocation=$(curl $proto://$user:$pass@$host:$port/lo/location -s -m 5)
+      afteralertlocation=$(web lo/location)
 
       if [[ $afteralertlocation == "gone" ]]; then
-        temp=$(curl $proto://$user:$pass@$host:$port/temperature/bedpi -s -m 5)
-        maintaintemp=$(curl $proto://$user:$pass@$host:$port/maintain/temp -s -m 5)
+        temp=$(web temperature/bedpi)
+        maintaintemp=$(web /maintain/temp)
 
         temp_to_i=$(echo $temp |perl -pi -e 's/\.+//g')
 
@@ -64,7 +70,7 @@ while true; do
 
           sms "Yay I think you're home in 10 mins! Crib is at $temp F but you like it at $maintaintemp, so turning on $hvac. Click $proto://$host:$port/hvac/off to cancel"
 
-          curl $proto://$user:$pass@$host:$port/maintain/enforce/on/bedpi
+          web "/maintain/enforce/on/bedpi"
         fi
       fi
       location=$newlocation
