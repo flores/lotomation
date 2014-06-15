@@ -16,16 +16,22 @@ module Lotomation
     # FIXME
     def lo_home?
       time = Time.now.to_i
-      lastaccessed = check_update_unixtime('hi-pi')
-      difftime = time - lastaccessed
+      if check_update_unixtime('bedpi') > check_update_unixtime('hi-pi')
+        lastfound = check_update_unixtime('bedpi')
+      else
+        lastfound = check_update_unixtime('hi-pi')
+      end
+      difftime = time - lastfound
       difftime <= 180 ? true : false
     end
 
     def lo_location
       time = Time.now.to_i
       if (time - check_update_unixtime('hi-pi') < 180)
-        "at the crib"
-      elsif (time - check_update_unixtime('lowork') < 180)
+        "in the living room"
+      elsif (time - check_update_unixtime('bedpi') < 60)
+        "in the bedroom"
+      elsif (time - check_update_unixtime('lowork') < 60)
         "working"
       else
         "gone"
