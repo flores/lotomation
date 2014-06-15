@@ -8,8 +8,31 @@
   </head>
 
   <body>
-      <strong>lotomation</strong>
-      <%= yield %>
+    <div class="container-fluid">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav">
+            <span class="sr-only">more</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+
+          </button>
+
+
+          <a class="navbar-brand" href="/">lotomation</a>
+        </div>
+        <div class="collapse navbar-collapse nav-collapse" id="nav">
+          <ul class="nav navbar-nav">
+            <li><a href="/ghetto-nest">hvac</a></li>
+            <li><a href="/snap">feed</a></li>
+            <li><a href="/full">full</a></li>
+          </ul>
+        </div>
+      </div>
+   </div>
+   <div class="container-fluid">
+     <%= yield %>
+   </div>
   </body>
 
 
