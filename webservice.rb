@@ -7,7 +7,7 @@ require './lib/lotomation'
 include Lotomation
 
 set :bind, '0.0.0.0'
-set :port, Configs['webserver']['port']
+set :port, Configs['webserver']['backendport']
 set :protection, :except => [:http_origin]
 
 use Rack::Protection::HttpOrigin, :origin_whitelist => Configs['webserver']['originwhitelist']
@@ -32,8 +32,12 @@ get '/ghetto-nest' do
   erb :ghetto_nest
 end
 
+get '/tiny-nest' do
+  erb :tiny_nest, :layout => false
+end
+
 get '/snap/enforce' do
-  check_state('camera')
+  check_state('snap')
 end
 
 get '/buttoncontrol/hvac' do
@@ -181,6 +185,10 @@ get '/maintain/enforce' do
   check_state('maintain')
 end
 
+post '/maintain/enforce' do
+  check_state('maintain') == 'on' ? maintain_temp : "not maintaining temp"
+end
+
 get '/maintain/enforce/:state/:tracker' do |state,tracker|
   log_historical('hvac', "setting maintaining #{check_value('maintain-temp')} to #{state}")
   write_state('maintain', state)
@@ -211,8 +219,12 @@ post '/door' do
 end
 
 post '/twilio/sms' do
-  bodyfull=params[:Body]
-  @reply = sms_in(bodyfull)
+  if check_state('sms-in') == 'on'
+    bodyfull=params[:Body]
+    @reply = sms_in(bodyfull)
+  else
+    @reply = "sorry, sms is off.  click #{Configs['webserver']['protocol']}://#{Configs['webserver']['host']}:#{Configs['webserver']['port']}/sms-in/enforce/on to enable"
+  end
   erb :twilio_response, :layout => false
 end
 

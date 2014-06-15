@@ -38,7 +38,7 @@ module Lotomation
       elsif steps <= threshold
         "FAIL: need #{threshold - steps} more steps to pass!"
       else
-        "PASS: over by #{steps_today - threshold} steps, good job!"
+        "PASS: over by #{steps - threshold} steps, good job!"
       end
     end
 

@@ -1,9 +1,9 @@
-<% if check_state('camera') == 'on' %>
+<% if check_state('snap') == 'on' %>
   <div class="row" id='snapshot'>
-    <div class="col-lg-5">
+    <div class="col-lg-6">
       <img src='snapshot.jpg' />
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-6">
       <img src='snapshot1.jpg' />
     </div>
   </div>
@@ -24,6 +24,7 @@
   });
 
   function updatesnapshot() {
-    $('#snapshot').html('<div class="col-lg-5"><img src="snapshot.jpg" /></div><div class="col-lg-5"><img src="snapshot1.jpg" /></div>');
+    $('#snapshot').html('<div class="col-lg-6"><img src="snapshot.jpg" /></div><div class="col-lg-6"><img src="snapshot1.jpg" /></div>');
+    console.log('update');
   };
 </script>
