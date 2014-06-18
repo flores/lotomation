@@ -22,20 +22,31 @@
       </div>
     </div>
 
-    <% if @steps_alert =~ /FAIL/ %>
-      <div class="panel panel-default col-xs-12">
-        <div class="panel-heading">
+    <div class="panel panel-default col-xs-12">
+      <div class="panel-heading"><%= steps_today %> steps</div>
+
+      <% if steps_alert =~ /FAIL/ %>
+        <div class="panel-body">
           <h3 class="panel-title"><font color="red">
             <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
           </font></h3>
          </div>
 
         <div class="progress progress-striped active">
-          <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%">
+          <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%"></div>
         </div>
-      </div>
-      <% if check_state('punishments') == 'on' %> 
-        <h3><span class="label label-lg label-warning">pending punishment</span></h3>
+      <% else %>
+        <div class="panel-body">
+          <h3 class="panel-title"><font color="green">
+            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
+          </font></h3>
+        </div>
+      <% end %>
+
+      <% if check_state('punishments') == 'on' %>
+        <div class="panel-heading">
+            <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishments
+          </div>
         <ul class="list-group">
           <% Configs['punishments'].each do |time,punishment| %>
             <li class="list-group-item">
@@ -50,15 +61,6 @@
           <% end %>
         </ul>
       <% end %>
-    <% else %>
-      <div class="panel panel-default col-xs-12">
-        <div class="panel-heading">
-          <h3 class="panel-title"><font color="green">
-            <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-up"></span>
-          </font></h3>
-        </div>
-      </div>
-    <% end %>
-
+      </div> 
     </div>
 
