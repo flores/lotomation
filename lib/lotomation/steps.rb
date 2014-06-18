@@ -46,5 +46,20 @@ module Lotomation
       Configs['punishments']
     end
 
+    def steps_punishments_enforce()
+      triggered = 0
+      now = DateTime.now.hour
+
+      message = steps_alert
+      steps_punishments.each do |goalhour,pain|
+        if now >= goalhour  && lo_home?
+          if message =~ /FAIL/
+            sms_out("Oh snap son, turning #{pain['devices'].join(' ')} #{pain['state']}")
+            pain['devices'].each {|device| power_write_state(device, pain['state'])}
+          end
+        end
+      end
+    end
+
   end
 end

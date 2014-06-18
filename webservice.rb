@@ -138,6 +138,15 @@ get '/punishments/enforce' do
   check_state('punishments')
 end
 
+post '/punishments/enforce' do
+  if check_state('punishments') == 'on'
+    steps_punishments_enforce
+    "okay"
+  else
+    "not enforced"
+  end
+end
+
 get '/hvac' do
   check_state('hvac')
 end
