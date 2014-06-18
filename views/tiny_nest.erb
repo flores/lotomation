@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tiny display</title>
+    <script src='/js/jquery-1.10.2.min.js' type='text/javascript'></script>
+    <link href='/css/bootstrap.css' rel='stylesheet' type='text/css' />
+    <script src='/js/bootstrap.min.js' type='text/javascript'></script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+
+      <div class="row" id='control' style="padding:10px">
+        <div class="col-lg-12 col-md-12 col-xs-12 btn-group" id="buttoncontrol">
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-xs-12" id='knobcontrol' style="margin-top: 20px">
+        </div>
+      </div>
+
+      <script src="js/jquery.knob.js"></script>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $("#knobcontrol").load('/buttoncontrol/tempknob');
+          $("#buttoncontrol").load('/buttoncontrol/hvac');
+          var knobupdate = setInterval("knobupdate();", 10000);
+        });
+
+        function knobupdate() {
+          $("#knobcontrol").load('/buttoncontrol/tempknob');
+          $("#buttoncontrol").load('/buttoncontrol/hvac');
+        };
+      </script>
+
+    </div>
+  </body>
+</html>
