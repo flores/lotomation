@@ -14,6 +14,10 @@ module Lotomation
       reply = ""
 
       message.split(/\s(?:and|then)\s/).each do |body|
+        if body =~ /state/i
+          reply = all_states
+          puts "reply is #{reply}"
+        end
         if body =~ /(.+)\s(on|off)/i
           device = $1
           state = $2
@@ -32,17 +36,17 @@ module Lotomation
             device='stereo' if device =~ /stereo/i
             actuate(device, state)
           end
-          reply = "turned #{device} to #{state}. #{@reply}"
+          reply = "turned #{device} to #{state}. #{reply}"
         end
         if body =~ /(?:maintain|temp).+?(\d+)/i
           temp = $1
           log_historical('hvac', "sms request to maintain temp #{temp} via sms")
           write_state('maintain-temp', temp)
           write_state('maintain', 'on')
-          reply = "maintaining temperature #{temp}. #{@reply}"
+          reply = "maintaining temperature #{temp}. #{reply}"
         end
       end
-      reply = "i do not know what this is, got #{bodyfull}" if reply == ""
+      reply = "i do not know what this is, got #{body}" if reply == ""
       return reply
     end
 

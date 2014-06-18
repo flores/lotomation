@@ -34,6 +34,19 @@ module Lotomation
     something.gsub(/[^0-9A-z.\-\ ]/, '')
   end
 
+  def all_states
+    status=''
+    Dir[Configs['status']['dir'] + "/*"].each do |file|
+      if file =~ /historical/
+        next
+      else
+        status = "#{status}\n#{file.gsub(/#{Configs['status']['dir']}\//, '')}: #{File.read(file)}"
+        puts "#{file}: #{File.read(file)}"
+      end
+    end
+    status
+  end
+
   def check_state(something)
     something = sanitize(something)
     if File.exist?(Configs['status']['dir'] + '/' + something)
