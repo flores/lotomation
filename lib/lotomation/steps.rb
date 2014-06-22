@@ -4,9 +4,7 @@ module Lotomation
     Fit = Fitgem::Client.new(Configs['auth']['fitbit'])
 
     def steps_today()
-      file = "#{Configs['status']['dir']}/steps"
-      if (Time.now - File.mtime(file)) > 600
-        print "#{file} is #{Time.now - File.mtime(file)} seconds old"
+      if seconds_since_last_update('steps') > 600
         data = Fit.activities_on_date 'today'
         data['summary'] ? steps = data['summary']['steps'] : steps = 0
 
@@ -50,12 +48,18 @@ module Lotomation
       triggered = 0
       now = DateTime.now.hour
 
-      message = steps_alert
       steps_punishments.each do |goalhour,pain|
         if now >= goalhour  && lo_home?
+          message = steps_alert
           if message =~ /FAIL/
-            sms_out("Oh snap son, turning #{pain['devices'].join(' ')} #{pain['state']}")
-            pain['devices'].each {|device| power_write_state(device, pain['state'])}
+            if seconds_since_last_update("sms-punishment-sent-#{goalhour}") >= 900
+              write_value("sms-punishment-sent-#{goalhour}", 'yes')
+              sms_out("Oh snap son, turning #{pain['devices'].join(' ')} #{pain['state']}. #{message}")
+            end
+            if check_state('locator') == 'on'
+              write_state('locator', 'off')
+            end
+            pain['devices'].each {|device| actuate(device, pain['state'])}
           end
         end
       end

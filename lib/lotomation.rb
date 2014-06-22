@@ -91,7 +91,15 @@ module Lotomation
 
   def check_update_unixtime(file)
     something = sanitize(file)
-    File.mtime(Configs['status']['dir'] + '/' + file).to_time.to_i
+    if File.exist?(Configs['status']['dir'] + '/' + file)
+      File.mtime(Configs['status']['dir'] + '/' + file).to_time.to_i
+    else
+      0
+    end
+  end
+
+  def seconds_since_last_update(file)
+    Time.now.to_i - check_update_unixtime(file)
   end
 
 end
