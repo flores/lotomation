@@ -4,34 +4,27 @@ require 'pi_piper'
 include PiPiper
 
 cliarg = ARGV[0]
+pins = [4, 17, 18, 22, 23, 27]
 
 if cliarg == "off"
-  pins = [4, 17, 18, 27, 22, 23]
   pins.each do |gpio|
     pin = PiPiper::Pin.new(:pin => gpio, :direction => :out)
     pin.off
   end
-elsif cliarg == "on"
-  pins = [4, 17, 18, 27, 22, 23]
-  pins.each do |gpio|
-    pin = PiPiper::Pin.new(:pin => gpio, :direction => :out)
-    pin.on
-  end
-elsif cliarg == "firston"
-  pins = [4, 17, 18]
-  pins.each do |gpio|
-    pin = PiPiper::Pin.new(:pin => gpio, :direction => :out)
-    pin.on
-  end
+  puts "turned off all pins"
+  exit
 
+elsif cliarg == "on"
+elsif cliarg == "firston"
+  pins = pins.first(3)
 elsif cliarg == "laston"
-  pins = [27, 22, 23]
-  pins.each do |gpio|
-    pin = PiPiper::Pin.new(:pin => gpio, :direction => :out)
-    pin.on
-  end
+  pins = pins.drop(3)
 else 
-  puts "turning on #{cliarg}"
-  pin = PiPiper::Pin.new(:pin => cliarg.to_i, :direction => :out)
+  pins = cliarg.to_i
+end
+
+pins.each do |gpio|
+  pin = PiPiper::Pin.new(:pin => gpio, :direction => :out)
   pin.on
-end 
+  puts "turning on #{gpio}"
+end
