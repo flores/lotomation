@@ -106,7 +106,7 @@ post '/jam/force' do
 end
 
 get '/stereo/input' do
-  check_value('stereo-input') 
+  check_value('stereo-input')
 end
 
 get '/stereo/input/:number' do |input|
@@ -224,7 +224,7 @@ end
 
 post '/door' do
   write_state('frontdoor', "open")
-  sms_out("#{Time.now.ctime} - front door opened")
+  sms_out("#{Time.now.ctime} - front door opened") unless lo_home?
 end
 
 post '/twilio/sms' do
