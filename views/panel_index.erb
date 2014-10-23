@@ -11,7 +11,8 @@
         <% else %>
           <p><strong>traffic to work: <%= traffic('to_work') %> mins</strong><br />
           traffic to home: <%= traffic('to_home') %> mins</p>
-        <% end %>
+	<% end %>
+	<p>front door last opened at <%= Time.at(check_update_unixtime('frontdoor')) %></p>
       </div>
     </div>
     <div class="panel panel-default col-xs-12">
