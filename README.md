@@ -5,7 +5,7 @@ lo automates the crib and shares some wins and fails in the process
 
 ![lotomation desktop ui](http://lo.ladevops.org/june2014/images/remote.png)
 
-# WAT
+# Wut
 
 Look, I got fat and needed to lose some weight, so I tried to get my house
 to help me out.
@@ -145,6 +145,10 @@ Or this UI
 As a bonus, I can also have my Air Conditioner or Heater set temperature just like I want it 10 minutes before I come home
 
 ![text early](https://pbs.twimg.com/media/Bo2exkkCcAADU9I.jpg)
+
+As well as a UI for small displayes (like R-Pi touchscreens)
+
+![tiny-nest](http://lo.ladevops.org/june2014/images/tinynest.png)
 
 # Wrappers to other people's home automation products
 
