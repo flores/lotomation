@@ -36,14 +36,18 @@ module Lotomation
             device='stereo' if device =~ /stereo/i
             actuate(device, state)
           end
-          reply = "turned #{device} to #{state}. #{reply}"
+          reply = "Hey man, I turned #{device} to #{state}. #{reply}"
         end
+
         if body =~ /(?:maintain|temp).+?(\d+)/i
           temp = $1
           log_historical('hvac', "sms request to maintain temp #{temp} via sms")
           write_state('maintain-temp', temp)
           write_state('maintain', 'on')
           reply = "maintaining temperature #{temp}. #{reply}"
+        elsif body =~ /cat/i
+          cat=`curl http://moar.edgecats.net/random -k -m 5`
+          reply = "Oh man, here's a cat gif!  #{cat}"
         end
       end
       reply = "i do not know what this is, got #{body}" if reply == ""
