@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
-require 'thin'
+#require 'thin'
 require './lib/lotomation'
 
 include Lotomation
 
-set :bind, '127.0.0.1'
+set :server, :puma
+
+set :bind, '0.0.0.0'
 set :port, Configs['webserver']['backendport']
 set :protection, :except => [:http_origin]
 
@@ -30,6 +32,10 @@ end
 
 get '/ghetto-nest' do
   erb :ghetto_nest
+end
+
+get '/la' do
+  erb :losangeles_snap
 end
 
 get '/tiny-nest' do
@@ -91,6 +97,20 @@ post '/lo/work' do
   write_state('lowork', 'yes')
 end
 
+get '/jam/bedroom/played' do
+  check_state('bed-jam')
+end
+
+post '/jam/bedroom/played' do
+  write_state('bed-jam', 'true')
+  "cool"
+end
+
+post '/jam/bedroom/force' do
+  write_state('bed-jam', 'false')
+  redirect request.referrer
+end
+
 get '/jam/played' do
   check_state('jam')
 end
@@ -106,7 +126,7 @@ post '/jam/force' do
 end
 
 get '/stereo/input' do
-  check_value('stereo-input')
+  check_value('stereo-input') 
 end
 
 get '/stereo/input/:number' do |input|
