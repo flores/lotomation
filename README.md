@@ -3,21 +3,21 @@ lotomation
 
 lo automates the crib and shares some wins and fails in the process
 
-![lotomation desktop ui](http://lo.ladevops.org/lotomation.png)
+![lotomation desktop ui](http://lo.ladevops.org/june2014/images/remote.png)
 
 # WAT
 
 Look, I got fat and needed to lose some weight, so I tried to get my house
 to help me out.
 
-There's a couple components in this project: a webserver meant to run in the 
-cloud and various Linux devices (Raspberry Pi, Beagle Bone, old laptops and 
+There's a couple components in this project: a webserver meant to run in the
+cloud and various Linux devices (Raspberry Pi, Beagle Bone, old laptops and
 desktops, etc) running programs from `bin` depending on the results from the webservice.
 
 ## Uh, wat?
 
 Much of this probably won't be useful to you unless (until?) I clean it up,
-but to give you an idea of all the stuff it's doing, here's the config file 
+but to give you an idea of all the stuff it's doing, here's the config file
 under `etc/config.yaml.example`.  In other words, it's JANKY AS FUUUUUUU.
 
 ```
@@ -49,7 +49,7 @@ webserver:
   host:	          # where the webserver lives, accessed by scripts in bin/
   port:
   user:           # auth
-  pass:           
+  pass:
 auth:
   ninjablocks: '' # api token for ninja
   fitbit:         # get from api.fitbit.com
@@ -76,9 +76,9 @@ We'll go into detail about the various things going on there below...
 [**Demo**](https://www.youtube.com/watch?v=c0dtQ4VUico)
 
 I use a [FitBit](http://fitbit.com) as a locator.  It was not designed for
-this, but as a LE Bluetooth device I can ping it from various devices 
-(Raspberry-Pis, BeagleBones, anything I can connect a Bluetooth LE dongle to) 
-and make a guess about where I am in the home.  Those devices run 
+this, but as a LE Bluetooth device I can ping it from various devices
+(Raspberry-Pis, BeagleBones, anything I can connect a Bluetooth LE dongle to)
+and make a guess about where I am in the home.  Those devices run
 `bin/tracker-bt.rb` in a `while true; ...` because I am jank like that.
 
 To use this feature you must first enter the MAC address of your FitBit (or any
@@ -113,7 +113,7 @@ at all.  If it is, I get music automagically.  This works great to get tunes
 as soon as I walk into my home.  Here is a [**demo**](https://www.youtube.com/watch?v=1hELb-8z134)
 
 The way this works is another one of the microcomputers has a DAC and harddrive
-connected.  
+connected.
 
 It runs `bin/come-home-play-a-jam.sh`, which also lets me trigger
 music whenever I want, such as pushing [an emergency jam button]
@@ -122,9 +122,33 @@ button on the remote:
 
 ![play a jam button](http://lo.ladevops.org/lotomation-jam-button.png)
 
+# HVAC control
+
+I connect directly to my thermostat with a Raspberry Pi to control heat, a/c, and the fan.
+
+![ghetto-nest](http://lo.ladevops.org/june2014/images/ghetto-nest.jpg)
+
+It uses these small temperature sensors, so I can have zone control by room.
+
+![zone control](http://lo.ladevops.org/june2014/images/tempsensor_closeup.jpg)
+
+And I can control it by gestures (hand movements) from my bedside.
+
+![bedside control](http://lo.ladevops.org/june2014/images/bedside-nest.jpg)
+
+Or this UI
+
+![ghetto nest ui](http://lo.ladevops.org/june2014/images/ghettonest-ui.png)
+
+[Here is a demo!](http://youtu.be/enxZpSmZxV8)
+
+As a bonus, I can also have my Air Conditioner or Heater set temperature just like I want it 10 minutes before I come home
+
+![text early](https://pbs.twimg.com/media/Bo2exkkCcAADU9I.jpg)
+
 # Wrappers to other people's home automation products
 
-Today I use a [NinjaBlocks](https://github.com/ninjablocks) Kickstarter board 
+Today I use a [NinjaBlocks](https://github.com/ninjablocks) Kickstarter board
 (v0.1), which is a BeagleBoard with a nice API, and their libs for now.  Each
 device gets a name, like "couch-light" or "headphone-amp" or whatever.
 
@@ -148,8 +172,8 @@ of a A/V switcher.  It looks like this and is super ugly:
 
 And here is that [**demo**](https://www.youtube.com/watch?v=zUiWG0au5TE)
 
-That Raspberry-Pi runs `bin/switch-stereo-input.rb`, which calls up to the 
-webservice to figure out what input it should use.  This allows me to switch 
+That Raspberry-Pi runs `bin/switch-stereo-input.rb`, which calls up to the
+webservice to figure out what input it should use.  This allows me to switch
 the input via simple `curl` or web-ui:
 
 ![stereo input selection](http://lo.ladevops.org/lotomation-stereo-input.png)
@@ -157,7 +181,7 @@ the input via simple `curl` or web-ui:
 # Punishment when I do not get enough exercise
 
 Sometimes I get lazy and don't exercise enough, but FitBit has a (unreliable)
-API, and @whazzmaster's sweet [FitGem](https://github.com/whazzmaster/fitgem) 
+API, and @whazzmaster's sweet [FitGem](https://github.com/whazzmaster/fitgem)
 makes it really easy to call it.  So, I simply trigger an event every minute
 if I have not reached enough steps.
 
@@ -193,6 +217,17 @@ The really rough bit is that `bin/punisher.rb` runs on a minute cron, so even if
 I tried to circumvent any punishments, it would just go back into effect at the
 next minute unless I rewired my stuff.  Instead it's simpler to just take a
 walk :)
+
+It also talks shit via text messages.
+![diss](http://lo.ladevops.org/june2014/images/diss.png)
+
+# Security system
+
+Images are pushed to the webservice so I can keep an eye on my apartment.
+
+![livestream](http://lo.ladevops.org/june2014/images/livestream.png)
+
+Additionally, everytime the front door opens and I'm not home, I get a text message.
 
 # More Demos!
 
