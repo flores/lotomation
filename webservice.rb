@@ -6,7 +6,7 @@ require './lib/lotomation'
 
 include Lotomation
 
-set :bind, '0.0.0.0'
+set :bind, '127.0.0.1'
 set :port, Configs['webserver']['backendport']
 set :protection, :except => [:http_origin]
 
