@@ -36,11 +36,18 @@ while true; do
   while [[ $location == "working" ]]; do
 
     newlocation=$(web lo/location)
+    echo newlocation is $newlocation
 
     if [[ -z $newlocation ]]; then break; fi
     if [[ ${newlocation} != ${location} ]]; then
       timenow=$(date +%s)
-      timetraffic=$(web lo/traffic/work_to_home)
+      timetraffic=$(web traffic/work_to_home)
+      if [[ $? -ne 0 ]]; then
+        sms "ugh hit weird condition with $timetraffic"
+        break
+      fi
+
+      # this needs to get better.  40 minutes wiggleroom
       timetotal=$(($timetraffic + 40))
 
       sms "I think you just left work and it will take $timetotal min to get home (/w $timetraffic min traffic)"
@@ -72,6 +79,8 @@ while true; do
 
           web "/maintain/enforce/on/bedpi"
         fi
+      else
+        sms "Oh bummer, you signed back into work.  Keep it up buddy."
       fi
       location=$newlocation
     fi
