@@ -186,12 +186,12 @@ get '/hvac/:state' do |state|
 end
 
 get '/temperature/:tracker' do |tracker|
-  check_value(tracker + '-temperature')
+  check_value('temperature-' + tracker)
 end
 
 post '/temperature/:tracker' do |tracker|
   degrees_f = degrees_convert_to_f(params[:rawtemp])
-  write_value(tracker + '-temperature', degrees_f)
+  write_value('temperature-' + tracker, degrees_f)
   log_historical("trackertemp", "#{tracker} measured #{degrees_f}F")
   "cool"
 end
