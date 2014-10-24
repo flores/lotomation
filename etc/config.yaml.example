@@ -51,7 +51,8 @@ devices:
 stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
 weather:
-  cities: [ 'Los Angeles, CA' , 'New York, NY' ]
+  cities: [ 'Los Angeles, CA' , 'New York, NY' ] # deprecated
+  zips: [ '90012', '10007' ] 
 tempsensors:
   location: [ 'living room', 'bed side', 'sofa', 'vent' ]
 traffic:
