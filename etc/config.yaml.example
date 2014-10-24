@@ -52,6 +52,8 @@ stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
 weather:
   cities: [ 'Los Angeles, CA' , 'New York, NY' ]
+tempsensors:
+  location: [ 'living room', 'bed side', 'sofa', 'vent' ]
 traffic:
   link:           # right now this only scrapes googmaps, sorry
 status:

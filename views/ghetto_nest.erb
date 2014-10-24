@@ -1,24 +1,15 @@
 <script src="js/jquery.knob.js"></script>
 
 <div class="row">
-  <div class="panel panel-default col-lg-3 col-md-3 col-xs-6">
-    <center>
-    living room
-    <h2><span class="temp-pistat"><%= check_value('pistat-temperature') %></span>F</h2>
-    </center>
-  </div>
-  <div class="panel panel-default col-lg-3 col-md-3 col-xs-6">
-    <center>
-    bed room
-    <h2><span class="temp-bedpi"><%= check_value('bedpi-temperature') %></span>F</h2>
-    </center>
-  </div>
-  <div class="panel panel-default col-lg-3 col-md-3 col-xs-6">
-    <center>
-    under vent
-    <h2><span class="temp-vent"><%= check_value('bedside-temperature') %></span>F</h2>
-    </center>
-  </div>
+  <% totalsensors = Configs['tempsensors']['locations'].length %>
+  <% Configs['tempsensors']['locations'].each do |sensor| %>
+    <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
+      <center>
+      <%= sensor %>
+        <h2><span><%= check_value(sensor + '-temperature') %></span>F</h2>
+      </center>
+    </div>
+  <% end %>
   <div class="panel panel-default col-lg-3 col-md-3 col-xs-6">
     <center>
     outside
