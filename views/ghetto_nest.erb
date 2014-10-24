@@ -5,16 +5,15 @@
   <% Configs['tempsensors']['locations'].each do |sensor| %>
     <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
       <center>
-      <%= sensor %>
-        <h2><span><%= check_value(sensor + '-temperature') %></span>F</h2>
+        <%= sensor %> at <%= Time.at(check_update_unixtime('temperature-' + sensor)).strftime("%H:%M:%S") %>
+        <h2><span><%= check_value('temperature-' + sensor) %></span>F</h2>
       </center>
     </div>
   <% end %>
   <div class="panel panel-default col-lg-3 col-md-3 col-xs-6">
     <center>
-    outside
-    <% weather_outside = weather(90014).split(',') %>
-    <h2><span><%= weather_outside[0] %></span></h2>
+    outside at <%= Time.at(check_update_unixtime('weather-' + Configs['weather']['zips'][0])).strftime("%H:%M:%S") %>
+    <h2><span><%= weather(Configs['weather']['zips'][0].split(',').first) %></span></h2>
     </center>
   </div>
 </div>
