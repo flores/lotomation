@@ -25,6 +25,7 @@ module Lotomation
   include Traffic
   include Thermostat
   include Sms
+  include Vpn
 
   def log(message)
     puts message if Configs['status']['verbose']

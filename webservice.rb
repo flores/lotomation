@@ -247,6 +247,10 @@ post '/door' do
   sms_out("#{Time.now.ctime} - front door opened") unless lo_home?
 end
 
+get '/vpn' do
+  vpn_up? ? "true" : "false"
+end
+
 post '/twilio/sms' do
   if check_state('sms-in') == 'on'
     bodyfull=params[:Body]

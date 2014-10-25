@@ -57,6 +57,9 @@ tempsensors:
   location: [ 'living room', 'bed side', 'sofa', 'vent' ]
 traffic:
   link:           # right now this only scrapes googmaps, sorry
+vpn:
+  ip_webservice:  # ip for remote service
+  ip_home:        # ip at the crib
 status:
   dir:		  # just writes files for now, must be writeable
   verbose:	  # set to true for noisy mode
