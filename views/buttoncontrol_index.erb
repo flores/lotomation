@@ -90,3 +90,14 @@
           <% end %>
         </ul>
     </div>
+
+    <div class="col-md-6 col-xs-6">
+        <button type="button" style="width: 100%;" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
+          vpn <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <% ['stop', 'start', 'restart'].each do |action| %>
+            <li><a href="/vpn/server/<%= action %>"><%= action %></a></li>
+          <% end %>
+        </ul>
+    </div>
