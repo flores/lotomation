@@ -25,7 +25,7 @@ module Lotomation
       if response.code == "200"
         result = JSON.parse(response.body)
 
-        weather = result['current_observation']['feelslike_f'] + 'F, ' +
+        weather = result['current_observation']['feelslike_f'] + ', ' +
           result['current_observation']['weather']
         File.write("#{Configs['status']['dir']}/weather-#{zip}", weather)
         weather
