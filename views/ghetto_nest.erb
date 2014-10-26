@@ -5,15 +5,15 @@
   <% Configs['tempsensors']['locations'].each do |sensor| %>
     <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
       <center>
-        <%= sensor %> at <%= Time.at(check_update_unixtime('temperature-' + sensor)).strftime("%H:%M:%S") %>
-        <h2><%= check_value('temperature-' + sensor) %>F</h2>
+        <%= sensor %>
+        <h2><span class="temperature-<%= sensor %>"><%= check_value('temperature-' + sensor) %></span></h2>
       </center>
     </div>
   <% end %>
   <% Configs['weather']['zips'].each do |zip| %>
     <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
       <center>
-        <%= zip %> at <%= Time.at(check_update_unixtime('weather-' + zip)).strftime("%H:%M:%S") %>
+        <%= zip %>
         <h2><%= weather(zip).split(',').first %></h2>
       </center>
     </div>
@@ -45,21 +45,17 @@
   });
 
   function updatetemp() {
-    $(".temp-bedpi").load('/temperature/bedpi');
-    $(".temp-pistat").load('/temperature/pistat');
-    $(".temp-vent").load('/temperature/bedside');
-    console.log('updated temp in crib');
+    <% Configs['tempsensors']['locations'].each do |sensor| %>
+      $('.temperature-<%= sensor %>').load('/temperature/<%= sensor %>');
+    <% end %>
   };
   function updatebuttons() {
     $("#buttoncontrol").load('/buttoncontrol/hvac');
-    console.log('updated buttons');
   };
   function updatelog() {
     $("#history").load('/hvac/historical');
-    console.log('updated temp');
   };
   function knobupdate() {
     $("#knobcontrol").load('/buttoncontrol/tempknob');
-    console.log('updated temp knob');
   };
 </script>
