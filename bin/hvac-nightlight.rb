@@ -20,10 +20,10 @@ nightlight = `curl -k #{proto}://#{auth}@#{server}/nightlight`
 if nightlight == 'on'
 
   currentstate = `curl -k #{proto}://#{auth}@#{server}/maintain/enforce`
-  laststate = File.exist?(laststatefile)? File.read(laststatefile) : "off"
+  laststate = File.exist?(laststatefile) ? File.read(laststatefile) : "off"
 
   if currentstate != laststate
-    if maintain == "on"
+    if currentstate == "on"
       gpio_on = 17
       gpio_off = 27
     else
