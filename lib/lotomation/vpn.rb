@@ -1,10 +1,21 @@
 module Lotomation
   module Vpn
 
-    def vpn_up?
-      result = system("ping -c 2 -t 1 #{Configs['vpn']['ip_home']}")
-      result == 0 ? true : false
+    def vpn_response_time
+      ping=`ping -c 2 -w 1 #{Configs['vpn']['ip_home']} |tail -1`.strip!
+      if ping =~ /^rtt min.+\/(.+?)\//
+        $1
+      else
+        "down"
+      end
     end
 
+    def openvpn_server(command)
+      if command =~ /^(start|stop|restart)$/
+        system("/etc/init.d/openvpn #{command}") ? "#{command}ed" : "fail"
+      else
+        "unrecognized command"
+      end
+    end
   end
 end

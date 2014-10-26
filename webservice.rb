@@ -126,7 +126,7 @@ post '/jam/force' do
 end
 
 get '/stereo/input' do
-  check_value('stereo-input') 
+  check_value('stereo-input')
 end
 
 get '/stereo/input/:number' do |input|
@@ -247,8 +247,12 @@ post '/door' do
   sms_out("#{Time.now.ctime} - front door opened") unless lo_home?
 end
 
-get '/vpn' do
-  vpn_up? ? "true" : "false"
+get '/vpn/response/time' do
+  vpn_response_time
+end
+
+get '/vpn/server/:command' do |command|
+  openvpn_server(command)
 end
 
 post '/twilio/sms' do
