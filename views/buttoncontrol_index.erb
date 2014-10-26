@@ -5,13 +5,13 @@
         </form>
       </div>
     <% end %>
-    
+
     <div class="col-md-6 col-xs-6 btn-group">
       <form action='/nightlight/<%= check_state('nightlight') == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('nightlight') == 'on' ? 'btn-success' : 'btn-danger' %>" value="nightlight">
       </form>
     </div>
-    
+
     <div class="col-md-6 col-xs-6 btn-group">
         <button type="button" style="width: 100%;" class="btn btn-lg <%= check_state('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
           <%= check_state('hvac') == 'off' ? 'hvac' : check_state('hvac') %> <span class="caret"></span>
@@ -22,14 +22,14 @@
           <li><a href="/hvac/off">off</a></li>
         </ul>
     </div>
-    
+
     <div class="col-md-6 col-xs-6">
       <form action='/locator/<%= check_state('locator') == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('locator') == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
       </form>
     </div>
-    
-    
+
+
     <div class="col-md-6 col-xs-6">
       <form action='/snap/enforce/<%= check_state('snap') == 'off' ? 'on' : 'off' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('snap') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
@@ -41,21 +41,20 @@
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('punishments') == 'on' ? 'btn-success' : 'btn-danger' %>" value="punishments">
       </form>
     </div>
-        
+
     <div class="col-md-6 col-xs-6">
       <form action='/gestures/enforce/<%= check_state('gestures') == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('gestures') == 'on' ? 'btn-success' : 'btn-danger' %>" value="gestures">
       </form>
     </div>
-        
+
     <div class="col-md-6 col-xs-6">
       <form action='/sms-in/enforce/<%= check_state('sms-in') == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('sms-in') == 'on' ? 'btn-success' : 'btn-danger' %>" value="sms in">
       </form>
     </div>
-        
-    <div class="col-md-6 col-xs-6">
 
+    <div class="col-md-6 col-xs-6">
       <form action='/switch/all/on' method='post'>
         <input type="submit" style="width: 100%" class="btn btn-info" value="all on">
       </form>
@@ -72,12 +71,13 @@
         <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a jam">
       </form>
     </div>
-    
+
     <div class="col-md-6 col-xs-6">
       <form action='/jam/bedroom/force' method='post'>
         <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a bedroom jam">
       </form>
     </div>
+
     <div class="col-md-6 col-xs-6">
         <button type="button" style="width: 100%;" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
           <%= Configs['stereo']['names'][check_value('stereo-input').to_i] %> <span class="caret"></span>
@@ -90,5 +90,3 @@
           <% end %>
         </ul>
     </div>
-<br/>
-    
