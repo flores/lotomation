@@ -270,3 +270,6 @@ post '/:configuration/enforce/:state' do |configuration,state|
   redirect request.referrer
 end
 
+get '/updatetime/human/:file' do |file|
+  check_update_humantime(file)
+end

@@ -5,7 +5,7 @@
   <% Configs['tempsensors']['locations'].each do |sensor| %>
     <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
       <center>
-        <%= sensor %>
+        <%= sensor %> at <span class="time-temperature-<%= sensor %>"><%= check_update_humantime('temperature-' + sensor) %></span>
         <h2><span class="temperature-<%= sensor %>"><%= check_value('temperature-' + sensor) %></span></h2>
       </center>
     </div>
@@ -13,7 +13,7 @@
   <% Configs['weather']['zips'].each do |zip| %>
     <div class="panel panel-default col-lg-<%= 12 / totalsensors %> col-xs-<%= 24 / totalsensors %>">
       <center>
-        <%= zip %>
+        <%= zip %> at <span class="time-weather-<%= zip %>"><%= check_update_humantime('weather-' + zip) %></span>
         <h2><%= weather(zip).split(',').first %></h2>
       </center>
     </div>
@@ -46,6 +46,7 @@
 
   function updatetemp() {
     <% Configs['tempsensors']['locations'].each do |sensor| %>
+      $('.time-temperature-<%= sensor %>').load('/updatetime/human/temperature-<%= sensor %>');
       $('.temperature-<%= sensor %>').load('/temperature/<%= sensor %>');
     <% end %>
   };

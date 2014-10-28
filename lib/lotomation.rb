@@ -103,4 +103,8 @@ module Lotomation
     Time.now.to_i - check_update_unixtime(file)
   end
 
+  def check_update_humantime(file)
+    Time.at(check_update_unixtime(file)).strftime("%H:%M:%S")
+  end
+
 end
