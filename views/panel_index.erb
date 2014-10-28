@@ -56,21 +56,26 @@
 
       <% if check_state('punishments') == 'on' %>
         <div class="panel-heading">
-            <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishments
-          </div>
-        <ul class="list-group">
+          <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishments
+        </div>
+        <table class="table table-condensed">
+          <tr>
+            <th>time</th>
+            <th>devices</th>
+            <th>state</th>
+          </tr>
           <% Configs['punishments'].each do |time,punishment| %>
-            <li class="list-group-item">
-              <%= time %>:00
-
-              <% punishment['devices'].each do |device| %>
-                <span class="label label-default"><%= device %></span>
-              <% end %>
-
-              <span class="label label-primary"><%= punishment['state'] %></span>
-            </li>
+            <tr>
+              <td><%= time %>:00</td>
+              <td>
+                <% punishment['devices'].each do |device| %>
+                  <%= device %>
+                <% end %>
+              </td>
+              <td><%= punishment['state'] %></td>
+            </tr>
           <% end %>
-        </ul>
+        </table>
       <% end %>
       </div>
     </div>
