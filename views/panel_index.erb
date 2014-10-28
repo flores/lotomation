@@ -1,18 +1,21 @@
     <div class="panel panel-default col-xs-12">
       <div class="panel-body">
         <h4>lo is <%= lo_location %>.</h4>
-        <% if lo_location == 'working' %>
-          <p><strong>traffic to home: <%= traffic('to_home') %> mins</strong><br />
-          traffic to work: <%= traffic('to_work') %> mins</p>
-        <% else %>
-          <p><strong>traffic to work: <%= traffic('to_work') %> mins</strong><br />
-          traffic to home: <%= traffic('to_home') %> mins</p>
-        <% end %>
         <p>front door last opened <%= Time.at(check_update_unixtime('frontdoor')).ctime %></p>
       </div>
     </div>
     <div class="panel panel-default col-xs-12">
-      <table class="table table-condensed">
+      <table class="table table-condensed table-bordered">
+        <tr>
+          <th>traffic direction</th>
+          <th>time (mins)</th>
+        </tr>
+        <% ['home', 'work'].each do |direction| %>
+          <tr>
+            <td><%= direction %></td>
+            <td><%= traffic('to_' + direction) %></td>
+          </tr>
+        <% end %>
         <tr>
           <th>location</th>
           <th>temp (F)</th>
@@ -58,7 +61,7 @@
         <div class="panel-heading">
           <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishments
         </div>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-bordered">
           <tr>
             <th>time</th>
             <th>devices</th>
