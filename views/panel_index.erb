@@ -2,6 +2,7 @@
       <div class="panel-body">
         <h4>lo is <%= lo_location %>.</h4>
         <p>front door last opened <%= Time.at(check_update_unixtime('frontdoor')).ctime %></p>
+        <p>vpn response: <%= vpn_response_time %></p>
       </div>
     </div>
     <div class="panel panel-default col-xs-12">
@@ -44,7 +45,7 @@
           <h3 class="panel-title"><font color="red">
             <%= @steps_alert %> <span class="glyphicon glyphicon-thumbs-down"></span>
           </font></h3>
-         </div>
+        </div>
 
         <div class="progress progress-striped active">
           <div class="progress-bar progress-bar-danger"  role="progressbar" aria-valuenow="<%= steps_today %>" aria-valuemin="0" aria-valuemax="<%= steps_goal %>" style="width: <%= steps_today_percent %>%"></div>
@@ -58,9 +59,7 @@
       <% end %>
 
       <% if check_state('punishments') == 'on' %>
-        <div class="panel-heading">
-          <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishments
-        </div>
+        <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishment
         <table class="table table-condensed table-bordered">
           <tr>
             <th>time</th>
