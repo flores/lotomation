@@ -1,0 +1,16 @@
+    <div class="col-lg-12 col-md-12 col-xs-12 btn-group">
+      <center>
+      <input type="text" class="dial" value="<%= check_value('maintain-temp') == "unknown" ? 76 : check_value('maintain-temp') %>" data-rotation="anticlockwise" data-min="60" data-max="85" data-displayPrevious=false>
+      <%= "<h3>maintaining temperature at #{check_value('maintain-tracker')}</h3>" if check_state('maintain') == 'on' %>
+      </center>
+    </div>
+
+<script>
+$(function() {
+  $(".dial").knob({
+    'release': function(temperature) {
+      jQuery.post('/maintain/temp', {temp: temperature});
+    }
+  });
+});
+</script>
