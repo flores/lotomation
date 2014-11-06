@@ -12,6 +12,20 @@
       </form>
     </div>
 
+    <% Configs['devices']['wemo'].each do |device| %>
+      <div class="col-md-6 col-xs-6">
+        <form action='/<%= device %>/enforce/<%= check_state(device) == 'on'? 'off' : 'on' %>' method='post'>
+          <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state(device) == 'on' ? 'btn-success' : 'btn-danger' %>" value="<%= device %>">
+        </form>
+      </div>
+    <% end %>
+
+    <div class="col-md-6 col-xs-6">
+      <form action='/snap/enforce/<%= check_state('snap') == 'off' ? 'on' : 'off' %>' method='post'>
+        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('snap') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
+      </form>
+    </div>
+
     <div class="col-md-6 col-xs-6 btn-group">
         <button type="button" style="width: 100%;" class="btn btn-lg <%= check_state('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
           <%= check_state('hvac') == 'off' ? 'hvac' : check_state('hvac') %> <span class="caret"></span>
@@ -26,13 +40,6 @@
     <div class="col-md-6 col-xs-6">
       <form action='/locator/<%= check_state('locator') == 'on' ? 'off' : 'on' %>' method='post'>
         <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('locator') == 'on' ? 'btn-success' : 'btn-danger' %>" value="locator">
-      </form>
-    </div>
-
-
-    <div class="col-md-6 col-xs-6">
-      <form action='/snap/enforce/<%= check_state('snap') == 'off' ? 'on' : 'off' %>' method='post'>
-        <input type="submit" style="width: 100%;" class="btn btn-lg <%= check_state('snap') == 'on' ? 'btn-success' : 'btn-danger' %>" value="camera sync">
       </form>
     </div>
 

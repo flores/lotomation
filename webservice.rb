@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
-#require 'thin'
+require 'thin'
 require './lib/lotomation'
 
 include Lotomation
 
-set :server, :puma
+#set :server, :puma
 
 set :bind, '0.0.0.0'
 set :port, Configs['webserver']['backendport']
@@ -268,6 +268,10 @@ end
 post '/:configuration/enforce/:state' do |configuration,state|
   write_state(configuration, state)
   redirect request.referrer
+end
+
+get '/:configuration/state' do |configuration|
+  check_state(configuration)
 end
 
 get '/updatetime/human/:file' do |file|

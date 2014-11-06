@@ -48,6 +48,7 @@ auth:
 devices:
   fitbit: ''	  # mac addresses of bluetooth le devices
   433MHz: ''	  # radio controlled devices
+  wemo: ''        # wemo friendly names
 stereo:
   names: [ 'turntable', 'some hostname' ] # friendly stereo input names
 weather:
