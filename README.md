@@ -3,7 +3,7 @@ lotomation
 
 lo automates the crib and shares some wins and fails in the process
 
-![lotomation desktop ui](http://lo.ladevops.org/june2014/images/remote.png)
+![lotomation desktop ui](http://lo.ladevops.org/june2014/images/remote.png?1234)
 
 # Wut
 
