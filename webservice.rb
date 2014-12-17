@@ -82,7 +82,7 @@ post '/tracker/:checkpoint' do |checkpoint|
   rssi = params[:rssi]
   location = checkpoint_interpret_rawlocation(rssi)
   write_value(checkpoint,location)
-  "thanks"
+  "got you at #{location}"
 end
 
 get '/lo/home' do
@@ -97,31 +97,18 @@ post '/lo/work' do
   write_value('lowork', 'yes')
 end
 
-get '/jam/bedroom/played' do
-  check_value('bed-jam')
+
+get '/jam/:location/played' do |location|
+  check_value(location + '-jam')
 end
 
-post '/jam/bedroom/played' do
-  write_value('bed-jam', 'true')
-  "cool"
+post '/jam/:location/played' do
+  write_value(location + '-jam', 'true')
+  "played #{location} jam"
 end
 
-post '/jam/bedroom/force' do
-  write_value('bed-jam', 'false')
-  redirect request.referrer
-end
-
-get '/jam/played' do
-  check_value('jam')
-end
-
-post '/jam/played' do
-  write_value('jam', 'true')
-  "cool"
-end
-
-post '/jam/force' do
-  write_value('jam', 'false')
+post '/jam/:location/force' do
+  write_value(location + '-jam', 'false')
   redirect request.referrer
 end
 

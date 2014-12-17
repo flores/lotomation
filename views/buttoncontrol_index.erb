@@ -79,17 +79,13 @@
       </form>
     </div>
 
-    <div class="col-md-6 col-xs-6">
-      <form action='/jam/force' method='post'>
-        <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a jam">
-      </form>
-    </div>
-
-    <div class="col-md-6 col-xs-6">
-      <form action='/jam/bedroom/force' method='post'>
-        <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a bedroom jam">
-      </form>
-    </div>
+    <% ["livingroom", "bedroom"].each do |location| %>
+      <div class="col-md-6 col-xs-6">
+	<form action='/jam/<%= location %>/force' method='post'>
+          <input type="submit" style="width: 100%" class="btn btn-lg btn-info" value="play a jam">
+        </form>
+      </div>
+    <% end %>
 
     <div class="col-md-6 col-xs-6">
         <button type="button" style="width: 100%;" class="btn btn-lg btn-info dropdown-toggle" data-toggle="dropdown">
