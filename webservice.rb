@@ -69,6 +69,95 @@ post '/switch/:device/:state' do |device, state|
   redirect request.referrer
 end
 
+# start noodling on remembering state
+post '/lights/:state' do |state|
+  ['aquariums', 'farside-light', 'nearside-light', 'chaise'].each do |device|
+    if check_value(device) != state
+      actuate(device, state)
+    end
+  end
+  ['chair-light', 'garden', 'bedside-light'].each do |wemodevice|
+    if check_value(wemodevice) != state
+      write_value(wemodevice, state)
+    end
+  end
+end
+
+post '/lights/radio/:state' do |state|
+  ['aquariums', 'farside-light', 'nearside-light', 'chaise'].each do |device|
+    if check_value(device) != state
+      actuate(device, state)
+    end
+  end
+end
+
+post '/lights/wemo/:state' do |state|
+  ['chair-light', 'garden', 'bedside-light'].each do |wemodevice|
+    if check_value(wemodevice) != state
+      write_value(wemodevice, state)
+    end
+  end
+end
+
+post '/rememberstate' do
+  rf_list = Array.new
+  wemo_list = Array.new
+  ['aquariums', 'farside-light', 'nearside-light', 'chaise'].each do |device|
+    if check_value(device) == 'on'
+      rf_list << device
+    end
+  end
+  ['chair-light', 'garden', 'bedside-light'].each do |wemodevice|
+    if check_value(wemodevice) == 'on'
+      wemo_list << wemodevice
+    end
+  end
+  unless radio_list.empty?
+    write_value('rf_laststate', rf_list.join(' '))
+  end
+  unless wemo_list.empty?
+    write_value('wemo_laststate', wemo_list.join(' '))
+  end
+
+end
+
+post '/restorestate' do
+  radioarray = check_value('rf_laststate').split(' ')
+  wemoarray = check_value('wemo_laststate').split(' ')
+
+  radioarray.each do |device|
+    if check_value(device) != 'on'
+      actuate(device, 'on')
+    end
+  end
+  wemoarray.each do |device|
+    if check_value(device) != 'on'
+      write_value(device, 'on')
+    end
+  end
+end
+
+post '/restorestate/radio' do
+  radioarray = check_value('rf_laststate').split(' ')
+
+  radioarray.each do |device|
+    if check_value(device) != 'on'
+      actuate(device, 'on')
+    end
+  end
+end
+
+post '/restorestate/wemo' do
+  wemoarray = check_value('wemo_laststate').split(' ')
+  wemoarray.each do |device|
+    if check_value(device) != 'on'
+      write_value(device, 'on')
+    end
+  end
+end
+
+# /noodle
+
 post '/flip/:name' do |name|
   flip(name)
   redirect request.referrer
