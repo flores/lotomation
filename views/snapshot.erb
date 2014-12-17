@@ -1,10 +1,13 @@
 <% if check_value('snap') == 'on' %>
   <div class="row" id='snapshot'>
     <div class="col-lg-6">
-      <img src='snapshot.jpg' />
+      <img src='snapshot1.jpg' />
     </div>
     <div class="col-lg-6">
-      <img src='snapshot1.jpg' />
+      <img src='snapshot2.jpg' />
+    </div>
+    <div class="col-lg-6">
+      <img src='snapshot.jpg' />
     </div>
   </div>
 <% else %>
@@ -14,17 +17,10 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var interval = setInterval("updatesnapshot()", 10000);
+    var interval = setInterval("location.reload();", 20000);
 
     $("#snapshot").click(function() {
-      clearInterval(interval);
-      updatesnapshot();
-      interval = setInterval("updatesnapshot()", 10000);
+      interval = setInterval("location.reload();", 20000);
     });
   });
-
-  function updatesnapshot() {
-    $('#snapshot').html('<div class="col-lg-6"><img src="snapshot.jpg" /></div><div class="col-lg-6"><img src="snapshot1.jpg" /></div>');
-    console.log('update');
-  };
 </script>
