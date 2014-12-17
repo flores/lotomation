@@ -2,16 +2,11 @@ module Lotomation
   module Weather
 
     def weather(zip)
-      file = "#{Configs['status']['dir']}/weather-#{zip}"
-      if File.exist?(file)
-        if (Time.now - File.mtime(file)) > 1800
-          print "file is #{Time.now - File.mtime(file)} seconds old"
-          status = weather_update(zip)
-        else
-          File.read(file)
-        end
-      else
+      data = "weather-" + zip
+      if seconds_since_last_update(data) > 1800
         weather_update(zip)
+      else
+        check_value(data)
       end
     end
 
@@ -27,7 +22,7 @@ module Lotomation
 
         weather = result['current_observation']['feelslike_f'] + ', ' +
           result['current_observation']['weather']
-        File.write("#{Configs['status']['dir']}/weather-#{zip}", weather)
+        write_value("weather-" + zip, weather)
         weather
       else
         "Error"
