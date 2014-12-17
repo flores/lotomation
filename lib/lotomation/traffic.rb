@@ -2,19 +2,14 @@ module Lotomation
   module Traffic
 
     def traffic(direction)
-      file = "#{Configs['status']['dir']}/traffic-#{direction}"
-      if File.exist?(file)
-        if (Time.now - File.mtime(file)) > 200
-          print "file is #{Time.now - File.mtime(file)} seconds old"
-          traffic_update(direction)
-        else
-          File.read(file)
-        end
-      else
+      data = "traffic-" + direction
+      if seconds_since_last_update(data) > 200
         traffic_update(direction)
+      else
+        check_value(data)
       end
     end
-   
+
     def traffic_update(direction)
       traffictime = 0
       direction == 'to_work' ? link = Configs['traffic']['home_to_work'] : link = Configs['traffic']['work_to_home']
@@ -30,9 +25,8 @@ module Lotomation
         end
       end
 
-      File.write("#{Configs['status']['dir']}/traffic-#{direction}", traffictime)
-      traffictime
+      write_value("traffic-" + direction, traffictime)
     end
-    
+
   end
 end
