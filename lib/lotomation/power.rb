@@ -1,24 +1,10 @@
 module Lotomation
   module Power
 
-    def power_current_state(name)
-      filename="#{Configs['status']['dir']}/#{name.to_s}"
-      if File.exist?(filename)
-	File.read(filename)
-      else
-	File.write(filename, "unknown")
-	"unknown"
-      end
-    end
-
-    def power_write_state(name, state)
-      File.write("#{Configs['status']['dir']}/#{name.to_s}", state)
-    end
-
     def power_flip_state(name)
-      power_current_state(name) == 'off' ? 'on' : 'off'
+      check_value(name) == 'off' ? 'on' : 'off'
     end
-    
+
     def flip(name)
       name=name.to_s
       actuate(name, power_flip_state(name))
@@ -27,16 +13,15 @@ module Lotomation
     def actuate(name, state)
       name=name.to_s
       state=state.to_s
-      if state != power_current_state(name)
+      if state != check_value(name)
 	Devices.each do |device|
 	  device.sub_devices.each do |subdev|
-	    log(subdev.short_name)
-	    if subdev.short_name =~ /#{name}.+#{state}/
+	    if subdev.short_name == "#{name}-#{state}"
 	      device.actuate(subdev.data)
 	      device.actuate(subdev.data)
 	      device.actuate(subdev.data)
-	      power_write_state(name, state)
-	      puts "flipped #{name}"
+	      write_value(name, state)
+	      log("flipped #{name}")
 	      break
 	    end
 	  end
@@ -50,7 +35,7 @@ module Lotomation
 	d.sub_devices.each { |s| d.actuate(s.data) if s.short_name =~ /#{state}$/ }
       end
       Configs['devices']['433Mhz'].each do |name|
-	power_write_state(name, state)
+	write_value(name, state)
       end
     end
   end

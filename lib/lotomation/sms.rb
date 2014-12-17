@@ -15,7 +15,7 @@ module Lotomation
 
       message.split(/\s(?:and|then)\s/).each do |body|
         if body =~ /state/i
-          reply = all_states
+          reply = all_values
           puts "reply is #{reply}"
         end
         if body =~ /(.+)\s(on|off)/i
@@ -24,11 +24,11 @@ module Lotomation
           if device =~ /air|(?:^ac$)/i
             device = 'air-conditioner'
             log_historical('hvac', "sms request to switch air-conditioner to #{state}")
-            state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+            state == 'off' ? write_value('hvac', 'off') : write_value('hvac', device)
           elsif device =~ /heat/i
             device = 'heater'
             log_historical('hvac', "sms request to switch heater to #{state}")
-            state == 'off' ? write_state('hvac', 'off') : write_state('hvac', device)
+            state == 'off' ? write_value('hvac', 'off') : write_value('hvac', device)
           else
             device='farside-light' if device =~ /far/i
             device='nearside-light' if device =~ /near/i
@@ -42,8 +42,8 @@ module Lotomation
         if body =~ /(?:maintain|temp).+?(\d+)/i
           temp = $1
           log_historical('hvac', "sms request to maintain temp #{temp} via sms")
-          write_state('maintain-temp', temp)
-          write_state('maintain', 'on')
+          write_value('maintain-temp', temp)
+          write_value('maintain', 'on')
           reply = "maintaining temperature #{temp}. #{reply}"
         elsif body =~ /cat/i
           cat=`curl http://moar.edgecats.net/random -k -m 5`

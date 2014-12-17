@@ -43,7 +43,7 @@ get '/tiny-nest' do
 end
 
 get '/snap/enforce' do
-  check_state('snap')
+  check_value('snap')
 end
 
 get '/buttoncontrol/hvac' do
@@ -81,7 +81,7 @@ end
 post '/tracker/:checkpoint' do |checkpoint|
   rssi = params[:rssi]
   location = checkpoint_interpret_rawlocation(rssi)
-  write_state(checkpoint,location)
+  write_value(checkpoint,location)
   "thanks"
 end
 
@@ -94,34 +94,34 @@ get '/lo/location' do
 end
 
 post '/lo/work' do
-  write_state('lowork', 'yes')
+  write_value('lowork', 'yes')
 end
 
 get '/jam/bedroom/played' do
-  check_state('bed-jam')
+  check_value('bed-jam')
 end
 
 post '/jam/bedroom/played' do
-  write_state('bed-jam', 'true')
+  write_value('bed-jam', 'true')
   "cool"
 end
 
 post '/jam/bedroom/force' do
-  write_state('bed-jam', 'false')
+  write_value('bed-jam', 'false')
   redirect request.referrer
 end
 
 get '/jam/played' do
-  check_state('jam')
+  check_value('jam')
 end
 
 post '/jam/played' do
-  write_state('jam', 'true')
+  write_value('jam', 'true')
   "cool"
 end
 
 post '/jam/force' do
-  write_state('jam', 'false')
+  write_value('jam', 'false')
   redirect request.referrer
 end
 
@@ -136,30 +136,30 @@ end
 
 # FIXME
 post '/locator/enforce' do
-  if check_state('locator') == 'on'
+  if check_value('locator') == 'on'
     if lo_home?
       checkpoint_get_devices('hi-pi').each { |d| actuate(d, 'on') }
     else
       Configs['devices']['433Mhz'].each do |device|
         device =~ /aquarium|stereo/ ? next : actuate(device,'off')
       end
-      write_state('jam', 'false')
+      write_value('jam', 'false')
     end
   end
   "k"
 end
 
 post '/locator/:state' do |state|
-  write_state('locator', state)
+  write_value('locator', state)
   redirect request.referrer
 end
 
 get '/punishments/enforce' do
-  check_state('punishments')
+  check_value('punishments')
 end
 
 post '/punishments/enforce' do
-  if check_state('punishments') == 'on'
+  if check_value('punishments') == 'on'
     steps_punishments_enforce
     "okay"
   else
@@ -168,7 +168,7 @@ post '/punishments/enforce' do
 end
 
 get '/hvac' do
-  check_state('hvac')
+  check_value('hvac')
 end
 
 get '/hvac/historical' do
@@ -176,12 +176,12 @@ get '/hvac/historical' do
 end
 
 get '/hvac/:state' do |state|
-  if check_state('maintain') == 'on'
+  if check_value('maintain') == 'on'
     log_historical('hvac', "no longer maintaining #{check_value('maintain-temp')}")
-    write_state('maintain', 'off')
+    write_value('maintain', 'off')
   end
   log_historical('hvac', "switching to #{state}")
-  write_state('hvac', state)
+  write_value('hvac', state)
   redirect request.referrer
 end
 
@@ -211,17 +211,17 @@ post '/maintain/temp' do
 end
 
 get '/maintain/enforce' do
-  check_state('maintain')
+  check_value('maintain')
 end
 
 post '/maintain/enforce' do
-  check_state('maintain') == 'on' ? maintain_temp : "not maintaining temp"
+  check_value('maintain') == 'on' ? maintain_temp : "not maintaining temp"
 end
 
 get '/maintain/enforce/:state/:tracker' do |state,tracker|
   log_historical('hvac', "setting maintaining #{check_value('maintain-temp')} to #{state}")
-  write_state('maintain', state)
-  write_state('maintain-tracker', tracker)
+  write_value('maintain', state)
+  write_value('maintain-tracker', tracker)
   if request.referrer
     redirect request.referrer
   else
@@ -230,11 +230,11 @@ get '/maintain/enforce/:state/:tracker' do |state,tracker|
 end
 
 get '/nightlight' do
-  check_state('nightlight')
+  check_value('nightlight')
 end
 
 post '/nightlight/:state' do |state|
-  write_state('nightlight', state)
+  write_value('nightlight', state)
   redirect request.referrer
 end
 
@@ -243,7 +243,7 @@ get '/traffic/:direction' do |direction|
 end
 
 post '/door' do
-  write_state('frontdoor', "open")
+  write_value('frontdoor', "open")
   sms_out("#{Time.now.ctime} - front door opened") unless lo_home?
 end
 
@@ -256,7 +256,7 @@ get '/vpn/server/:command' do |command|
 end
 
 post '/twilio/sms' do
-  if check_state('sms-in') == 'on'
+  if check_value('sms-in') == 'on'
     bodyfull=params[:Body]
     @reply = sms_in(bodyfull)
   else
@@ -266,12 +266,12 @@ post '/twilio/sms' do
 end
 
 post '/:configuration/enforce/:state' do |configuration,state|
-  write_state(configuration, state)
+  write_value(configuration, state)
   redirect request.referrer
 end
 
 get '/:configuration/state' do |configuration|
-  check_state(configuration)
+  check_value(configuration)
 end
 
 get '/updatetime/human/:file' do |file|

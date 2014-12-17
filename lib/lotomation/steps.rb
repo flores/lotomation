@@ -56,8 +56,8 @@ module Lotomation
               write_value("sms-punishment-sent-#{goalhour}", 'yes')
               sms_out("Oh snap son, turning #{pain['devices'].join(' ')} #{pain['state']}. #{message}")
             end
-            if check_state('locator') == 'on'
-              write_state('locator', 'off')
+            if check_value('locator') == 'on'
+              write_value('locator', 'off')
             end
             pain['devices'].each {|device| actuate(device, pain['state'])}
           end

@@ -48,27 +48,12 @@ module Lotomation
     status
   end
 
-  def check_state(something)
-    something = sanitize(something)
-    if File.exist?(Configs['status']['dir'] + '/' + something)
-      File.read(Configs['status']['dir'] + '/' + something)
-    else
-      write_state(something, "off")
-      "off"
-    end
-  end
-
-  def write_state(something, state)
-    something = sanitize(something)
-    File.write(Configs['status']['dir'] + '/' + something, state)
-  end
-
   def check_value(something)
     something = sanitize(something)
     if File.exist?(Configs['status']['dir'] + '/' + something)
       File.read(Configs['status']['dir'] + '/' + something)
     else
-      write_state(something, "unknown")
+      write_value(something, "unknown")
       "unknown"
     end
   end

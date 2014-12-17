@@ -1,6 +1,6 @@
       <center>
-        <button type="button" style="width: 50%" class="btn btn-lg <%= check_state('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
-          <%= check_state('hvac') == 'off' ? 'heater and a/c' : check_state('hvac') %> <span class="caret"></span>
+        <button type="button" style="width: 50%" class="btn btn-lg <%= check_value('hvac') == 'off' ? 'btn-danger' : 'btn-success' %> dropdown-toggle" data-toggle="dropdown">
+          <%= check_value('hvac') == 'off' ? 'heater and a/c' : check_value('hvac') %> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li><a href="/hvac/air-conditioner">a/c</a></li>

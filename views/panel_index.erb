@@ -58,7 +58,7 @@
         </div>
       <% end %>
 
-      <% if check_state('punishments') == 'on' %>
+      <% if check_value('punishments') == 'on' %>
         <%= steps_alert =~ /FAIL/ ? "pending" : "avoided" %> punishment
         <table class="table table-condensed table-bordered">
           <tr>
